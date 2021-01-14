@@ -17,7 +17,7 @@ public:
 	/// <param name="textureNum"></param>
 	/// <param name="textureSize"></param>
 	/// <returns></returns>
-	HRESULT DoSomethingWithTexture(DWORD textureNum, DWORD textureSize);
+	HRESULT RegisterSquareTextureSetter(DWORD textureNum, DWORD textureSize);
 
 	/// <summary>
 	/// It replaces a single call to IDirect3DDevice::DrawIndexedPrimitive. The difference is, that it stacks the draw call in memory instead of calling renderer.
