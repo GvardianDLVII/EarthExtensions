@@ -6,7 +6,6 @@ class TerrainRenderProxy
 private:
 	IDirect3DDevice3* d3dDevice;
 public:
-	TerrainRenderProxy();
 	/// <summary>
 	/// It is a replacement to a call to 0x005F8430 in TheMoonroject.exe. I'm not sure what 0x005F8430 does.
 	/// The body of 0x005F8430 is pretty large, and analyzing it in order to understand it, would be too expensive.
@@ -17,7 +16,7 @@ public:
 	/// <param name="textureNum"></param>
 	/// <param name="textureSize"></param>
 	/// <returns></returns>
-	HRESULT RegisterSquareTextureSetter(DWORD textureNum, DWORD textureSize);
+	HRESULT SetGroundSquareTexture(DWORD textureNum, DWORD textureSize);
 
 	/// <summary>
 	/// It replaces a single call to IDirect3DDevice::DrawIndexedPrimitive. The difference is, that it stacks the draw call in memory instead of calling renderer.
@@ -26,7 +25,7 @@ public:
 	/// <param name="lpvVertices"></param>
 	/// <param name="lpwIndices"></param>
 	/// <returns></returns>
-	HRESULT RegisterSingleSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices);
+	HRESULT RegisterGroundSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices);
 
 	/// <summary>
 	/// Pushes to renderer all changes registered in current frame

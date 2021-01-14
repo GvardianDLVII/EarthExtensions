@@ -5,13 +5,13 @@
 
 TerrainRenderProxy* TerrainRenderProxyInjector::proxy = 0;
 
-HRESULT TerrainRenderProxyInjector::RegisterSquareTextureWrapper(DWORD textureNum, DWORD textureSize)
+HRESULT TerrainRenderProxyInjector::SetGroundSquareTextureWrapper(DWORD textureNum, DWORD textureSize)
 {
-	return proxy->RegisterSquareTextureSetter(textureNum, textureSize);
+	return proxy->SetGroundSquareTexture(textureNum, textureSize);
 }
-HRESULT TerrainRenderProxyInjector::RegisterSingleSquareRenderingAddressWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
+HRESULT TerrainRenderProxyInjector::RegisterGroundSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	return proxy->RegisterSingleSquareRendering(lpvVertices, lpwIndices);
+	return proxy->RegisterGroundSquareRendering(lpvVertices, lpwIndices);
 }
 HRESULT TerrainRenderProxyInjector::CommitWrapper()
 {
@@ -73,8 +73,8 @@ void TerrainRenderProxyInjector::HookCommitCall()
 TerrainRenderProxyInjector::TerrainRenderProxyInjector()
 {
 	proxy = new TerrainRenderProxy();
-	DoSomethingWithTextureAddress = (LPVOID)((ULONG_PTR)RegisterSquareTextureWrapper);
-	RegisterSingleSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterSingleSquareRenderingAddressWrapper);
+	DoSomethingWithTextureAddress = (LPVOID)((ULONG_PTR)SetGroundSquareTextureWrapper);
+	RegisterSingleSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterGroundSquareRenderingWrapper);
 	CommitAddress = (LPVOID)((ULONG_PTR)CommitWrapper);
 }
 void TerrainRenderProxyInjector::Inject()

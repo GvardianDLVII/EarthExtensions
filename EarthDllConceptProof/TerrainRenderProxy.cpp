@@ -4,13 +4,8 @@
 #include <list>
 #include "Utils.h"
 
-TerrainRenderProxy::TerrainRenderProxy()
-{
-	d3dDevice = *((IDirect3DDevice3**)0x009FBC24); //constant address of D3DDevice initialized by TheMoonProject.exe
-}
-
-DWORD CurrentTextureNum;
-DWORD CurrentTextureUnknownValue;
+DWORD CurrentGroundTextureNum;
+DWORD CurrentGroundTextureUnknownValue;
 
 byte proxyCall[] =
 {
@@ -35,7 +30,16 @@ protected:
 	std::map<long, LPWORD> IndexBuffer;
 	std::map<long, WORD> Offset;
 
-	void CallOriginalSetTexture(DWORD texturePartNum, DWORD textureUnknownValue, LPVOID textureHandler)
+	virtual LPVOID GetTextureAddress() = 0;
+	virtual DWORD GetCurrentTextureNum() = 0;
+	virtual DWORD GetCurrentTextureUnknownValue() = 0;
+
+	IDirect3DDevice3* GetD3DDevice()
+	{
+		return *((IDirect3DDevice3**)0x009FBC24);
+	}
+
+	void CallOriginalSetTexture(DWORD texturePartNum, DWORD textureUnknownValue)
 	{
 		//Original call:
 		//001C8C2F - A1 2C1AA500 			mov eax, [00A51A2C]
@@ -51,7 +55,7 @@ protected:
 		byte tuvBytes[4];
 		ToByteArray(textureUnknownValue, tuvBytes);
 		byte thBytes[4];
-		ToByteArray((DWORD)textureHandler, thBytes);
+		ToByteArray((DWORD)GetTextureAddress(), thBytes);
 		unsigned long originalCallPointer = 0x005F8430;
 		byte ocpBytes[4];
 		ToByteArray((ULONG)&originalCallPointer, ocpBytes);
@@ -77,49 +81,43 @@ protected:
 		call();
 	}
 
-	void RenderPart(IDirect3DDevice3* d3dDevice, long offset, DWORD texturePartNum, DWORD textureUnknownValue, LPVOID texturePointer)
+	void RenderPart(long offset, DWORD texturePartNum, DWORD textureUnknownValue)
 	{
-		CallOriginalSetTexture(texturePartNum, textureUnknownValue, texturePointer);
-		d3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * 4, IndexBuffer[textureUnknownValue], offset * 6, 0);
+		CallOriginalSetTexture(texturePartNum, textureUnknownValue);
+		GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * 4, IndexBuffer[textureUnknownValue], offset * 6, 0);
 	}
-};
-
-class GroundRenderCallGroup : RenderCallGroup
-{
-private:
-	LPVOID TextureAddress = (LPVOID)0x00A41550;
 public:
 	void AddSquare(D3DVERTEX* vertices, LPWORD indices)
 	{
-		std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(CurrentTextureUnknownValue);
+		std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(GetCurrentTextureUnknownValue());
 		if (it == VertexBuffer.end())
 		{
 			D3DVERTEX* bufferedVeritices = new D3DVERTEX[maxOffset * 4];
 			LPWORD bufferedIndices = new WORD[maxOffset * 6];
-			VertexBuffer.insert(std::pair<long, D3DVERTEX*>(CurrentTextureUnknownValue, bufferedVeritices));
-			IndexBuffer.insert(std::pair<long, LPWORD>(CurrentTextureUnknownValue, bufferedIndices));
+			VertexBuffer.insert(std::pair<long, D3DVERTEX*>(GetCurrentTextureUnknownValue(), bufferedVeritices));
+			IndexBuffer.insert(std::pair<long, LPWORD>(GetCurrentTextureUnknownValue(), bufferedIndices));
 		}
-		WORD currentOffset = Offset[CurrentTextureUnknownValue];
-		memcpy(VertexBuffer[CurrentTextureUnknownValue] + currentOffset * 4, vertices, 4 * sizeof(D3DVERTEX));
-		LPWORD copiedIndices = IndexBuffer[CurrentTextureUnknownValue];
+		WORD currentOffset = Offset[GetCurrentTextureUnknownValue()];
+		memcpy(VertexBuffer[GetCurrentTextureUnknownValue()] + currentOffset * 4, vertices, 4 * sizeof(D3DVERTEX));
+		LPWORD copiedIndices = IndexBuffer[GetCurrentTextureUnknownValue()];
 		memcpy(copiedIndices + currentOffset * 6, indices, 6 * sizeof(WORD));
 		for (int i = currentOffset * 6; i < (currentOffset + 1) * 6; i++)
 		{
 			copiedIndices[i] += currentOffset * 4;
 		}
 		currentOffset++;
-		Offset[CurrentTextureUnknownValue] = currentOffset;
+		Offset[GetCurrentTextureUnknownValue()] = currentOffset;
 		if (currentOffset == maxOffset)
 		{
-			RenderPart(*((IDirect3DDevice3**)0x009FBC24), currentOffset, CurrentTextureNum, CurrentTextureUnknownValue, TextureAddress);
-			Offset[CurrentTextureUnknownValue] = 0;
+			RenderPart(currentOffset, CurrentGroundTextureNum, GetCurrentTextureUnknownValue());
+			Offset[GetCurrentTextureUnknownValue()] = 0;
 		}
 	}
-	void Render(IDirect3DDevice3* d3dDevice, DWORD textureNum)
+	void Render(DWORD textureNum)
 	{
 		for (auto it = Offset.begin(); it != Offset.end(); ++it)
 		{
-			RenderPart(d3dDevice, it->second, textureNum, it->first, TextureAddress);
+			RenderPart(it->second, textureNum, it->first);
 		}
 	}
 	void Clear()
@@ -131,27 +129,62 @@ public:
 	}
 };
 
+class GroundRenderCallGroup : public RenderCallGroup
+{
+protected:
+	virtual LPVOID GetTextureAddress()
+	{
+		return (LPVOID)0x00A41550;
+	}
+	virtual DWORD GetCurrentTextureNum()
+	{
+		return CurrentGroundTextureNum;
+	}
+	virtual DWORD GetCurrentTextureUnknownValue()
+	{
+		return CurrentGroundTextureUnknownValue;
+	}
+public:
+};
+
+class ResourceRenderCallGroup : public RenderCallGroup
+{
+protected:
+	virtual LPVOID GetTextureAddress()
+	{
+		return (LPVOID)0x00A4153C;
+	}
+	virtual DWORD GetCurrentTextureNum()
+	{
+		return 0;
+	}
+	virtual DWORD GetCurrentTextureUnknownValue()
+	{
+		return 4096;
+	}
+public:
+};
+
 GroundRenderCallGroup textureCalls[1024];
 
-HRESULT TerrainRenderProxy::RegisterSquareTextureSetter(DWORD textureNum, DWORD textureSize)
+HRESULT TerrainRenderProxy::SetGroundSquareTexture(DWORD textureNum, DWORD textureSize)
 {
-	CurrentTextureNum = textureNum;
-	CurrentTextureUnknownValue = textureSize;
+	CurrentGroundTextureNum = textureNum;
+	CurrentGroundTextureUnknownValue = textureSize;
 	return 0;
 }
 
-HRESULT TerrainRenderProxy::RegisterSingleSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
+HRESULT TerrainRenderProxy::RegisterGroundSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	textureCalls[CurrentTextureNum].AddSquare(lpvVertices, lpwIndices);
+	textureCalls[CurrentGroundTextureNum].AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
 HRESULT TerrainRenderProxy::Commit()
 {
-	d3dDevice = *((IDirect3DDevice3**)0x009FBC24);
 	for (int i = 0; i < 1024; i++)
 	{
-		textureCalls[i].Render(d3dDevice, i);
+		textureCalls[i].Render(i);
 		textureCalls[i].Clear();
 	}
 
