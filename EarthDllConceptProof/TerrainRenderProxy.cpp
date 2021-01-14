@@ -2,98 +2,147 @@
 #include "TerrainRenderProxy.h"
 #include <map>
 #include <list>
-
-
-static int textures = 0;
-static int squares = 0;
-
-class TextureInfo
-{
-public:
-	DWORD textureNum;
-	DWORD textureSize;
-	TextureInfo(DWORD textureNum, DWORD textureSize)
-	{
-		this->textureNum = textureNum;
-		this->textureSize = textureSize;
-		textures++;
-	}
-	bool operator <(const TextureInfo& b) const
-	{
-		return textureNum * textureSize < b.textureNum * b.textureSize;
-	}
-	~TextureInfo()
-	{
-		long x = 1;
-		x--;
-		textures--;
-	}
-};
-class SquareInfo
-{
-public:
-	D3DVERTEX* Vertices;
-	LPWORD Indices;
-	SquareInfo(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
-	{
-		Vertices = new D3DVERTEX[4];
-		Indices = new WORD[6];
-		memcpy(Vertices, lpvVertices, 4 * sizeof(D3DVERTEX));
-		memcpy(Indices, lpwIndices, 6 * sizeof(WORD));
-		squares++;
-	}
-	SquareInfo(const SquareInfo &other)
-	{
-		Vertices = new D3DVERTEX[4];
-		Indices = new WORD[6];
-		memcpy(Vertices, other.Vertices, 4 * sizeof(D3DVERTEX));
-		memcpy(Indices, other.Indices, 6 * sizeof(WORD));
-		squares++;
-	}
-	~SquareInfo()
-	{
-		delete[] Vertices;
-		delete[] Indices;
-		squares--;
-	}
-};
+#include "Utils.h"
 
 TerrainRenderProxy::TerrainRenderProxy()
 {
-	d3dDevice = (IDirect3DDevice3*)0x009FBC24; //constant address of D3DDevice initialized by TheMoonProject.exe
+	d3dDevice = *((IDirect3DDevice3**)0x009FBC24); //constant address of D3DDevice initialized by TheMoonProject.exe
 }
 
-TextureInfo* currentTexture;
+DWORD CurrentTextureNum;
+DWORD CurrentTextureUnknownValue;
 
-typedef std::map<TextureInfo, std::list<SquareInfo>> RenderBuffer;
-RenderBuffer renderBuffer;
+byte proxyCall[] =
+{
+	0x55,									//push	ebp
+	0x89, 0xE5,								//mov	ebp, esp
+	0xBA, 0x00, 0x00, 0x00, 0x00,			//mov	edx, [textureNum]
+	0xB9, 0x00, 0x00, 0x00, 0x00,			//mov	ecx, [textureUnknownValue]
+	0x51,									//push	ecx,
+	0x8B, 0x0D, 0x50, 0x15, 0xA4, 0x00,		//mov	ecx, [00A41550h]
+	0x52,									//push	edx
+	0xFF, 0x15, 0x00, 0x00, 0x00, 0x00,		//call	[originalCallPointer]
+	0x89, 0xEC,								//mov	esp, ebp
+	0x5D,									//pop	ebp
+	0xC3									//ret
+	//0xC2, 0x04, 0x00						//ret	04h
+};
+
+class TextureCallGroup
+{
+private:
+	const int maxOffset = 3000; //todo: handle possible (but unlikely) overflow
+	std::map<long, D3DVERTEX*> VertexBuffer;
+	std::map<long, LPWORD> IndexBuffer;
+	std::map<long, long> Offset;
+
+	void CallOriginalSetTexture(DWORD textureNum, DWORD textureUnknownValue)
+	{
+		//Original call:
+		//001C8C2F - A1 2C1AA500 			mov eax, [00A51A2C]
+		//001C8C34 - 8B 55 FC				mov edx, [ebp - 04]
+		//001C8C37 - 2B C8  				sub ecx, eax
+		//001C8C39 - 51						push ecx
+		//001C8C3A - 8B 0D 5015A400			mov ecx, [00A41550]
+		//001C8C40 - 52						push edx
+		//001C8C41 - E8 EAF70200			call 005F8430
+
+		byte tnBytes[4];
+		ToByteArray(textureNum, tnBytes);
+		byte tuvBytes[4];
+		ToByteArray(textureUnknownValue, tuvBytes);
+		unsigned long originalCallPointer = 0x005F8430;
+		byte ocpBytes[4];
+		ToByteArray((ULONG)&originalCallPointer, ocpBytes);
+		proxyCall[4]  = tnBytes[3];
+		proxyCall[5]  = tnBytes[2];
+		proxyCall[6]  = tnBytes[1];
+		proxyCall[7]  = tnBytes[0];
+		proxyCall[9]  = tuvBytes[3];
+		proxyCall[10] = tuvBytes[2];
+		proxyCall[11] = tuvBytes[1];
+		proxyCall[12] = tuvBytes[0];
+		proxyCall[23] = ocpBytes[3];
+		proxyCall[24] = ocpBytes[2];
+		proxyCall[25] = ocpBytes[1];
+		proxyCall[26] = ocpBytes[0];
+		typedef void(_stdcall* originalCall)(void);
+		void* originalFunctionPointer = (void*)proxyCall;
+		originalCall call = (originalCall)(originalFunctionPointer);
+		call();
+	}
+	void RenderPart(IDirect3DDevice3* d3dDevice, long offset, DWORD textureNum, DWORD textureUnknownValue)
+	{
+		CallOriginalSetTexture(textureNum, textureUnknownValue);
+		d3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * 4, IndexBuffer[textureUnknownValue], offset*6, 0);
+	}
+public:
+	void AddSquare(D3DVERTEX* vertices, LPWORD indices)
+	{
+		std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(CurrentTextureUnknownValue);
+		if (it == VertexBuffer.end())
+		{
+			D3DVERTEX* bufferedVeritices = new D3DVERTEX[maxOffset * 4];
+			LPWORD bufferedIndices = new WORD[maxOffset * 6];
+			VertexBuffer.insert(std::pair<long, D3DVERTEX*>(CurrentTextureUnknownValue, bufferedVeritices));
+			IndexBuffer.insert(std::pair<long, LPWORD>(CurrentTextureUnknownValue, bufferedIndices));
+		}
+		long currentOffset = Offset[CurrentTextureUnknownValue];
+		memcpy(VertexBuffer[CurrentTextureUnknownValue] + currentOffset * 4, vertices, 4 * sizeof(D3DVERTEX));
+		LPWORD copiedIndices = IndexBuffer[CurrentTextureUnknownValue];
+		memcpy(copiedIndices + currentOffset * 6, indices, 6 * sizeof(WORD));
+		for (int i = currentOffset * 6; i < (currentOffset + 1) * 6; i++)
+		{
+			copiedIndices[i] += currentOffset * 4;
+		}
+		Offset[CurrentTextureUnknownValue] = currentOffset + 1;
+	}
+	void Render(IDirect3DDevice3* d3dDevice, DWORD textureNum)
+	{
+		for (auto it = Offset.begin(); it != Offset.end(); ++it)
+		{
+			RenderPart(d3dDevice, it->second, textureNum, it->first);
+		}
+	}
+	void Clear()
+	{
+		for (auto it = VertexBuffer.begin(); it != VertexBuffer.end(); ++it)
+		{
+			delete[] it->second;
+		}
+		for (auto it = IndexBuffer.begin(); it != IndexBuffer.end(); ++it)
+		{
+			delete[] it->second;
+		}
+		VertexBuffer.clear();
+		IndexBuffer.clear();
+		Offset.clear();
+	}
+};
+
+TextureCallGroup textureCalls[1024];
 
 HRESULT TerrainRenderProxy::DoSomethingWithTexture(DWORD textureNum, DWORD textureSize)
 {
-	TextureInfo mapKey(textureNum, textureSize);
-	RenderBuffer::iterator it = renderBuffer.find(mapKey);
-	if (it != renderBuffer.end())
-	{
-		currentTexture = const_cast<TextureInfo*>(&(it->first));
-	}
-	else
-	{
-		renderBuffer.insert(std::pair<TextureInfo,std::list<SquareInfo>>(TextureInfo(textureNum, textureSize), std::list<SquareInfo>()));
-		it = renderBuffer.find(mapKey);
-		currentTexture = const_cast<TextureInfo*>(&(it->first));
-	}
+	CurrentTextureNum = textureNum;
+	CurrentTextureUnknownValue = textureSize;
 	return 0;
 }
 
-HRESULT TerrainRenderProxy::RegisterSingleSquareRendering(LPVOID lpvVertices, LPWORD lpwIndices)
+HRESULT TerrainRenderProxy::RegisterSingleSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	renderBuffer[*currentTexture].push_back(SquareInfo((D3DVERTEX*)lpvVertices, lpwIndices));
+	textureCalls[CurrentTextureNum].AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
 HRESULT TerrainRenderProxy::Commit()
 {
-	//todo: commit changes
+	d3dDevice = *((IDirect3DDevice3**)0x009FBC24);
+	for (int i = 0; i < 1024; i++)
+	{
+		textureCalls[i].Render(d3dDevice, i);
+		textureCalls[i].Clear();
+	}
 
 	//call replaced asm code
 	//005C9BCB 6A 01                push        1  
@@ -103,6 +152,5 @@ HRESULT TerrainRenderProxy::Commit()
 	void* originalFunctionPointer = (void*)(*((long*)0x009FE2D4));
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call(1);
-	renderBuffer.clear();
 	return 0;
 }

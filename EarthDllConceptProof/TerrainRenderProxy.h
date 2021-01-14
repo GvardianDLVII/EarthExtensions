@@ -26,7 +26,7 @@ public:
 	/// <param name="lpvVertices"></param>
 	/// <param name="lpwIndices"></param>
 	/// <returns></returns>
-	HRESULT RegisterSingleSquareRendering(LPVOID lpvVertices, LPWORD lpwIndices);
+	HRESULT RegisterSingleSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices);
 
 	/// <summary>
 	/// Pushes to renderer all changes registered in current frame
