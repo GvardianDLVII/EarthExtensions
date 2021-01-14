@@ -180,6 +180,14 @@ HRESULT TerrainRenderProxy::RegisterGroundSquareRendering(D3DVERTEX* lpvVertices
 	return 0;
 }
 
+ResourceRenderCallGroup resourceRenderCall;
+
+HRESULT TerrainRenderProxy::RegisterResourceSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
+{
+	resourceRenderCall.AddSquare(lpvVertices, lpwIndices);
+	return 0;
+}
+
 HRESULT TerrainRenderProxy::Commit()
 {
 	for (int i = 0; i < 1024; i++)
@@ -187,6 +195,9 @@ HRESULT TerrainRenderProxy::Commit()
 		textureCalls[i].Render(i);
 		textureCalls[i].Clear();
 	}
+
+	resourceRenderCall.Render(0);
+	resourceRenderCall.Clear();
 
 	//call replaced asm code
 	//005C9BCB 6A 01                push        1  
