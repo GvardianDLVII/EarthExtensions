@@ -31,7 +31,7 @@ byte proxyCall[] =
 class TextureCallGroup
 {
 private:
-	const int maxOffset = 3000; //todo: handle possible (but unlikely) overflow
+	const int maxOffset = 100;
 	std::map<long, D3DVERTEX*> VertexBuffer;
 	std::map<long, LPWORD> IndexBuffer;
 	std::map<long, long> Offset;
@@ -95,7 +95,13 @@ public:
 		{
 			copiedIndices[i] += currentOffset * 4;
 		}
-		Offset[CurrentTextureUnknownValue] = currentOffset + 1;
+		currentOffset++;
+		Offset[CurrentTextureUnknownValue] = currentOffset;
+		if (currentOffset == maxOffset)
+		{
+			RenderPart(*((IDirect3DDevice3**)0x009FBC24), currentOffset - 1, CurrentTextureNum, CurrentTextureUnknownValue);
+			Offset[CurrentTextureUnknownValue] = 0;
+		}
 	}
 	void Render(IDirect3DDevice3* d3dDevice, DWORD textureNum)
 	{
@@ -106,17 +112,10 @@ public:
 	}
 	void Clear()
 	{
-		for (auto it = VertexBuffer.begin(); it != VertexBuffer.end(); ++it)
+		for (auto it = Offset.begin(); it != Offset.end(); ++it)
 		{
-			delete[] it->second;
+			it->second = 0;
 		}
-		for (auto it = IndexBuffer.begin(); it != IndexBuffer.end(); ++it)
-		{
-			delete[] it->second;
-		}
-		VertexBuffer.clear();
-		IndexBuffer.clear();
-		Offset.clear();
 	}
 };
 
