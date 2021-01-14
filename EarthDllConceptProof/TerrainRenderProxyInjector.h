@@ -20,6 +20,7 @@ private:
 	void HookSetResourceSquareTextureCall();
 	void HookRegisterResourceSquareRenderCall();
 	void HookCommitCall();
+	void RemoveRedundantCode();
 public:
 	TerrainRenderProxyInjector();
 	void Inject();
