@@ -3,7 +3,7 @@
 #include "TerrainRenderProxyInjector.h"
 #include "Utils.h"
 
-HRESULT TerrainRenderProxyInjector::RegisterResourceSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
+HRESULT __stdcall TerrainRenderProxyInjector::RegisterResourceSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices, DWORD _indCount, DWORD _flags)
 {
 	return proxy->RegisterResourceSquareRendering(lpvVertices, lpwIndices);
 }

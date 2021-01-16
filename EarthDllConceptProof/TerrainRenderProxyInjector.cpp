@@ -5,7 +5,7 @@
 
 TerrainRenderProxy* TerrainRenderProxyInjector::proxy = 0;
 
-HRESULT TerrainRenderProxyInjector::CommitWrapper()
+HRESULT __stdcall TerrainRenderProxyInjector::CommitWrapper()
 {
 	return proxy->Commit();
 }
@@ -47,6 +47,10 @@ TerrainRenderProxyInjector::TerrainRenderProxyInjector()
 	proxy = new TerrainRenderProxy();
 	SetGroundSquareTextureAddress = (LPVOID)((ULONG_PTR)SetGroundSquareTextureWrapper);
 	RegisterGroundSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterGroundSquareRenderingWrapper);
+	SetNavMeshSquareTextureAddress = (LPVOID)((ULONG_PTR)SetNavMeshSquareTextureWrapper);
+	RegisterNavMeshSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterNavMeshSquareRenderingWrapper);
+	SetGreenSquareTextureAddress = (LPVOID)((ULONG_PTR)SetGreenSquareTextureWrapper);
+	RegisterGreenSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterGreenSquareRenderingWrapper);
 	RegisterResourceSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterResourceSquareRenderingWrapper);
 	CommitAddress = (LPVOID)((ULONG_PTR)CommitWrapper);
 }
@@ -54,10 +58,14 @@ void TerrainRenderProxyInjector::Inject()
 {
 	HookSetGroundSquareTextureCall();
 	HookRegisterGroundSquareRenderCall();
+	HookSetNavMeshSquareTextureCall();
+	HookRegisterNavMeshSquareRenderCall();
+	HookSetGreenSquareTextureCall();
+	HookRegisterGreenSquareRenderCall();
 	HookSetResourceSquareTextureCall();
 	HookRegisterResourceSquareRenderCall();
 	HookCommitCall();
-	RemoveRedundantCode();
+	//RemoveRedundantCode();
 }
 TerrainRenderProxyInjector::~TerrainRenderProxyInjector()
 {

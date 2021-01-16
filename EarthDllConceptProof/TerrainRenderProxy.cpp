@@ -6,6 +6,9 @@
 
 DWORD CurrentGroundTextureNum;
 DWORD CurrentGroundTextureUnknownValue;
+DWORD CurrentNavMeshTextureNum;
+DWORD CurrentGreenTextureNum;
+DWORD CurrentGreenTextureUnknownValue;
 
 byte proxyCall[] =
 {
@@ -25,11 +28,11 @@ byte proxyCall[] =
 class RenderCallGroup
 {
 protected:
-	const int maxOffset = 35;
 	std::map<long, D3DVERTEX*> VertexBuffer;
 	std::map<long, LPWORD> IndexBuffer;
 	std::map<long, WORD> Offset;
 
+	virtual int GetMaxOffset() = 0;
 	virtual LPVOID GetTextureAddress() = 0;
 	virtual DWORD GetCurrentTextureNum() = 0;
 	virtual DWORD GetCurrentTextureUnknownValue() = 0;
@@ -92,8 +95,8 @@ public:
 		std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(GetCurrentTextureUnknownValue());
 		if (it == VertexBuffer.end())
 		{
-			D3DVERTEX* bufferedVeritices = new D3DVERTEX[maxOffset * 4];
-			LPWORD bufferedIndices = new WORD[maxOffset * 6];
+			D3DVERTEX* bufferedVeritices = new D3DVERTEX[GetMaxOffset() * 4];
+			LPWORD bufferedIndices = new WORD[GetMaxOffset() * 6];
 			VertexBuffer.insert(std::pair<long, D3DVERTEX*>(GetCurrentTextureUnknownValue(), bufferedVeritices));
 			IndexBuffer.insert(std::pair<long, LPWORD>(GetCurrentTextureUnknownValue(), bufferedIndices));
 		}
@@ -107,7 +110,7 @@ public:
 		}
 		currentOffset++;
 		Offset[GetCurrentTextureUnknownValue()] = currentOffset;
-		if (currentOffset == maxOffset)
+		if (currentOffset == GetMaxOffset())
 		{
 			RenderPart(currentOffset, CurrentGroundTextureNum, GetCurrentTextureUnknownValue());
 			Offset[GetCurrentTextureUnknownValue()] = 0;
@@ -136,6 +139,10 @@ protected:
 	{
 		return (LPVOID)0x00A41550;
 	}
+	virtual int GetMaxOffset()
+	{
+		return 35;
+	}
 	virtual DWORD GetCurrentTextureNum()
 	{
 		return CurrentGroundTextureNum;
@@ -147,12 +154,60 @@ protected:
 public:
 };
 
+class NavMeshRenderCallGroup : public RenderCallGroup
+{
+protected:
+	virtual LPVOID GetTextureAddress()
+	{
+		return (LPVOID)0x00A41544;
+	}
+	virtual int GetMaxOffset()
+	{
+		return 10000;
+	}
+	virtual DWORD GetCurrentTextureNum()
+	{
+		return CurrentNavMeshTextureNum;
+	}
+	virtual DWORD GetCurrentTextureUnknownValue()
+	{
+		return 4096;
+	}
+public:
+};
+
+class GreenRenderCallGroup : public RenderCallGroup
+{
+protected:
+	virtual LPVOID GetTextureAddress()
+	{
+		return (LPVOID)0x00A41520;
+	}
+	virtual int GetMaxOffset()
+	{
+		return 10000;
+	}
+	virtual DWORD GetCurrentTextureNum()
+	{
+		return CurrentGreenTextureNum;
+	}
+	virtual DWORD GetCurrentTextureUnknownValue()
+	{
+		return CurrentGreenTextureUnknownValue;
+	}
+public:
+};
+
 class ResourceRenderCallGroup : public RenderCallGroup
 {
 protected:
 	virtual LPVOID GetTextureAddress()
 	{
 		return (LPVOID)0x00A4153C;
+	}
+	virtual int GetMaxOffset()
+	{
+		return 10000;
 	}
 	virtual DWORD GetCurrentTextureNum()
 	{
@@ -180,6 +235,35 @@ HRESULT TerrainRenderProxy::RegisterGroundSquareRendering(D3DVERTEX* lpvVertices
 	return 0;
 }
 
+NavMeshRenderCallGroup navMeshCalls[1024];
+
+HRESULT TerrainRenderProxy::SetNavMeshSquareTexture(DWORD textureNum)
+{
+	CurrentNavMeshTextureNum = textureNum;
+	return 0;
+}
+
+HRESULT TerrainRenderProxy::RegisterNavMeshSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
+{
+	navMeshCalls[CurrentNavMeshTextureNum].AddSquare(lpvVertices, lpwIndices);
+	return 0;
+}
+
+GreenRenderCallGroup greenCalls[1024];
+
+HRESULT TerrainRenderProxy::SetGreenSquareTexture(DWORD textureNum, DWORD textureSize)
+{
+	CurrentGreenTextureNum = textureNum;
+	CurrentGreenTextureUnknownValue = textureSize;
+	return 0;
+}
+
+HRESULT TerrainRenderProxy::RegisterGreenSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
+{
+	greenCalls[CurrentGreenTextureNum].AddSquare(lpvVertices, lpwIndices);
+	return 0;
+}
+
 ResourceRenderCallGroup resourceRenderCall;
 
 HRESULT TerrainRenderProxy::RegisterResourceSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
@@ -194,6 +278,16 @@ HRESULT TerrainRenderProxy::Commit()
 	{
 		textureCalls[i].Render(i);
 		textureCalls[i].Clear();
+	}
+	for (int i = 0; i < 1024; i++)
+	{
+		navMeshCalls[i].Render(i);
+		navMeshCalls[i].Clear();
+	}
+	for (int i = 0; i < 1024; i++)
+	{
+		greenCalls[i].Render(i);
+		greenCalls[i].Clear();
 	}
 
 	resourceRenderCall.Render(0);
