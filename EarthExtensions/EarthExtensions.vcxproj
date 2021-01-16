@@ -22,8 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{ea259b4a-ce49-4acf-a5c2-c8dcb79fbc3b}</ProjectGuid>
-    <RootNamespace>EarthDllConceptProof</RootNamespace>
+    <RootNamespace>EarthExtensions</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>EarthExtensions</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -86,8 +87,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EARTHDLLCONCEPTPROOF_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -103,9 +104,9 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetDir)EarthDllConceptProof.dll C:\EarthTmpDev\scripts\EarthDllConceptProof.asi
-copy /Y $(TargetDir)EarthDllConceptProof.ilk C:\EarthTmpDev\scripts\EarthDllConceptProof.ilk
-copy /Y $(TargetDir)EarthDllConceptProof.pdb C:\EarthTmpDev\scripts\EarthDllConceptProof.pdb</Command>
+      <Command>copy /Y $(TargetDir)EarthExtensions.dll C:\EarthTmpDev\scripts\EarthExtensions.asi
+copy /Y $(TargetDir)EarthExtensions.ilk C:\EarthTmpDev\scripts\EarthExtensions.ilk
+copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,7 +115,7 @@ copy /Y $(TargetDir)EarthDllConceptProof.pdb C:\EarthTmpDev\scripts\EarthDllConc
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EARTHDLLCONCEPTPROOF_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -127,16 +128,16 @@ copy /Y $(TargetDir)EarthDllConceptProof.pdb C:\EarthTmpDev\scripts\EarthDllConc
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetDir)EarthDllConceptProof.dll C:\EarthTmpDev\scripts\EarthDllConceptProof.asi
-copy /Y $(TargetDir)EarthDllConceptProof.ilk C:\EarthTmpDev\scripts\EarthDllConceptProof.ilk
-copy /Y $(TargetDir)EarthDllConceptProof.pdb C:\EarthTmpDev\scripts\EarthDllConceptProof.pdb</Command>
+      <Command>copy /Y $(TargetDir)EarthExtensions.dll C:\EarthTmpDev\scripts\EarthExtensions.asi
+copy /Y $(TargetDir)EarthExtensions.ilk C:\EarthTmpDev\scripts\EarthExtensions.ilk
+copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;EARTHDLLCONCEPTPROOF_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -153,7 +154,7 @@ copy /Y $(TargetDir)EarthDllConceptProof.pdb C:\EarthTmpDev\scripts\EarthDllConc
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;EARTHDLLCONCEPTPROOF_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
