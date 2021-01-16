@@ -1,7 +1,5 @@
 #include "pch.h"
-#include "TerrainRenderProxy.h"
 #include "TerrainRenderProxyInjector.h"
-#include "Utils.h"
 
 HRESULT __stdcall TerrainRenderProxyInjector::RegisterResourceSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices, DWORD _indCount, DWORD _flags)
 {

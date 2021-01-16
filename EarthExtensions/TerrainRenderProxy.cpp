@@ -1,237 +1,22 @@
 #include "pch.h"
 #include "TerrainRenderProxy.h"
-#include <map>
-#include <list>
-#include "Utils.h"
-
-DWORD CurrentGroundTextureNum;
-DWORD CurrentGroundTextureUnknownValue;
-DWORD CurrentNavMeshTextureNum;
-DWORD CurrentGreenTextureNum;
-DWORD CurrentGreenTextureUnknownValue;
-
-byte proxyCall[] =
-{
-	0x55,									//push	ebp
-	0x89, 0xE5,								//mov	ebp, esp
-	0xBA, 0x00, 0x00, 0x00, 0x00,			//mov	edx, [textureNum]
-	0xB9, 0x00, 0x00, 0x00, 0x00,			//mov	ecx, [textureUnknownValue]
-	0x51,									//push	ecx,
-	0x8B, 0x0D, 0x00, 0x00, 0x00, 0x00,		//mov	ecx, [00A41550h]
-	0x52,									//push	edx
-	0xFF, 0x15, 0x00, 0x00, 0x00, 0x00,		//call	[originalCallPointer]
-	0x89, 0xEC,								//mov	esp, ebp
-	0x5D,									//pop	ebp
-	0xC3									//ret
-};
-
-class RenderCallGroup
-{
-protected:
-	std::map<long, D3DVERTEX*> VertexBuffer;
-	std::map<long, LPWORD> IndexBuffer;
-	std::map<long, WORD> Offset;
-
-	virtual int GetMaxOffset() = 0;
-	virtual LPVOID GetTextureAddress() = 0;
-	virtual DWORD GetCurrentTextureNum() = 0;
-	virtual DWORD GetCurrentTextureUnknownValue() = 0;
-
-	IDirect3DDevice3* GetD3DDevice()
-	{
-		return *((IDirect3DDevice3**)0x009FBC24);
-	}
-
-	void CallOriginalSetTexture(DWORD texturePartNum, DWORD textureUnknownValue)
-	{
-		//Original call:
-		//001C8C2F - A1 2C1AA500 			mov eax, [00A51A2C]
-		//001C8C34 - 8B 55 FC				mov edx, [ebp - 04]
-		//001C8C37 - 2B C8  				sub ecx, eax
-		//001C8C39 - 51						push ecx
-		//001C8C3A - 8B 0D 5015A400			mov ecx, [00A41550]
-		//001C8C40 - 52						push edx
-		//001C8C41 - E8 EAF70200			call 005F8430
-
-		byte tnBytes[4];
-		ToByteArray(texturePartNum, tnBytes);
-		byte tuvBytes[4];
-		ToByteArray(textureUnknownValue, tuvBytes);
-		byte thBytes[4];
-		ToByteArray((DWORD)GetTextureAddress(), thBytes);
-		unsigned long originalCallPointer = 0x005F8430;
-		byte ocpBytes[4];
-		ToByteArray((ULONG)&originalCallPointer, ocpBytes);
-		proxyCall[4]  = tnBytes[3];
-		proxyCall[5]  = tnBytes[2];
-		proxyCall[6]  = tnBytes[1];
-		proxyCall[7]  = tnBytes[0];
-		proxyCall[9]  = tuvBytes[3];
-		proxyCall[10] = tuvBytes[2];
-		proxyCall[11] = tuvBytes[1];
-		proxyCall[12] = tuvBytes[0];
-		proxyCall[16] = thBytes[3];
-		proxyCall[17] = thBytes[2];
-		proxyCall[18] = thBytes[1];
-		proxyCall[19] = thBytes[0];
-		proxyCall[23] = ocpBytes[3];
-		proxyCall[24] = ocpBytes[2];
-		proxyCall[25] = ocpBytes[1];
-		proxyCall[26] = ocpBytes[0];
-		typedef void(_stdcall* originalCall)(void);
-		void* originalFunctionPointer = (void*)proxyCall;
-		originalCall call = (originalCall)(originalFunctionPointer);
-		call();
-	}
-
-	void RenderPart(long offset, DWORD texturePartNum, DWORD textureUnknownValue)
-	{
-		CallOriginalSetTexture(texturePartNum, textureUnknownValue);
-		GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * 4, IndexBuffer[textureUnknownValue], offset * 6, 0);
-	}
-public:
-	void AddSquare(D3DVERTEX* vertices, LPWORD indices)
-	{
-		std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(GetCurrentTextureUnknownValue());
-		if (it == VertexBuffer.end())
-		{
-			D3DVERTEX* bufferedVeritices = new D3DVERTEX[GetMaxOffset() * 4];
-			LPWORD bufferedIndices = new WORD[GetMaxOffset() * 6];
-			VertexBuffer.insert(std::pair<long, D3DVERTEX*>(GetCurrentTextureUnknownValue(), bufferedVeritices));
-			IndexBuffer.insert(std::pair<long, LPWORD>(GetCurrentTextureUnknownValue(), bufferedIndices));
-		}
-		WORD currentOffset = Offset[GetCurrentTextureUnknownValue()];
-		memcpy(VertexBuffer[GetCurrentTextureUnknownValue()] + currentOffset * 4, vertices, 4 * sizeof(D3DVERTEX));
-		LPWORD copiedIndices = IndexBuffer[GetCurrentTextureUnknownValue()];
-		memcpy(copiedIndices + currentOffset * 6, indices, 6 * sizeof(WORD));
-		for (int i = currentOffset * 6; i < (currentOffset + 1) * 6; i++)
-		{
-			copiedIndices[i] += currentOffset * 4;
-		}
-		currentOffset++;
-		Offset[GetCurrentTextureUnknownValue()] = currentOffset;
-		if (currentOffset == GetMaxOffset())
-		{
-			RenderPart(currentOffset, CurrentGroundTextureNum, GetCurrentTextureUnknownValue());
-			Offset[GetCurrentTextureUnknownValue()] = 0;
-		}
-	}
-	void Render(DWORD textureNum)
-	{
-		for (auto it = Offset.begin(); it != Offset.end(); ++it)
-		{
-			RenderPart(it->second, textureNum, it->first);
-		}
-	}
-	void Clear()
-	{
-		for (auto it = Offset.begin(); it != Offset.end(); ++it)
-		{
-			it->second = 0;
-		}
-	}
-};
-
-class GroundRenderCallGroup : public RenderCallGroup
-{
-protected:
-	virtual LPVOID GetTextureAddress()
-	{
-		return (LPVOID)0x00A41550;
-	}
-	virtual int GetMaxOffset()
-	{
-		return 35;
-	}
-	virtual DWORD GetCurrentTextureNum()
-	{
-		return CurrentGroundTextureNum;
-	}
-	virtual DWORD GetCurrentTextureUnknownValue()
-	{
-		return CurrentGroundTextureUnknownValue;
-	}
-public:
-};
-
-class NavMeshRenderCallGroup : public RenderCallGroup
-{
-protected:
-	virtual LPVOID GetTextureAddress()
-	{
-		return (LPVOID)0x00A41544;
-	}
-	virtual int GetMaxOffset()
-	{
-		return 10000;
-	}
-	virtual DWORD GetCurrentTextureNum()
-	{
-		return CurrentNavMeshTextureNum;
-	}
-	virtual DWORD GetCurrentTextureUnknownValue()
-	{
-		return 4096;
-	}
-public:
-};
-
-class GreenRenderCallGroup : public RenderCallGroup
-{
-protected:
-	virtual LPVOID GetTextureAddress()
-	{
-		return (LPVOID)0x00A41520;
-	}
-	virtual int GetMaxOffset()
-	{
-		return 10000;
-	}
-	virtual DWORD GetCurrentTextureNum()
-	{
-		return CurrentGreenTextureNum;
-	}
-	virtual DWORD GetCurrentTextureUnknownValue()
-	{
-		return CurrentGreenTextureUnknownValue;
-	}
-public:
-};
-
-class ResourceRenderCallGroup : public RenderCallGroup
-{
-protected:
-	virtual LPVOID GetTextureAddress()
-	{
-		return (LPVOID)0x00A4153C;
-	}
-	virtual int GetMaxOffset()
-	{
-		return 10000;
-	}
-	virtual DWORD GetCurrentTextureNum()
-	{
-		return 0;
-	}
-	virtual DWORD GetCurrentTextureUnknownValue()
-	{
-		return 4096;
-	}
-public:
-};
+#include "GroundRenderCallGroup.h"
+#include "NavMeshRenderCallGroup.h"
+#include "GreenOverlayRenderCallGroup.h"
+#include "ResourceRenderCallGroup.h"
 
 GroundRenderCallGroup textureCalls[1024];
 
 HRESULT TerrainRenderProxy::SetGroundSquareTexture(DWORD textureNum, DWORD textureSize)
 {
-	CurrentGroundTextureNum = textureNum;
-	CurrentGroundTextureUnknownValue = textureSize;
+	GroundRenderCallGroup::CurrentGroundTextureNum = textureNum;
+	GroundRenderCallGroup::CurrentGroundTextureUnknownValue = textureSize;
 	return 0;
 }
 
 HRESULT TerrainRenderProxy::RegisterGroundSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	textureCalls[CurrentGroundTextureNum].AddSquare(lpvVertices, lpwIndices);
+	textureCalls[GroundRenderCallGroup::CurrentGroundTextureNum].AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
@@ -239,28 +24,28 @@ NavMeshRenderCallGroup navMeshCalls[1024];
 
 HRESULT TerrainRenderProxy::SetNavMeshSquareTexture(DWORD textureNum)
 {
-	CurrentNavMeshTextureNum = textureNum;
+	NavMeshRenderCallGroup::CurrentNavMeshTextureNum = textureNum;
 	return 0;
 }
 
 HRESULT TerrainRenderProxy::RegisterNavMeshSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	navMeshCalls[CurrentNavMeshTextureNum].AddSquare(lpvVertices, lpwIndices);
+	navMeshCalls[NavMeshRenderCallGroup::CurrentNavMeshTextureNum].AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
-GreenRenderCallGroup greenCalls[1024];
+GreenOverlayRenderCallGroup greenCalls[1024];
 
 HRESULT TerrainRenderProxy::SetGreenSquareTexture(DWORD textureNum, DWORD textureSize)
 {
-	CurrentGreenTextureNum = textureNum;
-	CurrentGreenTextureUnknownValue = textureSize;
+	GreenOverlayRenderCallGroup::CurrentGreenTextureNum = textureNum;
+	GreenOverlayRenderCallGroup::CurrentGreenTextureUnknownValue = textureSize;
 	return 0;
 }
 
 HRESULT TerrainRenderProxy::RegisterGreenSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	greenCalls[CurrentGreenTextureNum].AddSquare(lpvVertices, lpwIndices);
+	greenCalls[GreenOverlayRenderCallGroup::CurrentGreenTextureNum].AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 

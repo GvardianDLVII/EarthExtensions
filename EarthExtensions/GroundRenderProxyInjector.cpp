@@ -1,7 +1,5 @@
 #include "pch.h"
-#include "TerrainRenderProxy.h"
 #include "TerrainRenderProxyInjector.h"
-#include "Utils.h"
 
 HRESULT __stdcall TerrainRenderProxyInjector::SetGroundSquareTextureWrapper(DWORD textureNum, DWORD textureSize)
 {

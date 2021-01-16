@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="TerrainRenderProxy.cpp">
+      <Filter>TerrainRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenOverlayRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\CodeInjectors</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\CodeInjectors</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMeshRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\CodeInjectors</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\CodeInjectors</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\CodeInjectors</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCallGroup.cpp">
+      <Filter>TerrainRendering\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundRenderCallGroup.cpp">
+      <Filter>TerrainRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMeshRenderCallGroup.cpp">
+      <Filter>TerrainRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenOverlayRenderCallGroup.cpp">
+      <Filter>TerrainRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceRenderCallGroup.cpp">
+      <Filter>TerrainRendering</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="TerrainRenderProxy.h">
+      <Filter>TerrainRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainRenderProxyInjector.h">
+      <Filter>TerrainRendering\CodeInjectors</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCallGroup.h">
+      <Filter>TerrainRendering\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundRenderCallGroup.h">
+      <Filter>TerrainRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="NavMeshRenderCallGroup.h">
+      <Filter>TerrainRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenOverlayRenderCallGroup.h">
+      <Filter>TerrainRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceRenderCallGroup.h">
+      <Filter>TerrainRendering</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TerrainRendering">
+      <UniqueIdentifier>{24ca177a-b85c-4727-838f-41579013e51b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TerrainRendering\CodeInjectors">
+      <UniqueIdentifier>{6a9e886e-4374-4d02-8de9-69662bd6b296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TerrainRendering\Base">
+      <UniqueIdentifier>{7947f0a5-6abc-4819-9d1a-d2a2c1a9d4e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

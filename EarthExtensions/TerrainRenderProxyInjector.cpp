@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "TerrainRenderProxy.h"
 #include "TerrainRenderProxyInjector.h"
-#include "Utils.h"
 
 TerrainRenderProxy* TerrainRenderProxyInjector::proxy = 0;
 

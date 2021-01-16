@@ -20,6 +20,9 @@
 #include <d3dcaps.h>
 #include <d3dtypes.h>
 #include <ddraw.h>
+#include <map>
+#include <list>
+#include "Utils.h"
 
 //#pragma comment(lib, "d3dim.lib")
 
