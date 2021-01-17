@@ -64,7 +64,7 @@ void TerrainRenderProxyInjector::Inject()
 	HookSetResourceSquareTextureCall();
 	HookRegisterResourceSquareRenderCall();
 	HookCommitCall();
-	//RemoveRedundantCode();
+	RemoveRedundantCode();
 }
 TerrainRenderProxyInjector::~TerrainRenderProxyInjector()
 {

@@ -37,6 +37,15 @@
     <ClCompile Include="ResourceRenderCallGroup.cpp">
       <Filter>TerrainRendering</Filter>
     </ClCompile>
+    <ClCompile Include="UnitShadowRenderProxy.cpp">
+      <Filter>ShadowRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitShadowRenderCallGroup.cpp">
+      <Filter>ShadowRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowRenderProxyInjector.cpp">
+      <Filter>ShadowRendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -63,6 +72,15 @@
     <ClInclude Include="ResourceRenderCallGroup.h">
       <Filter>TerrainRendering</Filter>
     </ClInclude>
+    <ClInclude Include="UnitShadowRenderCallGroup.h">
+      <Filter>ShadowRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitShadowRenderProxy.h">
+      <Filter>ShadowRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowRenderProxyInjector.h">
+      <Filter>ShadowRendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TerrainRendering">
@@ -73,6 +91,9 @@
     </Filter>
     <Filter Include="TerrainRendering\Base">
       <UniqueIdentifier>{7947f0a5-6abc-4819-9d1a-d2a2c1a9d4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShadowRendering">
+      <UniqueIdentifier>{83a72f0f-4f72-400c-92cf-a22ccfd75938}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
