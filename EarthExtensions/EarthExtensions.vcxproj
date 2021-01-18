@@ -168,6 +168,7 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BuildingShadowRenderCallGroup.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GreenOverlayRenderCallGroup.h" />
     <ClInclude Include="GroundRenderCallGroup.h" />
@@ -176,13 +177,14 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClInclude Include="RenderCallGroup.h" />
     <ClInclude Include="ResourceRenderCallGroup.h" />
     <ClInclude Include="ShadowRenderProxyInjector.h" />
-    <ClInclude Include="UnitShadowRenderProxy.h" />
+    <ClInclude Include="ShadowRenderProxy.h" />
     <ClInclude Include="TerrainRenderProxy.h" />
     <ClInclude Include="TerrainRenderProxyInjector.h" />
     <ClInclude Include="UnitShadowRenderCallGroup.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BuildingShadowRenderCallGroup.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GreenOverlayRenderCallGroup.cpp" />
     <ClCompile Include="GreenOverlayRenderProxyInjector.cpp" />
@@ -201,7 +203,7 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClCompile Include="ResourceRenderProxyInjector.cpp" />
     <ClCompile Include="ShadowRenderProxyInjector.cpp" />
     <ClCompile Include="UnitShadowRenderCallGroup.cpp" />
-    <ClCompile Include="UnitShadowRenderProxy.cpp" />
+    <ClCompile Include="ShadowRenderProxy.cpp" />
     <ClCompile Include="TerrainRenderProxy.cpp" />
     <ClCompile Include="TerrainRenderProxyInjector.cpp" />
     <ClCompile Include="Utils.cpp" />

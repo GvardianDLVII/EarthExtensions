@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-class UnitShadowRenderProxy
+class ShadowRenderProxy
 {
 private:
 	IDirect3DDevice3* d3dDevice;
@@ -31,4 +31,28 @@ public:
 	/// <param name="d3dDevice3"></param>
 	/// <returns></returns>
 	HRESULT CommitUnitShadow();
+
+
+	/// <summary>
+	/// todo: more hacks here
+	/// </summary>
+	/// <param name="textureNum"></param>
+	/// <returns></returns>
+	HRESULT SetBuildingShadowSquareTexture(long param0, long param1, long param2, long param3, long param4, long param5, long param6);
+
+	/// <summary>
+	/// It replaces a single call to IDirect3DDevice::DrawIndexedPrimitive. The difference is, that it stacks the draw call in memory instead of calling renderer.
+	/// The actual rendering is performed at the end, in Commit function
+	/// </summary>
+	/// <param name="lpvVertices"></param>
+	/// <param name="lpwIndices"></param>
+	/// <returns></returns>
+	HRESULT RegisterBuildingShadowSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices);
+
+	/// <summary>
+	/// Pushes to renderer all changes registered in current frame
+	/// </summary>
+	/// <param name="d3dDevice3"></param>
+	/// <returns></returns>
+	HRESULT CommitBuildingShadow();
 };

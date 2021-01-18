@@ -23,3 +23,8 @@ DWORD UnitShadowRenderCallGroup::GetCurrentTextureUnknownValue()
 }
 LPVOID UnitShadowRenderCallGroup::CurrentUnitShadowTextureAddress;
 DWORD UnitShadowRenderCallGroup::CurrentUnitShadowTextureNum;
+
+UnitShadowRenderCallGroup::UnitShadowRenderCallGroup()
+{
+	TextureAddress = 0;
+}

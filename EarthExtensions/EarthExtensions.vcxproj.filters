@@ -37,13 +37,16 @@
     <ClCompile Include="ResourceRenderCallGroup.cpp">
       <Filter>TerrainRendering</Filter>
     </ClCompile>
-    <ClCompile Include="UnitShadowRenderProxy.cpp">
-      <Filter>ShadowRendering</Filter>
-    </ClCompile>
     <ClCompile Include="UnitShadowRenderCallGroup.cpp">
       <Filter>ShadowRendering</Filter>
     </ClCompile>
     <ClCompile Include="ShadowRenderProxyInjector.cpp">
+      <Filter>ShadowRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowRenderProxy.cpp">
+      <Filter>ShadowRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildingShadowRenderCallGroup.cpp">
       <Filter>ShadowRendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,10 +78,13 @@
     <ClInclude Include="UnitShadowRenderCallGroup.h">
       <Filter>ShadowRendering</Filter>
     </ClInclude>
-    <ClInclude Include="UnitShadowRenderProxy.h">
+    <ClInclude Include="ShadowRenderProxyInjector.h">
       <Filter>ShadowRendering</Filter>
     </ClInclude>
-    <ClInclude Include="ShadowRenderProxyInjector.h">
+    <ClInclude Include="ShadowRenderProxy.h">
+      <Filter>ShadowRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildingShadowRenderCallGroup.h">
       <Filter>ShadowRendering</Filter>
     </ClInclude>
   </ItemGroup>

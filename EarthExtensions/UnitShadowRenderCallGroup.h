@@ -13,6 +13,7 @@ protected:
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
 public:
+	UnitShadowRenderCallGroup();
 	void SetTextureAddress(LPVOID textureAddress);
 	static LPVOID CurrentUnitShadowTextureAddress;
 	static DWORD CurrentUnitShadowTextureNum;
