@@ -66,25 +66,25 @@ void RenderCallGroup::CallOriginalSetTexture(DWORD texturePartNum, DWORD texture
 void RenderCallGroup::RenderPart(long offset, DWORD texturePartNum, DWORD textureUnknownValue)
 {
 	CallOriginalSetTexture(texturePartNum, textureUnknownValue);
-	GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * 4, IndexBuffer[textureUnknownValue], offset * 6, 0);
+	GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * GetVertexCountPerCall(), IndexBuffer[textureUnknownValue], offset * GetIndexCountPerCall(), 0);
 }
 void RenderCallGroup::AddSquare(D3DVERTEX* vertices, LPWORD indices)
 {
 	std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(GetCurrentTextureUnknownValue());
 	if (it == VertexBuffer.end())
 	{
-		D3DVERTEX* bufferedVeritices = new D3DVERTEX[GetMaxOffset() * 4];
-		LPWORD bufferedIndices = new WORD[GetMaxOffset() * 6];
+		D3DVERTEX* bufferedVeritices = new D3DVERTEX[GetMaxOffset() * GetVertexCountPerCall()];
+		LPWORD bufferedIndices = new WORD[GetMaxOffset() * GetIndexCountPerCall()];
 		VertexBuffer.insert(std::pair<long, D3DVERTEX*>(GetCurrentTextureUnknownValue(), bufferedVeritices));
 		IndexBuffer.insert(std::pair<long, LPWORD>(GetCurrentTextureUnknownValue(), bufferedIndices));
 	}
 	WORD currentOffset = Offset[GetCurrentTextureUnknownValue()];
-	memcpy(VertexBuffer[GetCurrentTextureUnknownValue()] + currentOffset * 4, vertices, 4 * sizeof(D3DVERTEX));
+	memcpy(VertexBuffer[GetCurrentTextureUnknownValue()] + currentOffset * GetVertexCountPerCall(), vertices, GetVertexCountPerCall() * sizeof(D3DVERTEX));
 	LPWORD copiedIndices = IndexBuffer[GetCurrentTextureUnknownValue()];
-	memcpy(copiedIndices + currentOffset * 6, indices, 6 * sizeof(WORD));
-	for (int i = currentOffset * 6; i < (currentOffset + 1) * 6; i++)
+	memcpy(copiedIndices + currentOffset * GetIndexCountPerCall(), indices, GetIndexCountPerCall() * sizeof(WORD));
+	for (int i = currentOffset * GetIndexCountPerCall(); i < (currentOffset + 1) * GetIndexCountPerCall(); i++)
 	{
-		copiedIndices[i] += currentOffset * 4;
+		copiedIndices[i] += currentOffset * GetVertexCountPerCall();
 	}
 	currentOffset++;
 	Offset[GetCurrentTextureUnknownValue()] = currentOffset;
@@ -93,6 +93,14 @@ void RenderCallGroup::AddSquare(D3DVERTEX* vertices, LPWORD indices)
 		RenderPart(currentOffset, GetCurrentTextureNum(), GetCurrentTextureUnknownValue());
 		Offset[GetCurrentTextureUnknownValue()] = 0;
 	}
+}
+DWORD RenderCallGroup::GetVertexCountPerCall()
+{
+	return 4;
+}
+DWORD RenderCallGroup::GetIndexCountPerCall()
+{
+	return 6;
 }
 void RenderCallGroup::Render(DWORD textureNum)
 {

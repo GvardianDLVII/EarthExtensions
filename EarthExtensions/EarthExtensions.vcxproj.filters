@@ -46,6 +46,17 @@
     <ClCompile Include="ShadowRenderProxyInjector.cpp">
       <Filter>ShadowRendering</Filter>
     </ClCompile>
+    <ClCompile Include="WaterRenderCallGroup.cpp">
+      <Filter>WaterRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterRenderProxy.cpp">
+      <Filter>WaterRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterRenderProxyInjector.cpp">
+      <Filter>WaterRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="OriginalMethods.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -81,6 +92,17 @@
     <ClInclude Include="ShadowRenderProxyInjector.h">
       <Filter>ShadowRendering</Filter>
     </ClInclude>
+    <ClInclude Include="WaterRenderProxy.h">
+      <Filter>WaterRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterRenderCallGroup.h">
+      <Filter>WaterRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterRenderProxyInjector.h">
+      <Filter>WaterRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="OriginalMethods.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TerrainRendering">
@@ -94,6 +116,9 @@
     </Filter>
     <Filter Include="ShadowRendering">
       <UniqueIdentifier>{83a72f0f-4f72-400c-92cf-a22ccfd75938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WaterRendering">
+      <UniqueIdentifier>{a70e2b31-eaf8-4c1b-b8a0-ee1817290244}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

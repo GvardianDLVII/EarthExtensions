@@ -16,6 +16,9 @@ protected:
 	virtual DWORD GetCurrentTextureNum() = 0;
 	virtual DWORD GetCurrentTextureUnknownValue() = 0;
 
+	virtual DWORD GetVertexCountPerCall();
+	virtual DWORD GetIndexCountPerCall();
+
 	IDirect3DDevice3* GetD3DDevice();
 
 	void CallOriginalSetTexture(DWORD texturePartNum, DWORD textureUnknownValue);
