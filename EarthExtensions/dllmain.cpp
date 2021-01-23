@@ -6,7 +6,6 @@
 #include "RenderManager.h"
 
 static TerrainRenderProxyInjector* TerrainInjector;
-static ShadowRenderProxyInjector* ShadowInjector;
 static RenderManager* renderManager;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -18,14 +17,11 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
         TerrainInjector = new TerrainRenderProxyInjector();
         TerrainInjector->Inject();
-        ShadowInjector = new ShadowRenderProxyInjector();
-        ShadowInjector->Inject();
         renderManager = new RenderManager();
     }
     else if (ul_reason_for_call == DLL_PROCESS_DETACH)
     {
         delete TerrainInjector;
-        delete ShadowInjector;
         delete renderManager;
     }
 

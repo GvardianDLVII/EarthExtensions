@@ -6,7 +6,7 @@ WaterRenderCallGroup::WaterRenderCallGroup(bool translucent) : RenderCallGroup2(
 }
 int WaterRenderCallGroup::GetMaxOffset()
 {
-	return 100;
+	return 1000;
 }
 void WaterRenderCallGroup::AddSquare(D3DVERTEX* vertices)
 {

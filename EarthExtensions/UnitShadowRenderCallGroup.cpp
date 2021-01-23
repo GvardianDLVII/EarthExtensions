@@ -1,25 +1,10 @@
 #include "pch.h"
 #include "UnitShadowRenderCallGroup.h"
 
-LPVOID UnitShadowRenderCallGroup::GetTextureAddress()
-{
-	return &TextureAddress;
-}
-void UnitShadowRenderCallGroup::SetTextureAddress(LPVOID textureAddress)
-{
-	TextureAddress = textureAddress;
-}
 int UnitShadowRenderCallGroup::GetMaxOffset()
 {
-	return 35;
+	return 100;
 }
-DWORD UnitShadowRenderCallGroup::GetCurrentTextureNum()
+UnitShadowRenderCallGroup::UnitShadowRenderCallGroup(bool translucent) : RenderCallGroup2(translucent)
 {
-	return CurrentUnitShadowTextureNum;
 }
-DWORD UnitShadowRenderCallGroup::GetCurrentTextureUnknownValue()
-{
-	return 4096;
-}
-LPVOID UnitShadowRenderCallGroup::CurrentUnitShadowTextureAddress;
-DWORD UnitShadowRenderCallGroup::CurrentUnitShadowTextureNum;

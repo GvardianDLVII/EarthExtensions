@@ -3,13 +3,13 @@
 #include "OriginalMethods.h"
 #include "RenderManager.h"
 
-WaterRenderProxy* WaterRenderProxyInjector::WaterRenderer = 0;
+WaterRenderProxy* WaterRenderProxyInjector::waterRenderer = 0;
 
 HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterSquareRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags)
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
-		return WaterRenderer->RegisterWaterSquareRendering(lpvVertices);
+		return waterRenderer->RegisterWaterSquareRendering(lpvVertices);
 	}
 	else //default render action
 	{
@@ -19,7 +19,7 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterSquareRenderingWrapper(
 
 WaterRenderProxyInjector::WaterRenderProxyInjector(WaterRenderProxy* waterRenderer)
 {
-	WaterRenderer = waterRenderer;
+	waterRenderer = waterRenderer;
 	RegisterWaterSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterWaterSquareRenderingWrapper);
 }
 

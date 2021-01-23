@@ -2,6 +2,8 @@
 #include "pch.h"
 #include "WaterRenderProxy.h"
 #include "WaterRenderProxyInjector.h"
+#include "UnitShadowRenderProxy.h"
+#include "ShadowRenderProxyInjector.h"
 
 enum class RenderingContextType { Other = 0, Water = 1, UnitShadows = 2 };
 
@@ -17,10 +19,14 @@ private:
 
 	static WaterRenderProxy* waterRenderer;
 	static WaterRenderProxyInjector* waterRendererInjector;
+	static UnitShadowRenderProxy* unitShadowRenderer;
+	static ShadowRenderProxyInjector* unitShadowRendererInjector;
+
 	void* RenderWaterAndUnitShadowsAddress;
+	void HookRenderWaterAndUnitShadowsCall();
+
 	static void CallRenderWater();
 	static void CallRenderUnitShadows();
-	void HookRenderWaterAndUnitShadowsCall();
 public:
 	static LPDIRECT3DTEXTURE2 GetCurrentTextureContext();
 	static bool GetTranslucentContext();

@@ -72,3 +72,16 @@ void RevEng5C34F0(long arg1, LPDIRECT3DTEXTURE2 texture)
 	GetD3DDevice()->SetRenderState(D3DRENDERSTATE_SRCBLEND, 5);
 	GetD3DDevice()->SetRenderState(D3DRENDERSTATE_DESTBLEND, 6);
 }
+
+float GetCameraActorPosX()
+{
+	return *((float*)0x009FDA34);
+}
+float GetCameraActorPosY()
+{
+	return *((float*)0x009FDA38);
+}
+float GetCameraHeight()
+{
+	return *((float*)0x009FDA3C);
+}

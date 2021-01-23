@@ -3,17 +3,11 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class UnitShadowRenderCallGroup : public RenderCallGroup
+class UnitShadowRenderCallGroup : public RenderCallGroup2
 {
 private:
-	LPVOID TextureAddress;
 protected:
-	virtual LPVOID GetTextureAddress();
 	virtual int GetMaxOffset();
-	virtual DWORD GetCurrentTextureNum();
-	virtual DWORD GetCurrentTextureUnknownValue();
 public:
-	void SetTextureAddress(LPVOID textureAddress);
-	static LPVOID CurrentUnitShadowTextureAddress;
-	static DWORD CurrentUnitShadowTextureNum;
+	UnitShadowRenderCallGroup(bool translucent);
 };
