@@ -51,3 +51,17 @@ void TmpSetTextureCall(LPVOID textureAddress, DWORD texturePartNum, DWORD textur
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call();
 }
+
+
+float GetCameraActorPosX()
+{
+	return *((float*)0x009FDA34);
+}
+float GetCameraActorPosY()
+{
+	return *((float*)0x009FDA38);
+}
+float GetCameraHeight()
+{
+	return *((float*)0x009FDA3C);
+}

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "RenderManager.h"
+#include "OriginalMethods.h"
 
 WaterRenderProxy* RenderManager::waterRenderer = 0;
 WaterRenderProxyInjector* RenderManager::waterRendererInjector = 0;
@@ -63,5 +64,6 @@ void __stdcall RenderManager::RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2)
 {
 	if (arg1 == arg2)
 		CallRenderWater();
-	CallRenderUnitShadows();
+	if(GetCameraHeight() < 50.0f)
+		CallRenderUnitShadows();
 }
