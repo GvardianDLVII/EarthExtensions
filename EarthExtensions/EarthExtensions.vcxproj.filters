@@ -57,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="OriginalMethods.cpp" />
+    <ClCompile Include="RenderCallGroup2.cpp">
+      <Filter>TerrainRendering\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />

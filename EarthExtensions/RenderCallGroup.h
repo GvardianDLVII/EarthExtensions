@@ -29,3 +29,23 @@ public:
 	void Render(DWORD textureNum);
 	void Clear();
 };
+
+class RenderCallGroup2
+{
+protected:
+	bool translucent;
+	std::map<LPDIRECT3DTEXTURE2, D3DVERTEX*> VertexBuffer;
+	std::map<LPDIRECT3DTEXTURE2, LPWORD> IndexBuffer;
+	std::map<LPDIRECT3DTEXTURE2, WORD> Offset;
+
+	virtual int GetMaxOffset() = 0;
+
+	virtual DWORD GetVertexCountPerCall();
+	virtual DWORD GetIndexCountPerCall();
+
+	virtual void RenderPart(long offset, LPDIRECT3DTEXTURE2 texture);
+public:
+	RenderCallGroup2(bool translucent);
+	virtual void AddSquare(D3DVERTEX* vertices, LPWORD indices);
+	virtual void Render();
+};

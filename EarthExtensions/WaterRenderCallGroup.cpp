@@ -1,29 +1,17 @@
 #include "pch.h"
 #include "WaterRenderCallGroup.h"
 
-LPVOID WaterRenderCallGroup::GetTextureAddress()
+WaterRenderCallGroup::WaterRenderCallGroup(bool translucent) : RenderCallGroup2(translucent)
 {
-	return (LPVOID)0x00A4154C;
 }
 int WaterRenderCallGroup::GetMaxOffset()
 {
 	return 100;
 }
-DWORD WaterRenderCallGroup::GetCurrentTextureNum()
-{
-	return CurrentWaterTextureNum;
-}
-DWORD WaterRenderCallGroup::GetCurrentTextureUnknownValue()
-{
-	return CurrentWaterTextureUnknownValue;
-}
-DWORD WaterRenderCallGroup::CurrentWaterTextureUnknownValue;
-DWORD WaterRenderCallGroup::CurrentWaterTextureNum;
-
 void WaterRenderCallGroup::AddSquare(D3DVERTEX* vertices)
 {
 	static WORD indices[] = { 0, 1, 2 };
-	RenderCallGroup::AddSquare(vertices, indices);
+	RenderCallGroup2::AddSquare(vertices, indices);
 }
 
 DWORD WaterRenderCallGroup::GetVertexCountPerCall()

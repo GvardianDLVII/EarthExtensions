@@ -51,3 +51,24 @@ void TmpSetTextureCall(LPVOID textureAddress, DWORD texturePartNum, DWORD textur
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call();
 }
+
+IDirect3DDevice3* GetD3DDevice()
+{
+	return *((IDirect3DDevice3**)0x009FBC24);
+}
+
+void RevEng5C34F0(long arg1, LPDIRECT3DTEXTURE2 texture)
+{
+	GetD3DDevice()->SetTexture(0, texture);
+	if (arg1 == 0x70)
+	{
+		GetD3DDevice()->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, 0);
+		return;
+	}
+	GetD3DDevice()->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, 1);
+	GetD3DDevice()->SetTextureStageState(0, D3DTSS_ALPHAOP, 4);
+	GetD3DDevice()->SetTextureStageState(0, D3DTSS_ALPHAARG1, 2);
+	GetD3DDevice()->SetTextureStageState(0, D3DTSS_ALPHAARG2, 0);
+	GetD3DDevice()->SetRenderState(D3DRENDERSTATE_SRCBLEND, 5);
+	GetD3DDevice()->SetRenderState(D3DRENDERSTATE_DESTBLEND, 6);
+}
