@@ -7,9 +7,9 @@ class WaterRenderProxyInjector
 {
 private:
 	static WaterRenderProxy* waterRenderer;
-	LPVOID RegisterWaterSquareRenderingAddress;
-	static HRESULT __stdcall RegisterWaterSquareRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags);
-	void HookRegisterWaterSquareRenderCall();
+	LPVOID RegisterWaterTriangleRenderingAddress;
+	static HRESULT __stdcall RegisterWaterTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags);
+	void HookRegisterWaterTriangleRenderCall();
 public:
 	WaterRenderProxyInjector(WaterRenderProxy* waterRenderer);
 	void Inject();

@@ -7,9 +7,13 @@ WaterRenderProxy* RenderManager::waterRenderer = 0;
 WaterRenderProxyInjector* RenderManager::waterRendererInjector = 0;
 UnitShadowRenderProxy* RenderManager::unitShadowRenderer = 0;
 ShadowRenderProxyInjector* RenderManager::unitShadowRendererInjector = 0;
+MeshRenderProxy* RenderManager::meshRenderer = 0;
+MeshRenderProxyInjector* RenderManager::meshRendererInjector = 0;
 RenderingContextType RenderManager::renderingContext = RenderingContextType::Other;
 LPDIRECT3DTEXTURE2 RenderManager::currentTextureContext = 0;
 bool RenderManager::translucentContext = false;
+long long interceptedCalls = 0;
+long long otherCalls = 0;
 
 RenderManager::RenderManager()
 {
@@ -21,8 +25,14 @@ RenderManager::RenderManager()
 	unitShadowRendererInjector = new ShadowRenderProxyInjector(unitShadowRenderer);
 	unitShadowRendererInjector->Inject();
 
+	meshRenderer = new MeshRenderProxy();
+	meshRendererInjector = new MeshRenderProxyInjector(meshRenderer);
+	meshRendererInjector->Inject();
+
 	RenderWaterAndUnitShadowsAddress = (void*)RenderWaterAndUnitShadows;
 	HookRenderWaterAndUnitShadowsCall();
+	RenderMeshesAddress = (void*)RenderMeshes;
+	HookRenderMeshesCall();
 
 	SetTextureCallAddress = (void*)SetTextureCall;
 	HookSetTextureCall();
@@ -31,6 +41,10 @@ RenderManager::~RenderManager()
 {
 	delete waterRendererInjector;
 	delete waterRenderer;
+	delete unitShadowRendererInjector;
+	delete unitShadowRenderer;
+	delete meshRendererInjector;
+	delete meshRenderer;
 }
 
 void RenderManager::SetTextureCall(long arg1, LPDIRECT3DTEXTURE2 texture)
@@ -107,6 +121,19 @@ void RenderManager::HookRenderWaterAndUnitShadowsCall()
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
 }
 
+void RenderManager::HookRenderMeshesCall()
+{
+	const ULONG_PTR injectAddress = 0x005E2E32;
+	ULONG relativeAddress = (ULONG)RenderMeshesAddress - (ULONG)0x005E2E37;
+	byte bytes[4];
+	ToByteArray(relativeAddress, bytes);
+	byte proxyCall[] = {
+		0xE8, bytes[3], bytes[2], bytes[1], bytes[0]     //call ${relativeAddress}
+	};
+
+	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
+}
+
 void RenderManager::CallRenderWater()
 {
 	renderingContext = RenderingContextType::Water;
@@ -131,10 +158,26 @@ void RenderManager::CallRenderUnitShadows()
 	renderingContext = RenderingContextType::Other;
 	unitShadowRenderer->CommitUnitShadow();
 }
+void RenderManager::CallRenderMeshes(DWORD arg1)
+{
+	renderingContext = RenderingContextType::Mesh;
+	//005E2E32       E8 E9C5FFFF       call 005DF420
+	typedef void(__stdcall* originalCall)(DWORD);
+
+	void* originalFunctionPointer = (void*)0x005DF420;
+	originalCall call = (originalCall)(originalFunctionPointer);
+	call(arg1);
+	renderingContext = RenderingContextType::Other;
+	meshRenderer->CommitMesh();
+}
 void __stdcall RenderManager::RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2)
 {
 	if (arg1 == arg2)
 		CallRenderWater();
 	if(GetCameraHeight()<50.0f)
 		CallRenderUnitShadows();
+}
+void __stdcall RenderManager::RenderMeshes(DWORD arg1)
+{
+	CallRenderMeshes(arg1);
 }

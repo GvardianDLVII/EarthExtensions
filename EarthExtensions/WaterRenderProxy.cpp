@@ -6,15 +6,15 @@
 WaterRenderCallGroup* translucentWaterCallGroup = new WaterRenderCallGroup(true);
 WaterRenderCallGroup* standardWaterCallGroup = new WaterRenderCallGroup(false);
 
-HRESULT WaterRenderProxy::RegisterWaterSquareRendering(D3DVERTEX* lpvVertices)
+HRESULT WaterRenderProxy::RegisterWaterTriangleRendering(D3DVERTEX* lpvVertices)
 {
 	if (RenderManager::GetTranslucentContext())
 	{
-		translucentWaterCallGroup->AddSquare(lpvVertices);
+		translucentWaterCallGroup->AddTriangle(lpvVertices);
 	}
 	else
 	{
-		standardWaterCallGroup->AddSquare(lpvVertices);
+		standardWaterCallGroup->AddTriangle(lpvVertices);
 	}
 	
 	return 0;

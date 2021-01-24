@@ -13,7 +13,7 @@ HRESULT __stdcall ShadowRenderProxyInjector::RegisterUnitShadowSquareRenderingWr
 	}
 	else //default render action
 	{
-		GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 4, lpwIndices, 6, 0);
+		return GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 4, lpwIndices, 6, 0);
 	}
 }
 void ShadowRenderProxyInjector::HookRegisterBuildingShadowSquareRenderCall()

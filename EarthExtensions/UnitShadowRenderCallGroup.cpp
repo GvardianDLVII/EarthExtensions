@@ -5,6 +5,6 @@ int UnitShadowRenderCallGroup::GetMaxOffset()
 {
 	return 100;
 }
-UnitShadowRenderCallGroup::UnitShadowRenderCallGroup(bool translucent) : RenderCallGroup2(translucent)
+UnitShadowRenderCallGroup::UnitShadowRenderCallGroup(bool translucent) : SquareRenderCallGroup(translucent)
 {
 }

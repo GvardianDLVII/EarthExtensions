@@ -4,8 +4,10 @@
 #include "WaterRenderProxyInjector.h"
 #include "UnitShadowRenderProxy.h"
 #include "ShadowRenderProxyInjector.h"
+#include "MeshRenderProxy.h"
+#include "MeshRenderProxyInjector.h"
 
-enum class RenderingContextType { Other = 0, Water = 1, UnitShadows = 2 };
+enum class RenderingContextType { Other = 0, Water = 1, UnitShadows = 2, Mesh = 3 };
 
 class RenderManager
 {
@@ -21,17 +23,24 @@ private:
 	static WaterRenderProxyInjector* waterRendererInjector;
 	static UnitShadowRenderProxy* unitShadowRenderer;
 	static ShadowRenderProxyInjector* unitShadowRendererInjector;
+	static MeshRenderProxy* meshRenderer;
+	static MeshRenderProxyInjector* meshRendererInjector;
 
 	void* RenderWaterAndUnitShadowsAddress;
 	void HookRenderWaterAndUnitShadowsCall();
+	void* RenderMeshesAddress;
+	void HookRenderMeshesCall();
 
+	static void CallRenderMeshes(DWORD arg1);
 	static void CallRenderWater();
 	static void CallRenderUnitShadows();
 public:
+	RenderManager();
+	~RenderManager();
 	static LPDIRECT3DTEXTURE2 GetCurrentTextureContext();
 	static bool GetTranslucentContext();
 	static RenderingContextType GetRenderingContext();
-	RenderManager();
+
 	static void __stdcall RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2);
-	~RenderManager();
+	static void __stdcall RenderMeshes(DWORD arg1);
 };

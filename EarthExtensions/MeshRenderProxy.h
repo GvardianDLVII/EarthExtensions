@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-class UnitShadowRenderProxy
+class MeshRenderProxy
 {
 public:
 	/// <summary>
@@ -11,12 +11,12 @@ public:
 	/// <param name="lpvVertices"></param>
 	/// <param name="lpwIndices"></param>
 	/// <returns></returns>
-	HRESULT RegisterUnitShadowSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices);
+	HRESULT RegisterMeshTriangleRendering(D3DVERTEX* lpvVertices);
 
 	/// <summary>
 	/// Pushes to renderer all changes registered in current frame
 	/// </summary>
 	/// <param name="d3dDevice3"></param>
 	/// <returns></returns>
-	HRESULT CommitUnitShadow();
+	HRESULT CommitMesh();
 };

@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class UnitShadowRenderCallGroup : public RenderCallGroup2
+class UnitShadowRenderCallGroup : public SquareRenderCallGroup
 {
 private:
 protected:

@@ -5,33 +5,33 @@
 
 WaterRenderProxy* WaterRenderProxyInjector::waterRenderer = 0;
 
-HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterSquareRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags)
+HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags)
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
-		return waterRenderer->RegisterWaterSquareRendering(lpvVertices);
+		return waterRenderer->RegisterWaterTriangleRendering(lpvVertices);
 	}
 	else //default render action
 	{
-		GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 3, 0);
+		return GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 3, 0);
 	}
 }
 
 WaterRenderProxyInjector::WaterRenderProxyInjector(WaterRenderProxy* waterRenderer)
 {
-	waterRenderer = waterRenderer;
-	RegisterWaterSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterWaterSquareRenderingWrapper);
+	this->waterRenderer = waterRenderer;
+	RegisterWaterTriangleRenderingAddress = (LPVOID)((ULONG_PTR)RegisterWaterTriangleRenderingWrapper);
 }
 
 void WaterRenderProxyInjector::Inject()
 {
-	HookRegisterWaterSquareRenderCall();
+	HookRegisterWaterTriangleRenderCall();
 }
 
-void WaterRenderProxyInjector::HookRegisterWaterSquareRenderCall()
+void WaterRenderProxyInjector::HookRegisterWaterTriangleRenderCall()
 {
 	const ULONG_PTR injectAddress = 0x005C5299;
-	void** proxyFunctionAddress = &RegisterWaterSquareRenderingAddress;
+	void** proxyFunctionAddress = &RegisterWaterTriangleRenderingAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {
@@ -56,11 +56,3 @@ void WaterRenderProxyInjector::HookRegisterWaterSquareRenderCall()
 
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
 }
-
-
-
-
-
-
-
-

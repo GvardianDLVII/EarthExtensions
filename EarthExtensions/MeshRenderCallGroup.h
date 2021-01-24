@@ -3,10 +3,10 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class WaterRenderCallGroup : public TriangleRenderCallGroup
+class MeshRenderCallGroup : public TriangleRenderCallGroup
 {
 protected:
 	virtual int GetMaxOffset();
 public:
-	WaterRenderCallGroup(bool translucent);
+	MeshRenderCallGroup(bool translucent);
 };

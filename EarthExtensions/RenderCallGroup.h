@@ -35,17 +35,36 @@ class RenderCallGroup2
 protected:
 	bool translucent;
 	std::map<LPDIRECT3DTEXTURE2, D3DVERTEX*> VertexBuffer;
-	std::map<LPDIRECT3DTEXTURE2, LPWORD> IndexBuffer;
 	std::map<LPDIRECT3DTEXTURE2, WORD> Offset;
 
 	virtual int GetMaxOffset() = 0;
 
-	virtual DWORD GetVertexCountPerCall();
-	virtual DWORD GetIndexCountPerCall();
+	virtual DWORD GetVertexCountPerCall() = 0;
 
-	virtual void RenderPart(long offset, LPDIRECT3DTEXTURE2 texture);
+	virtual void RenderPart(long offset, LPDIRECT3DTEXTURE2 texture) = 0;
 public:
 	RenderCallGroup2(bool translucent);
-	virtual void AddSquare(D3DVERTEX* vertices, LPWORD indices);
 	virtual void Render();
+};
+
+class SquareRenderCallGroup : public RenderCallGroup2
+{
+protected:
+	std::map<LPDIRECT3DTEXTURE2, LPWORD> IndexBuffer;
+	virtual DWORD GetIndexCountPerCall();
+	virtual DWORD GetVertexCountPerCall();
+	virtual void RenderPart(long offset, LPDIRECT3DTEXTURE2 texture);
+public:
+	SquareRenderCallGroup(bool translucent);
+	virtual void AddSquare(D3DVERTEX* vertices, LPWORD indices);
+};
+
+class TriangleRenderCallGroup : public RenderCallGroup2
+{
+protected:
+	virtual DWORD GetVertexCountPerCall();
+	virtual void RenderPart(long offset, LPDIRECT3DTEXTURE2 texture);
+public:
+	TriangleRenderCallGroup(bool translucent);
+	virtual void AddTriangle(D3DVERTEX* vertices);
 };
