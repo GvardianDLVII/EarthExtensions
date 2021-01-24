@@ -9,9 +9,9 @@ RenderCallGroup2::RenderCallGroup2(bool translucent)
 }
 void RenderCallGroup2::Render()
 {
-	for (auto it = Offset.begin(); it != Offset.end(); ++it)
+	for (auto it = ArrayIndices.begin(); it != ArrayIndices.end(); ++it)
 	{
-		RenderPart(it->second, it->first);
-		it->second = 0;
+		RenderPart(it->second, (LPDIRECT3DTEXTURE2)(it->first));
+		Offset[it->second] = 0;
 	}
 }

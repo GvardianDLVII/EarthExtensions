@@ -82,7 +82,7 @@ void RenderCallGroup::AddSquare(D3DVERTEX* vertices, LPWORD indices)
 	memcpy(VertexBuffer[GetCurrentTextureUnknownValue()] + currentOffset * GetVertexCountPerCall(), vertices, GetVertexCountPerCall() * sizeof(D3DVERTEX));
 	LPWORD copiedIndices = IndexBuffer[GetCurrentTextureUnknownValue()];
 	memcpy(copiedIndices + currentOffset * GetIndexCountPerCall(), indices, GetIndexCountPerCall() * sizeof(WORD));
-	for (int i = currentOffset * GetIndexCountPerCall(); i < (currentOffset + 1) * GetIndexCountPerCall(); i++)
+	for (unsigned int i = currentOffset * GetIndexCountPerCall(); i < (currentOffset + 1) * GetIndexCountPerCall(); i++)
 	{
 		copiedIndices[i] += currentOffset * GetVertexCountPerCall();
 	}
