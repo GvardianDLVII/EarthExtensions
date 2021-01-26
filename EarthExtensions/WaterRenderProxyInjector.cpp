@@ -85,11 +85,3 @@ void WaterRenderProxyInjector::Inject()
 	HookSetWaterSquareTextureCall();
 	HookRegisterWaterSquareRenderCall();
 }
-
-
-
-
-
-
-
-

@@ -171,6 +171,9 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClInclude Include="framework.h" />
     <ClInclude Include="GreenOverlayRenderCallGroup.h" />
     <ClInclude Include="GroundRenderCallGroup.h" />
+    <ClInclude Include="MeshRenderCallGroup.h" />
+    <ClInclude Include="MeshRenderProxy.h" />
+    <ClInclude Include="MeshRenderProxyInjector.h" />
     <ClInclude Include="NavMeshRenderCallGroup.h" />
     <ClInclude Include="OriginalMethods.h" />
     <ClInclude Include="pch.h" />
@@ -193,6 +196,9 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClCompile Include="GreenOverlayRenderProxyInjector.cpp" />
     <ClCompile Include="GroundRenderCallGroup.cpp" />
     <ClCompile Include="GroundRenderProxyInjector.cpp" />
+    <ClCompile Include="MeshRenderCallGroup.cpp" />
+    <ClCompile Include="MeshRenderProxy.cpp" />
+    <ClCompile Include="MeshRenderProxyInjector.cpp" />
     <ClCompile Include="NavMeshRenderCallGroup.cpp" />
     <ClCompile Include="NavMeshRenderProxyInjector.cpp" />
     <ClCompile Include="OriginalMethods.cpp" />

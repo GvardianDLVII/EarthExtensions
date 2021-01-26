@@ -11,7 +11,7 @@ void UnitShadowRenderCallGroup::SetTextureAddress(LPVOID textureAddress)
 }
 int UnitShadowRenderCallGroup::GetMaxOffset()
 {
-	return 35;
+	return 100;
 }
 DWORD UnitShadowRenderCallGroup::GetCurrentTextureNum()
 {

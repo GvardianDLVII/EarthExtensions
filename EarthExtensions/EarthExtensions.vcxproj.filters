@@ -57,6 +57,15 @@
     </ClCompile>
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="OriginalMethods.cpp" />
+    <ClCompile Include="MeshRenderCallGroup.cpp">
+      <Filter>MeshRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderProxy.cpp">
+      <Filter>MeshRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderProxyInjector.cpp">
+      <Filter>MeshRendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -103,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="OriginalMethods.h" />
+    <ClInclude Include="MeshRenderCallGroup.h">
+      <Filter>MeshRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderProxy.h">
+      <Filter>MeshRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderProxyInjector.h">
+      <Filter>MeshRendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TerrainRendering">
@@ -119,6 +137,9 @@
     </Filter>
     <Filter Include="WaterRendering">
       <UniqueIdentifier>{a70e2b31-eaf8-4c1b-b8a0-ee1817290244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MeshRendering">
+      <UniqueIdentifier>{57e8752b-ffa1-4aa1-8489-2420d2f379c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

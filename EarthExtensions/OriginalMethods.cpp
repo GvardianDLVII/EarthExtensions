@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OriginalMethods.h"
 
-byte TmpSetTextureCallBytes[] =
+static byte TmpSetTextureCallBytes[] =
 {
 	0x55,									//push	ebp
 	0x89, 0xE5,								//mov	ebp, esp
@@ -30,22 +30,22 @@ void TmpSetTextureCall(LPVOID textureAddress, DWORD texturePartNum, DWORD textur
 	unsigned long originalCallPointer = 0x005F8430;
 	byte ocpBytes[4];
 	ToByteArray((ULONG)&originalCallPointer, ocpBytes);
-	TmpSetTextureCallBytes[4] = tnBytes[3];
-	TmpSetTextureCallBytes[5] = tnBytes[2];
-	TmpSetTextureCallBytes[6] = tnBytes[1];
-	TmpSetTextureCallBytes[7] = tnBytes[0];
-	TmpSetTextureCallBytes[9] = tuvBytes[3];
-	TmpSetTextureCallBytes[10] = tuvBytes[2];
-	TmpSetTextureCallBytes[11] = tuvBytes[1];
-	TmpSetTextureCallBytes[12] = tuvBytes[0];
-	TmpSetTextureCallBytes[16] = thBytes[3];
-	TmpSetTextureCallBytes[17] = thBytes[2];
-	TmpSetTextureCallBytes[18] = thBytes[1];
-	TmpSetTextureCallBytes[19] = thBytes[0];
-	TmpSetTextureCallBytes[23] = ocpBytes[3];
-	TmpSetTextureCallBytes[24] = ocpBytes[2];
-	TmpSetTextureCallBytes[25] = ocpBytes[1];
-	TmpSetTextureCallBytes[26] = ocpBytes[0];
+	TmpSetTextureCallBytes[6] = tnBytes[3];
+	TmpSetTextureCallBytes[7] = tnBytes[2];
+	TmpSetTextureCallBytes[8] = tnBytes[1];
+	TmpSetTextureCallBytes[9] = tnBytes[0];
+	TmpSetTextureCallBytes[11] = tuvBytes[3];
+	TmpSetTextureCallBytes[12] = tuvBytes[2];
+	TmpSetTextureCallBytes[13] = tuvBytes[1];
+	TmpSetTextureCallBytes[14] = tuvBytes[0];
+	TmpSetTextureCallBytes[18] = thBytes[3];
+	TmpSetTextureCallBytes[19] = thBytes[2];
+	TmpSetTextureCallBytes[20] = thBytes[1];
+	TmpSetTextureCallBytes[21] = thBytes[0];
+	TmpSetTextureCallBytes[25] = ocpBytes[3];
+	TmpSetTextureCallBytes[26] = ocpBytes[2];
+	TmpSetTextureCallBytes[27] = ocpBytes[1];
+	TmpSetTextureCallBytes[28] = ocpBytes[0];
 	typedef void(_stdcall* originalCall)(void);
 	void* originalFunctionPointer = (void*)TmpSetTextureCallBytes;
 	originalCall call = (originalCall)(originalFunctionPointer);

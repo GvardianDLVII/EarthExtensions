@@ -106,6 +106,8 @@ void RenderCallGroup::Render(DWORD textureNum)
 {
 	for (auto it = Offset.begin(); it != Offset.end(); ++it)
 	{
+		if (it->second == 0)
+			continue;
 		RenderPart(it->second, textureNum, it->first);
 	}
 }
