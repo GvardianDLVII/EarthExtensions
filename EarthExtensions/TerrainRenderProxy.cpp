@@ -1,13 +1,28 @@
 #include "pch.h"
 #include "TerrainRenderProxy.h"
-#include "GroundRenderCallGroup.h"
-#include "NavMeshRenderCallGroup.h"
-#include "GreenOverlayRenderCallGroup.h"
-#include "ResourceRenderCallGroup.h"
 
-GroundRenderCallGroup textureCalls[1024];
+TerrainRenderProxy::TerrainRenderProxy()
+{
+	for (int i = 0; i < 1024; i++)
+	{
+		groundCalls[i] = new GroundRenderCallGroup(i);
+		navMeshCalls[i] = new NavMeshRenderCallGroup(i);
+		greenCalls[i] = new GreenOverlayRenderCallGroup(i);
+	}
+	resourceRenderCall = new ResourceRenderCallGroup();
+}
+TerrainRenderProxy::~TerrainRenderProxy()
+{
+	for (int i = 0; i < 1024; i++)
+	{
+		delete groundCalls[i];
+		delete navMeshCalls[i];
+		delete greenCalls[i];
+	}
+	delete resourceRenderCall;
+}
 
-HRESULT TerrainRenderProxy::SetGroundSquareTexture(DWORD textureNum, DWORD textureSize)
+HRESULT TerrainRenderProxy::SetGroundTexture(DWORD textureNum, DWORD textureSize)
 {
 	GroundRenderCallGroup::CurrentGroundTextureNum = textureNum;
 	GroundRenderCallGroup::CurrentGroundTextureUnknownValue = textureSize;
@@ -16,13 +31,11 @@ HRESULT TerrainRenderProxy::SetGroundSquareTexture(DWORD textureNum, DWORD textu
 
 HRESULT TerrainRenderProxy::RegisterGroundSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	textureCalls[GroundRenderCallGroup::CurrentGroundTextureNum].AddSquare(lpvVertices, lpwIndices);
+	groundCalls[GroundRenderCallGroup::CurrentGroundTextureNum]->AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
-NavMeshRenderCallGroup navMeshCalls[1024];
-
-HRESULT TerrainRenderProxy::SetNavMeshSquareTexture(DWORD textureNum)
+HRESULT TerrainRenderProxy::SetNavMeshTexture(DWORD textureNum)
 {
 	NavMeshRenderCallGroup::CurrentNavMeshTextureNum = textureNum;
 	return 0;
@@ -30,13 +43,11 @@ HRESULT TerrainRenderProxy::SetNavMeshSquareTexture(DWORD textureNum)
 
 HRESULT TerrainRenderProxy::RegisterNavMeshSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	navMeshCalls[NavMeshRenderCallGroup::CurrentNavMeshTextureNum].AddSquare(lpvVertices, lpwIndices);
+	navMeshCalls[NavMeshRenderCallGroup::CurrentNavMeshTextureNum]->AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
-GreenOverlayRenderCallGroup greenCalls[1024];
-
-HRESULT TerrainRenderProxy::SetGreenSquareTexture(DWORD textureNum, DWORD textureSize)
+HRESULT TerrainRenderProxy::SetGreenTexture(DWORD textureNum, DWORD textureSize)
 {
 	GreenOverlayRenderCallGroup::CurrentGreenTextureNum = textureNum;
 	GreenOverlayRenderCallGroup::CurrentGreenTextureUnknownValue = textureSize;
@@ -45,15 +56,13 @@ HRESULT TerrainRenderProxy::SetGreenSquareTexture(DWORD textureNum, DWORD textur
 
 HRESULT TerrainRenderProxy::RegisterGreenSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	greenCalls[GreenOverlayRenderCallGroup::CurrentGreenTextureNum].AddSquare(lpvVertices, lpwIndices);
+	greenCalls[GreenOverlayRenderCallGroup::CurrentGreenTextureNum]->AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
-ResourceRenderCallGroup resourceRenderCall;
-
 HRESULT TerrainRenderProxy::RegisterResourceSquareRendering(D3DVERTEX* lpvVertices, LPWORD lpwIndices)
 {
-	resourceRenderCall.AddSquare(lpvVertices, lpwIndices);
+	resourceRenderCall->AddSquare(lpvVertices, lpwIndices);
 	return 0;
 }
 
@@ -61,22 +70,18 @@ HRESULT TerrainRenderProxy::Commit()
 {
 	for (int i = 0; i < 1024; i++)
 	{
-		textureCalls[i].Render(i);
-		textureCalls[i].Clear();
+		groundCalls[i]->Render();
 	}
 	for (int i = 0; i < 1024; i++)
 	{
-		navMeshCalls[i].Render(i);
-		navMeshCalls[i].Clear();
+		navMeshCalls[i]->Render();
 	}
 	for (int i = 0; i < 1024; i++)
 	{
-		greenCalls[i].Render(i);
-		greenCalls[i].Clear();
+		greenCalls[i]->Render();
 	}
 
-	resourceRenderCall.Render(0);
-	resourceRenderCall.Clear();
+	resourceRenderCall->Render();
 
 	//call replaced asm code
 	//005C9BCB 6A 01                push        1  

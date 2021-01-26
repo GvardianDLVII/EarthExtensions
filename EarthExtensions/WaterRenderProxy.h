@@ -3,8 +3,6 @@
 
 class WaterRenderProxy
 {
-private:
-	IDirect3DDevice3* d3dDevice;
 public:
 	/// <summary>
 	/// It is a replacement to a call to 0x005F8430 in TheMoonroject.exe. I'm not exactly sure what 0x005F8430 does.
@@ -14,7 +12,7 @@ public:
 	/// </summary>
 	/// <param name="textureNum"></param>
 	/// <returns></returns>
-	HRESULT SetWaterSquareTexture(DWORD textureNum, DWORD textureUnknownValue);
+	HRESULT SetWaterTexture(DWORD textureNum, DWORD textureUnknownValue);
 
 	/// <summary>
 	/// It replaces a single call to IDirect3DDevice::DrawIndexedPrimitive. The difference is, that it stacks the draw call in memory instead of calling renderer.
@@ -23,7 +21,7 @@ public:
 	/// <param name="lpvVertices"></param>
 	/// <param name="lpwIndices"></param>
 	/// <returns></returns>
-	HRESULT RegisterWaterSquareRendering(D3DVERTEX* lpvVertices);
+	HRESULT RegisterWaterTriangleRendering(D3DVERTEX* lpvVertices);
 
 	/// <summary>
 	/// Pushes to renderer all changes registered in current frame

@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "TerrainRenderProxyInjector.h"
 
-HRESULT __stdcall TerrainRenderProxyInjector::SetGreenSquareTextureWrapper(DWORD textureNum, DWORD textureSize)
+HRESULT __stdcall TerrainRenderProxyInjector::SetGreenTextureWrapper(DWORD textureNum, DWORD textureSize)
 {
-	return proxy->SetGreenSquareTexture(textureNum, textureSize);
+	return proxy->SetGreenTexture(textureNum, textureSize);
 }
 HRESULT __stdcall TerrainRenderProxyInjector::RegisterGreenSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices, DWORD _indCount, DWORD _flags)
 {
 	return proxy->RegisterGreenSquareRendering(lpvVertices, lpwIndices);
 }
-void TerrainRenderProxyInjector::HookSetGreenSquareTextureCall()
+void TerrainRenderProxyInjector::HookSetGreenTextureCall()
 {
 	const ULONG_PTR injectAddress = 0x005CC3B2;
-	void** proxyFunctionAddress = &SetGreenSquareTextureAddress;
+	void** proxyFunctionAddress = &SetGreenTextureAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {

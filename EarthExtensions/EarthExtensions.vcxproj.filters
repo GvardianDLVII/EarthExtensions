@@ -7,35 +7,8 @@
     <ClCompile Include="TerrainRenderProxy.cpp">
       <Filter>TerrainRendering</Filter>
     </ClCompile>
-    <ClCompile Include="GreenOverlayRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\CodeInjectors</Filter>
-    </ClCompile>
-    <ClCompile Include="GroundRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\CodeInjectors</Filter>
-    </ClCompile>
-    <ClCompile Include="NavMeshRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\CodeInjectors</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\CodeInjectors</Filter>
-    </ClCompile>
-    <ClCompile Include="TerrainRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\CodeInjectors</Filter>
-    </ClCompile>
     <ClCompile Include="RenderCallGroup.cpp">
-      <Filter>TerrainRendering\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="GroundRenderCallGroup.cpp">
-      <Filter>TerrainRendering</Filter>
-    </ClCompile>
-    <ClCompile Include="NavMeshRenderCallGroup.cpp">
-      <Filter>TerrainRendering</Filter>
-    </ClCompile>
-    <ClCompile Include="GreenOverlayRenderCallGroup.cpp">
-      <Filter>TerrainRendering</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceRenderCallGroup.cpp">
-      <Filter>TerrainRendering</Filter>
+      <Filter>BaseRendering</Filter>
     </ClCompile>
     <ClCompile Include="UnitShadowRenderProxy.cpp">
       <Filter>ShadowRendering</Filter>
@@ -66,6 +39,39 @@
     <ClCompile Include="MeshRenderProxyInjector.cpp">
       <Filter>MeshRendering</Filter>
     </ClCompile>
+    <ClCompile Include="SquareRenderCallGroup.cpp">
+      <Filter>BaseRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleRenderCallGroup.cpp">
+      <Filter>BaseRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundRenderCallGroup.cpp">
+      <Filter>TerrainRendering\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenOverlayRenderCallGroup.cpp">
+      <Filter>TerrainRendering\GreenOverlay</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMeshRenderCallGroup.cpp">
+      <Filter>TerrainRendering\NavMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceRenderCallGroup.cpp">
+      <Filter>TerrainRendering\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenOverlayRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\GreenOverlay</Filter>
+    </ClCompile>
+    <ClCompile Include="NavMeshRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\NavMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceRenderProxyInjector.cpp">
+      <Filter>TerrainRendering\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainRenderProxyInjector.cpp">
+      <Filter>TerrainRendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -74,23 +80,8 @@
     <ClInclude Include="TerrainRenderProxy.h">
       <Filter>TerrainRendering</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainRenderProxyInjector.h">
-      <Filter>TerrainRendering\CodeInjectors</Filter>
-    </ClInclude>
     <ClInclude Include="RenderCallGroup.h">
-      <Filter>TerrainRendering\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="GroundRenderCallGroup.h">
-      <Filter>TerrainRendering</Filter>
-    </ClInclude>
-    <ClInclude Include="NavMeshRenderCallGroup.h">
-      <Filter>TerrainRendering</Filter>
-    </ClInclude>
-    <ClInclude Include="GreenOverlayRenderCallGroup.h">
-      <Filter>TerrainRendering</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceRenderCallGroup.h">
-      <Filter>TerrainRendering</Filter>
+      <Filter>BaseRendering</Filter>
     </ClInclude>
     <ClInclude Include="UnitShadowRenderCallGroup.h">
       <Filter>ShadowRendering</Filter>
@@ -121,16 +112,25 @@
     <ClInclude Include="MeshRenderProxyInjector.h">
       <Filter>MeshRendering</Filter>
     </ClInclude>
+    <ClInclude Include="GroundRenderCallGroup.h">
+      <Filter>TerrainRendering\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenOverlayRenderCallGroup.h">
+      <Filter>TerrainRendering\GreenOverlay</Filter>
+    </ClInclude>
+    <ClInclude Include="NavMeshRenderCallGroup.h">
+      <Filter>TerrainRendering\NavMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceRenderCallGroup.h">
+      <Filter>TerrainRendering\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainRenderProxyInjector.h">
+      <Filter>TerrainRendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TerrainRendering">
       <UniqueIdentifier>{24ca177a-b85c-4727-838f-41579013e51b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TerrainRendering\CodeInjectors">
-      <UniqueIdentifier>{6a9e886e-4374-4d02-8de9-69662bd6b296}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TerrainRendering\Base">
-      <UniqueIdentifier>{7947f0a5-6abc-4819-9d1a-d2a2c1a9d4e3}</UniqueIdentifier>
     </Filter>
     <Filter Include="ShadowRendering">
       <UniqueIdentifier>{83a72f0f-4f72-400c-92cf-a22ccfd75938}</UniqueIdentifier>
@@ -140,6 +140,21 @@
     </Filter>
     <Filter Include="MeshRendering">
       <UniqueIdentifier>{57e8752b-ffa1-4aa1-8489-2420d2f379c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BaseRendering">
+      <UniqueIdentifier>{7947f0a5-6abc-4819-9d1a-d2a2c1a9d4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TerrainRendering\Ground">
+      <UniqueIdentifier>{2cd35b94-cdc0-4d27-9a66-bbc6f3fbacf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TerrainRendering\GreenOverlay">
+      <UniqueIdentifier>{760129c5-03c8-4efc-bcd6-0c43a9017877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TerrainRendering\NavMesh">
+      <UniqueIdentifier>{1a7133a7-52fc-4fb8-9101-134a7f75b994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TerrainRendering\Resources">
+      <UniqueIdentifier>{2db89ab8-4f56-4f51-a156-c1623396d79e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

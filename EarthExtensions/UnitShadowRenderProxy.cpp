@@ -4,7 +4,7 @@
 
 std::map<LPVOID, std::map<long, UnitShadowRenderCallGroup*>*> unitShadowCalls;
 
-HRESULT UnitShadowRenderProxy::SetUnitShadowSquareTexture(LPVOID textureAddress, DWORD textureNum)
+HRESULT UnitShadowRenderProxy::SetUnitShadowTexture(LPVOID textureAddress, DWORD textureNum)
 {
 	UnitShadowRenderCallGroup::CurrentUnitShadowTextureAddress = textureAddress;
 	UnitShadowRenderCallGroup::CurrentUnitShadowTextureNum = textureNum;
@@ -29,8 +29,7 @@ HRESULT UnitShadowRenderProxy::RegisterUnitShadowSquareRendering(D3DVERTEX* lpvV
 	UnitShadowRenderCallGroup* callSubgroup;
 	if (textureNumIterator == callGroup->end())
 	{
-		callSubgroup = new UnitShadowRenderCallGroup();
-		callSubgroup->SetTextureAddress(UnitShadowRenderCallGroup::CurrentUnitShadowTextureAddress);
+		callSubgroup = new UnitShadowRenderCallGroup(UnitShadowRenderCallGroup::CurrentUnitShadowTextureNum, UnitShadowRenderCallGroup::CurrentUnitShadowTextureAddress);
 		(*callGroup)[UnitShadowRenderCallGroup::CurrentUnitShadowTextureNum] = callSubgroup;
 	}
 	else
@@ -49,8 +48,7 @@ HRESULT UnitShadowRenderProxy::CommitUnitShadow()
 	{
 		for (auto it2 = it->second->begin(); it2 != it->second->end(); ++it2)
 		{
-			it2->second->Render(it2->first);
-			it2->second->Clear();
+			it2->second->Render();
 		}
 	}
 

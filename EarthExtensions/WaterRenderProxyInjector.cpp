@@ -5,11 +5,11 @@
 WaterRenderProxy* WaterRenderProxyInjector::WaterRenderer = 0;
 bool WaterRenderProxyInjector::WaterRenderContext = false;
 
-HRESULT __stdcall WaterRenderProxyInjector::SetWaterSquareTextureWrapper(LPVOID textureAddress, DWORD textureNum, DWORD textureUnknowValue)
+HRESULT __stdcall WaterRenderProxyInjector::SetWaterTextureWrapper(LPVOID textureAddress, DWORD textureNum, DWORD textureUnknowValue)
 {
 	if (WaterRenderContext)
 	{
-		return WaterRenderer->SetWaterSquareTexture(textureNum, textureUnknowValue);
+		return WaterRenderer->SetWaterTexture(textureNum, textureUnknowValue);
 	}
 	else
 	{
@@ -17,25 +17,25 @@ HRESULT __stdcall WaterRenderProxyInjector::SetWaterSquareTextureWrapper(LPVOID 
 		return 0;
 	}
 }
-HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterSquareRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags)
+HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags)
 {
 	if (WaterRenderContext)
 	{
-		return WaterRenderer->RegisterWaterSquareRendering(lpvVertices);
+		return WaterRenderer->RegisterWaterTriangleRendering(lpvVertices);
 	}
 	else //default render action
 	{
-		(*((IDirect3DDevice3**)0x009FBC24))->DrawPrimitive(D3DPT_TRIANGLELIST, 0x01C4, lpvVertices, 3, 0);
+		GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, 0x01C4, lpvVertices, 3, 0);
 	}
 }
 void WaterRenderProxyInjector::SetWaterRenderContext(bool ctx)
 {
 	WaterRenderContext = ctx;
 }
-void WaterRenderProxyInjector::HookSetWaterSquareTextureCall()
+void WaterRenderProxyInjector::HookSetWaterTextureCall()
 {
 	const ULONG_PTR injectAddress = 0x0061EBEF;
-	void** proxyFunctionAddress = &SetWaterSquareTextureAddress;
+	void** proxyFunctionAddress = &SetWaterTextureAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {
@@ -45,10 +45,10 @@ void WaterRenderProxyInjector::HookSetWaterSquareTextureCall()
 
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
 }
-void WaterRenderProxyInjector::HookRegisterWaterSquareRenderCall()
+void WaterRenderProxyInjector::HookRegisterWaterTriangleRenderCall()
 {
 	const ULONG_PTR injectAddress = 0x005C5299;
-	void** proxyFunctionAddress = &RegisterWaterSquareRenderingAddress;
+	void** proxyFunctionAddress = &RegisterWaterTriangleRenderingAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {
@@ -77,11 +77,11 @@ void WaterRenderProxyInjector::HookRegisterWaterSquareRenderCall()
 WaterRenderProxyInjector::WaterRenderProxyInjector(WaterRenderProxy* waterRenderer)
 {
 	WaterRenderer = waterRenderer;
-	SetWaterSquareTextureAddress = (LPVOID)((ULONG_PTR)SetWaterSquareTextureWrapper);
-	RegisterWaterSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterWaterSquareRenderingWrapper);
+	SetWaterTextureAddress = (LPVOID)((ULONG_PTR)SetWaterTextureWrapper);
+	RegisterWaterTriangleRenderingAddress = (LPVOID)((ULONG_PTR)RegisterWaterTriangleRenderingWrapper);
 }
 void WaterRenderProxyInjector::Inject()
 {
-	HookSetWaterSquareTextureCall();
-	HookRegisterWaterSquareRenderCall();
+	HookSetWaterTextureCall();
+	HookRegisterWaterTriangleRenderCall();
 }

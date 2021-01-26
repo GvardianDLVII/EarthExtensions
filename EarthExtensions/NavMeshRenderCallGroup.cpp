@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "NavMeshRenderCallGroup.h"
 
-
+NavMeshRenderCallGroup::NavMeshRenderCallGroup(DWORD textureNum) : SquareRenderCallGroup(textureNum)
+{
+}
 LPVOID NavMeshRenderCallGroup::GetTextureAddress()
 {
 	return (LPVOID)0x00A41544;

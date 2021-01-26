@@ -4,14 +4,14 @@
 
 std::map<LPVOID, std::map<long,MeshRenderCallGroup*>*> meshCalls;
 
-HRESULT MeshRenderProxy::SetMeshSquareTexture(LPVOID textureAddress, DWORD textureNum)
+HRESULT MeshRenderProxy::SetMeshTexture(LPVOID textureAddress, DWORD textureNum)
 {
 	MeshRenderCallGroup::CurrentMeshTextureAddress = textureAddress;
 	MeshRenderCallGroup::CurrentMeshTextureNum = textureNum;
 	return 0;
 }
 
-HRESULT MeshRenderProxy::RegisterMeshSquareRendering(D3DVERTEX* lpvVertices)
+HRESULT MeshRenderProxy::RegisterMeshTriangleRendering(D3DVERTEX* lpvVertices)
 {
 	auto textureAddressIterator = meshCalls.find(MeshRenderCallGroup::CurrentMeshTextureAddress);
 	std::map<long, MeshRenderCallGroup*>* callGroup;
@@ -29,8 +29,7 @@ HRESULT MeshRenderProxy::RegisterMeshSquareRendering(D3DVERTEX* lpvVertices)
 	MeshRenderCallGroup* callSubgroup;
 	if (textureNumIterator == callGroup->end())
 	{
-		callSubgroup = new MeshRenderCallGroup();
-		callSubgroup->SetTextureAddress(MeshRenderCallGroup::CurrentMeshTextureAddress);
+		callSubgroup = new MeshRenderCallGroup(MeshRenderCallGroup::CurrentMeshTextureNum, MeshRenderCallGroup::CurrentMeshTextureAddress);
 		(*callGroup)[MeshRenderCallGroup::CurrentMeshTextureNum] = callSubgroup;
 	}
 	else
@@ -38,7 +37,7 @@ HRESULT MeshRenderProxy::RegisterMeshSquareRendering(D3DVERTEX* lpvVertices)
 		callSubgroup = textureNumIterator->second;
 	}
 
-	callSubgroup->AddSquare(lpvVertices);
+	callSubgroup->AddTriangle(lpvVertices);
 	return 0;
 }
 
@@ -49,8 +48,7 @@ HRESULT MeshRenderProxy::CommitMesh()
 	{
 		for (auto it2 = it->second->begin(); it2 != it->second->end(); ++it2)
 		{
-			it2->second->Render(it2->first);
-			it2->second->Clear();
+			it2->second->Render();
 		}
 	}
 	return 0;

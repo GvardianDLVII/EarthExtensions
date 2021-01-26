@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "GreenOverlayRenderCallGroup.h"
 
-
+GreenOverlayRenderCallGroup::GreenOverlayRenderCallGroup(DWORD textureNum) : SquareRenderCallGroup(textureNum)
+{
+}
 LPVOID GreenOverlayRenderCallGroup::GetTextureAddress()
 {
 	return (LPVOID)0x00A41520;

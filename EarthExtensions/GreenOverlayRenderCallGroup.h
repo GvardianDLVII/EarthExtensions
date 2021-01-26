@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class GreenOverlayRenderCallGroup : public RenderCallGroup
+class GreenOverlayRenderCallGroup : public SquareRenderCallGroup
 {
 protected:
 	virtual LPVOID GetTextureAddress();
@@ -11,6 +11,7 @@ protected:
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
 public:
+	GreenOverlayRenderCallGroup(DWORD textureNum);
 	static DWORD CurrentGreenTextureNum;
 	static DWORD CurrentGreenTextureUnknownValue;
 };

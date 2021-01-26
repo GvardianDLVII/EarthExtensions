@@ -3,18 +3,15 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class WaterRenderCallGroup : public RenderCallGroup
+class WaterRenderCallGroup : public TriangleRenderCallGroup
 {
 protected:
 	virtual LPVOID GetTextureAddress();
 	virtual int GetMaxOffset();
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
-
-	virtual DWORD GetVertexCountPerCall();
-	virtual DWORD GetIndexCountPerCall();
 public:
-	void AddSquare(D3DVERTEX* vertices);
+	WaterRenderCallGroup(DWORD textureNum);
 	static DWORD CurrentWaterTextureUnknownValue;
 	static DWORD CurrentWaterTextureNum;
 };

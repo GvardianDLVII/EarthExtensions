@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "GroundRenderCallGroup.h"
 
-
+GroundRenderCallGroup::GroundRenderCallGroup(DWORD textureNum) : SquareRenderCallGroup(textureNum)
+{
+}
 LPVOID GroundRenderCallGroup::GetTextureAddress()
 {
 	return (LPVOID)0x00A41550;

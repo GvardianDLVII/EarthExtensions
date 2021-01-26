@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class GroundRenderCallGroup : public RenderCallGroup
+class GroundRenderCallGroup : public SquareRenderCallGroup
 {
 protected:
 	virtual LPVOID GetTextureAddress();
@@ -11,6 +11,7 @@ protected:
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
 public:
+	GroundRenderCallGroup(DWORD textureNum);
 	static DWORD CurrentGroundTextureNum;
 	static DWORD CurrentGroundTextureUnknownValue;
 };

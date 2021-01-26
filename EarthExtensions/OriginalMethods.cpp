@@ -53,6 +53,11 @@ void TmpSetTextureCall(LPVOID textureAddress, DWORD texturePartNum, DWORD textur
 }
 
 
+
+IDirect3DDevice3* GetD3DDevice()
+{
+	return *((IDirect3DDevice3**)0x009FBC24);
+}
 float GetCameraActorPosX()
 {
 	return *((float*)0x009FDA34);

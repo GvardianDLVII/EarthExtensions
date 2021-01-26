@@ -5,7 +5,7 @@ HRESULT __stdcall TerrainRenderProxyInjector::RegisterResourceSquareRenderingWra
 {
 	return proxy->RegisterResourceSquareRendering(lpvVertices, lpwIndices);
 }
-void TerrainRenderProxyInjector::HookSetResourceSquareTextureCall()
+void TerrainRenderProxyInjector::HookSetResourceTextureCall()
 {
 	const ULONG_PTR injectAddress = 0x005C9939;
 	byte replacement[] = {

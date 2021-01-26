@@ -7,13 +7,13 @@ class ShadowRenderProxyInjector
 {
 private:
 	static UnitShadowRenderProxy* proxy;
-	LPVOID SetUnitShadowSquareTextureAddress;
+	LPVOID SetUnitShadowTextureAddress;
 	LPVOID RegisterUnitShadowSquareRenderingAddress;
 	LPVOID CommitUnitShadowAddress;
-	static HRESULT __stdcall SetUnitShadowSquareTextureWrapper(LPVOID textureAddress, DWORD textureNum);
+	static HRESULT __stdcall SetUnitShadowTextureWrapper(LPVOID textureAddress, DWORD textureNum);
 	static HRESULT __stdcall RegisterUnitShadowSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices, DWORD _indCount, DWORD _flags);
 	static HRESULT __stdcall CommitUnitShadowWrapper();
-	void HookSetUnitShadowSquareTextureCall();
+	void HookSetUnitShadowTextureCall();
 	void HookRegisterUnitShadowSquareRenderCall();
 	void HookCommitUnitShadowCall();
 public:

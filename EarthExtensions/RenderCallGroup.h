@@ -1,31 +1,47 @@
 #pragma once
 
 #include "pch.h"
-
-byte proxyCall[];
+#include "OriginalMethods.h"
 
 class RenderCallGroup
 {
 protected:
-	std::map<long, D3DVERTEX*> VertexBuffer;
-	std::map<long, LPWORD> IndexBuffer;
-	std::map<long, WORD> Offset;
+	std::map<ULONG, WORD> ArrayIndices;
+	D3DVERTEX* VertexBuffer[10000];
+	WORD Offset[10000];;
+	WORD lastIndex;
+	DWORD textureNum;
 
 	virtual int GetMaxOffset() = 0;
 	virtual LPVOID GetTextureAddress() = 0;
+	DWORD GetTextureNum();
 	virtual DWORD GetCurrentTextureNum() = 0;
 	virtual DWORD GetCurrentTextureUnknownValue() = 0;
+	virtual WORD GetVertexCountPerCall() = 0;
 
-	virtual DWORD GetVertexCountPerCall();
-	virtual DWORD GetIndexCountPerCall();
 
-	IDirect3DDevice3* GetD3DDevice();
-
-	void CallOriginalSetTexture(DWORD texturePartNum, DWORD textureUnknownValue);
-
-	void RenderPart(long offset, DWORD texturePartNum, DWORD textureUnknownValue);
+	virtual void RenderPart(WORD partIndex, DWORD textureUnknownValue) = 0;
 public:
+	RenderCallGroup(DWORD textureNum);
+	void Render();
+};
+class SquareRenderCallGroup : public RenderCallGroup
+{
+protected:
+	WORD* IndexBuffer[10000];
+	virtual WORD GetIndexCountPerCall();
+	virtual WORD GetVertexCountPerCall();
+	virtual void RenderPart(WORD partIndex, DWORD textureUnknownValue);
+public:
+	SquareRenderCallGroup(DWORD textureNum);
 	void AddSquare(D3DVERTEX* vertices, LPWORD indices);
-	void Render(DWORD textureNum);
-	void Clear();
+};
+class TriangleRenderCallGroup : public RenderCallGroup
+{
+protected:
+	virtual WORD GetVertexCountPerCall();
+	virtual void RenderPart(WORD partIndex, DWORD textureUnknownValue);
+public:
+	TriangleRenderCallGroup(DWORD textureNum);
+	void AddTriangle(D3DVERTEX* vertices);
 };

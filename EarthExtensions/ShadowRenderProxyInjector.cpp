@@ -3,9 +3,9 @@
 
 UnitShadowRenderProxy* ShadowRenderProxyInjector::proxy = 0;
 
-HRESULT __stdcall ShadowRenderProxyInjector::SetUnitShadowSquareTextureWrapper(LPVOID textureAddress, DWORD textureNum)
+HRESULT __stdcall ShadowRenderProxyInjector::SetUnitShadowTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
-	return proxy->SetUnitShadowSquareTexture(textureAddress, textureNum);
+	return proxy->SetUnitShadowTexture(textureAddress, textureNum);
 }
 HRESULT __stdcall ShadowRenderProxyInjector::RegisterUnitShadowSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices, DWORD _indCount, DWORD _flags)
 {
@@ -15,10 +15,10 @@ HRESULT __stdcall ShadowRenderProxyInjector::CommitUnitShadowWrapper()
 {
 	return proxy->CommitUnitShadow();
 }
-void ShadowRenderProxyInjector::HookSetUnitShadowSquareTextureCall()
+void ShadowRenderProxyInjector::HookSetUnitShadowTextureCall()
 {
 	const ULONG_PTR injectAddress = 0x005DCF33;
-	void** proxyFunctionAddress = &SetUnitShadowSquareTextureAddress;
+	void** proxyFunctionAddress = &SetUnitShadowTextureAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {
@@ -88,13 +88,13 @@ void ShadowRenderProxyInjector::HookCommitUnitShadowCall()
 ShadowRenderProxyInjector::ShadowRenderProxyInjector()
 {
 	proxy = new UnitShadowRenderProxy();
-	SetUnitShadowSquareTextureAddress = (LPVOID)((ULONG_PTR)SetUnitShadowSquareTextureWrapper);
+	SetUnitShadowTextureAddress = (LPVOID)((ULONG_PTR)SetUnitShadowTextureWrapper);
 	RegisterUnitShadowSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterUnitShadowSquareRenderingWrapper);
 	CommitUnitShadowAddress = (LPVOID)((ULONG_PTR)CommitUnitShadowWrapper);
 }
 void ShadowRenderProxyInjector::Inject()
 {
-	HookSetUnitShadowSquareTextureCall();
+	HookSetUnitShadowTextureCall();
 	HookRegisterUnitShadowSquareRenderCall();
 	HookCommitUnitShadowCall();
 }

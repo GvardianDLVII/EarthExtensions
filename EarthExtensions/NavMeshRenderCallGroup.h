@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class NavMeshRenderCallGroup : public RenderCallGroup
+class NavMeshRenderCallGroup : public SquareRenderCallGroup
 {
 protected:
 	virtual LPVOID GetTextureAddress();
@@ -11,5 +11,6 @@ protected:
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
 public:
+	NavMeshRenderCallGroup(DWORD textureNum);
 	static DWORD CurrentNavMeshTextureNum;
 };

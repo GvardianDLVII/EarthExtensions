@@ -213,6 +213,8 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClCompile Include="ResourceRenderCallGroup.cpp" />
     <ClCompile Include="ResourceRenderProxyInjector.cpp" />
     <ClCompile Include="ShadowRenderProxyInjector.cpp" />
+    <ClCompile Include="SquareRenderCallGroup.cpp" />
+    <ClCompile Include="TriangleRenderCallGroup.cpp" />
     <ClCompile Include="UnitShadowRenderCallGroup.cpp" />
     <ClCompile Include="UnitShadowRenderProxy.cpp" />
     <ClCompile Include="TerrainRenderProxy.cpp" />

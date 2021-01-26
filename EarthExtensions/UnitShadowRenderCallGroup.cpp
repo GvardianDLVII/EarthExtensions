@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "UnitShadowRenderCallGroup.h"
 
+UnitShadowRenderCallGroup::UnitShadowRenderCallGroup(DWORD textureNum, LPVOID textureAddress) : SquareRenderCallGroup(textureNum)
+{
+	TextureAddress = textureAddress;
+}
 LPVOID UnitShadowRenderCallGroup::GetTextureAddress()
 {
 	return &TextureAddress;
-}
-void UnitShadowRenderCallGroup::SetTextureAddress(LPVOID textureAddress)
-{
-	TextureAddress = textureAddress;
 }
 int UnitShadowRenderCallGroup::GetMaxOffset()
 {

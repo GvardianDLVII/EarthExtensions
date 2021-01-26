@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class UnitShadowRenderCallGroup : public RenderCallGroup
+class UnitShadowRenderCallGroup : public SquareRenderCallGroup
 {
 private:
 	LPVOID TextureAddress;
@@ -13,7 +13,7 @@ protected:
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
 public:
-	void SetTextureAddress(LPVOID textureAddress);
+	UnitShadowRenderCallGroup(DWORD textureNum, LPVOID textureAddress);
 	static LPVOID CurrentUnitShadowTextureAddress;
 	static DWORD CurrentUnitShadowTextureNum;
 };

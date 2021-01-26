@@ -5,11 +5,11 @@
 MeshRenderProxy* MeshRenderProxyInjector::meshRenderer = 0;
 bool MeshRenderProxyInjector::meshRenderContext = false;
 
-HRESULT __stdcall MeshRenderProxyInjector::SetMeshSquareTextureWrapper(LPVOID textureAddress, DWORD textureNum)
+HRESULT __stdcall MeshRenderProxyInjector::SetMeshTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
 	if (meshRenderContext)
 	{
-		return meshRenderer->SetMeshSquareTexture(textureAddress, textureNum);
+		return meshRenderer->SetMeshTexture(textureAddress, textureNum);
 	}
 	else
 	{
@@ -17,11 +17,11 @@ HRESULT __stdcall MeshRenderProxyInjector::SetMeshSquareTextureWrapper(LPVOID te
 		return 0;
 	}
 }
-HRESULT __stdcall MeshRenderProxyInjector::RegisterMeshSquareRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _indCount, DWORD _flags)
+HRESULT __stdcall MeshRenderProxyInjector::RegisterMeshTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _indCount, DWORD _flags)
 {
 	if (meshRenderContext)
 	{
-		return meshRenderer->RegisterMeshSquareRendering(lpvVertices);
+		return meshRenderer->RegisterMeshTriangleRendering(lpvVertices);
 	}
 	else //default render action
 	{
@@ -32,10 +32,10 @@ void MeshRenderProxyInjector::SetMeshRenderContext(bool ctx)
 {
 	meshRenderContext = ctx;
 }
-void MeshRenderProxyInjector::HookSetMeshSquareTextureCall()
+void MeshRenderProxyInjector::HookSetMeshTextureCall()
 {
 	const ULONG_PTR injectAddress = 0x005C31C5;
-	void** proxyFunctionAddress = &SetMeshSquareTextureAddress;
+	void** proxyFunctionAddress = &SetMeshTextureAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {
@@ -51,10 +51,10 @@ void MeshRenderProxyInjector::HookSetMeshSquareTextureCall()
 
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
 }
-void MeshRenderProxyInjector::HookRegisterMeshSquareRenderCall()
+void MeshRenderProxyInjector::HookRegisterMeshTriangleRenderCall()
 {
 	const ULONG_PTR injectAddress = 0x005C32AD;
-	void** proxyFunctionAddress = &RegisterMeshSquareRenderingAddress;
+	void** proxyFunctionAddress = &RegisterMeshTriangleRenderingAddress;
 	byte bytes[4];
 	ToByteArray((ULONG)proxyFunctionAddress, bytes);
 	byte proxyCall[] = {
@@ -72,11 +72,11 @@ void MeshRenderProxyInjector::HookRegisterMeshSquareRenderCall()
 MeshRenderProxyInjector::MeshRenderProxyInjector(MeshRenderProxy* meshRenderer)
 {
 	this->meshRenderer = meshRenderer;
-	SetMeshSquareTextureAddress = (LPVOID)((ULONG_PTR)SetMeshSquareTextureWrapper);
-	RegisterMeshSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterMeshSquareRenderingWrapper);
+	SetMeshTextureAddress = (LPVOID)((ULONG_PTR)SetMeshTextureWrapper);
+	RegisterMeshTriangleRenderingAddress = (LPVOID)((ULONG_PTR)RegisterMeshTriangleRenderingWrapper);
 }
 void MeshRenderProxyInjector::Inject()
 {
-	HookSetMeshSquareTextureCall();
-	HookRegisterMeshSquareRenderCall();
+	HookSetMeshTextureCall();
+	HookRegisterMeshTriangleRenderCall();
 }

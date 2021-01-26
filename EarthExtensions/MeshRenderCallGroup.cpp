@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "MeshRenderCallGroup.h"
 
+MeshRenderCallGroup::MeshRenderCallGroup(DWORD textureNum, LPVOID textureAddress) : TriangleRenderCallGroup(textureNum)
+{
+	TextureAddress = textureAddress;
+}
 LPVOID MeshRenderCallGroup::GetTextureAddress()
 {
 	return &TextureAddress;
-}
-void MeshRenderCallGroup::SetTextureAddress(LPVOID textureAddress)
-{
-	TextureAddress = textureAddress;
 }
 int MeshRenderCallGroup::GetMaxOffset()
 {
@@ -20,22 +20,6 @@ DWORD MeshRenderCallGroup::GetCurrentTextureNum()
 DWORD MeshRenderCallGroup::GetCurrentTextureUnknownValue()
 {
 	return 4096;
-}
-
-DWORD MeshRenderCallGroup::GetVertexCountPerCall()
-{
-	return 3;
-}
-
-DWORD MeshRenderCallGroup::GetIndexCountPerCall()
-{
-	return 3;
-}
-
-void MeshRenderCallGroup::AddSquare(D3DVERTEX* vertices)
-{
-	static WORD indices[] = { 0, 1, 2 };
-	RenderCallGroup::AddSquare(vertices, indices);
 }
 LPVOID MeshRenderCallGroup::CurrentMeshTextureAddress;
 DWORD MeshRenderCallGroup::CurrentMeshTextureNum;

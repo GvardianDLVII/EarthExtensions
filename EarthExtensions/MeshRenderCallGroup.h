@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class MeshRenderCallGroup : public RenderCallGroup
+class MeshRenderCallGroup : public TriangleRenderCallGroup
 {
 private:
 	LPVOID TextureAddress;
@@ -12,12 +12,8 @@ protected:
 	virtual int GetMaxOffset();
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
-
-	virtual DWORD GetVertexCountPerCall();
-	virtual DWORD GetIndexCountPerCall();
 public:
-	void AddSquare(D3DVERTEX* vertices);
-	void SetTextureAddress(LPVOID textureAddress);
+	MeshRenderCallGroup(DWORD textureNum, LPVOID textureAddress);
 	static LPVOID CurrentMeshTextureAddress;
 	static DWORD CurrentMeshTextureNum;
 };

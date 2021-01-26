@@ -1,120 +1,22 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-byte proxyCall[] =
+RenderCallGroup::RenderCallGroup(DWORD textureNum)
 {
-	0x55,									//push	ebp
-	0x89, 0xE5,								//mov	ebp, esp
-	0xBA, 0x00, 0x00, 0x00, 0x00,			//mov	edx, [textureNum]
-	0xB9, 0x00, 0x00, 0x00, 0x00,			//mov	ecx, [textureUnknownValue]
-	0x51,									//push	ecx,
-	0x8B, 0x0D, 0x00, 0x00, 0x00, 0x00,		//mov	ecx, [00A41550h]
-	0x52,									//push	edx
-	0xFF, 0x15, 0x00, 0x00, 0x00, 0x00,		//call	[originalCallPointer]
-	0x89, 0xEC,								//mov	esp, ebp
-	0x5D,									//pop	ebp
-	0xC3									//ret
-};
-
-IDirect3DDevice3* RenderCallGroup::GetD3DDevice()
-{
-	return *((IDirect3DDevice3**)0x009FBC24);
+	this->textureNum = textureNum;
+	lastIndex = 0;
 }
-
-void RenderCallGroup::CallOriginalSetTexture(DWORD texturePartNum, DWORD textureUnknownValue)
+DWORD RenderCallGroup::GetTextureNum()
 {
-	//Original call:
-	//001C8C2F - A1 2C1AA500 			mov eax, [00A51A2C]
-	//001C8C34 - 8B 55 FC				mov edx, [ebp - 04]
-	//001C8C37 - 2B C8  				sub ecx, eax
-	//001C8C39 - 51						push ecx
-	//001C8C3A - 8B 0D 5015A400			mov ecx, [00A41550]
-	//001C8C40 - 52						push edx
-	//001C8C41 - E8 EAF70200			call 005F8430
-
-	byte tnBytes[4];
-	ToByteArray(texturePartNum, tnBytes);
-	byte tuvBytes[4];
-	ToByteArray(textureUnknownValue, tuvBytes);
-	byte thBytes[4];
-	ToByteArray((DWORD)GetTextureAddress(), thBytes);
-	unsigned long originalCallPointer = 0x005F8430;
-	byte ocpBytes[4];
-	ToByteArray((ULONG)&originalCallPointer, ocpBytes);
-	proxyCall[4] = tnBytes[3];
-	proxyCall[5] = tnBytes[2];
-	proxyCall[6] = tnBytes[1];
-	proxyCall[7] = tnBytes[0];
-	proxyCall[9] = tuvBytes[3];
-	proxyCall[10] = tuvBytes[2];
-	proxyCall[11] = tuvBytes[1];
-	proxyCall[12] = tuvBytes[0];
-	proxyCall[16] = thBytes[3];
-	proxyCall[17] = thBytes[2];
-	proxyCall[18] = thBytes[1];
-	proxyCall[19] = thBytes[0];
-	proxyCall[23] = ocpBytes[3];
-	proxyCall[24] = ocpBytes[2];
-	proxyCall[25] = ocpBytes[1];
-	proxyCall[26] = ocpBytes[0];
-	typedef void(_stdcall* originalCall)(void);
-	void* originalFunctionPointer = (void*)proxyCall;
-	originalCall call = (originalCall)(originalFunctionPointer);
-	call();
+	return textureNum;
 }
-
-void RenderCallGroup::RenderPart(long offset, DWORD texturePartNum, DWORD textureUnknownValue)
+void RenderCallGroup::Render()
 {
-	CallOriginalSetTexture(texturePartNum, textureUnknownValue);
-	GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (LPVOID)VertexBuffer[textureUnknownValue], offset * GetVertexCountPerCall(), IndexBuffer[textureUnknownValue], offset * GetIndexCountPerCall(), 0);
-}
-void RenderCallGroup::AddSquare(D3DVERTEX* vertices, LPWORD indices)
-{
-	std::map<long, D3DVERTEX*>::iterator it = VertexBuffer.find(GetCurrentTextureUnknownValue());
-	if (it == VertexBuffer.end())
+	for (auto it = ArrayIndices.begin(); it != ArrayIndices.end(); ++it)
 	{
-		D3DVERTEX* bufferedVeritices = new D3DVERTEX[GetMaxOffset() * GetVertexCountPerCall()];
-		LPWORD bufferedIndices = new WORD[GetMaxOffset() * GetIndexCountPerCall()];
-		VertexBuffer.insert(std::pair<long, D3DVERTEX*>(GetCurrentTextureUnknownValue(), bufferedVeritices));
-		IndexBuffer.insert(std::pair<long, LPWORD>(GetCurrentTextureUnknownValue(), bufferedIndices));
-	}
-	WORD currentOffset = Offset[GetCurrentTextureUnknownValue()];
-	memcpy(VertexBuffer[GetCurrentTextureUnknownValue()] + currentOffset * GetVertexCountPerCall(), vertices, GetVertexCountPerCall() * sizeof(D3DVERTEX));
-	LPWORD copiedIndices = IndexBuffer[GetCurrentTextureUnknownValue()];
-	memcpy(copiedIndices + currentOffset * GetIndexCountPerCall(), indices, GetIndexCountPerCall() * sizeof(WORD));
-	for (int i = currentOffset * GetIndexCountPerCall(); i < (currentOffset + 1) * GetIndexCountPerCall(); i++)
-	{
-		copiedIndices[i] += currentOffset * GetVertexCountPerCall();
-	}
-	currentOffset++;
-	Offset[GetCurrentTextureUnknownValue()] = currentOffset;
-	if (currentOffset == GetMaxOffset())
-	{
-		RenderPart(currentOffset, GetCurrentTextureNum(), GetCurrentTextureUnknownValue());
-		Offset[GetCurrentTextureUnknownValue()] = 0;
-	}
-}
-DWORD RenderCallGroup::GetVertexCountPerCall()
-{
-	return 4;
-}
-DWORD RenderCallGroup::GetIndexCountPerCall()
-{
-	return 6;
-}
-void RenderCallGroup::Render(DWORD textureNum)
-{
-	for (auto it = Offset.begin(); it != Offset.end(); ++it)
-	{
-		if (it->second == 0)
+		if (Offset[it->second] == 0)
 			continue;
-		RenderPart(it->second, textureNum, it->first);
-	}
-}
-void RenderCallGroup::Clear()
-{
-	for (auto it = Offset.begin(); it != Offset.end(); ++it)
-	{
-		it->second = 0;
+		RenderPart(it->second, it->first);
+		Offset[it->second] = 0;
 	}
 }
