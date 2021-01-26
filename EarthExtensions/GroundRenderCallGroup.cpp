@@ -10,7 +10,7 @@ LPVOID GroundRenderCallGroup::GetTextureAddress()
 }
 int GroundRenderCallGroup::GetMaxOffset()
 {
-	return 35;
+	return 150;
 }
 DWORD GroundRenderCallGroup::GetCurrentTextureNum()
 {

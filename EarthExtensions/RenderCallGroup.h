@@ -7,8 +7,8 @@ class RenderCallGroup
 {
 protected:
 	std::map<ULONG, WORD> ArrayIndices;
-	D3DVERTEX* VertexBuffer[10000];
-	WORD Offset[10000];;
+	D3DVERTEX* VertexBuffer[256];
+	WORD Offset[256];;
 	WORD lastIndex;
 	DWORD textureNum;
 
@@ -28,7 +28,7 @@ public:
 class SquareRenderCallGroup : public RenderCallGroup
 {
 protected:
-	WORD* IndexBuffer[10000];
+	WORD* IndexBuffer[256];
 	virtual WORD GetIndexCountPerCall();
 	virtual WORD GetVertexCountPerCall();
 	virtual void RenderPart(WORD partIndex, DWORD textureUnknownValue);

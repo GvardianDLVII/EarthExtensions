@@ -22,7 +22,7 @@ void SquareRenderCallGroup::AddSquare(D3DVERTEX* vertices, LPWORD indices)
 		index = lastIndex;
 		ArrayIndices[GetCurrentTextureUnknownValue()] = index;
 		lastIndex++;
-		if (lastIndex > 10000) throw EXCEPTION_ARRAY_BOUNDS_EXCEEDED;
+		if (lastIndex > 255) throw EXCEPTION_ARRAY_BOUNDS_EXCEEDED;
 	}
 	else
 	{

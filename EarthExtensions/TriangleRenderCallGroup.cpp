@@ -20,7 +20,7 @@ void TriangleRenderCallGroup::AddTriangle(D3DVERTEX* vertices)
 		index = lastIndex;
 		ArrayIndices[GetCurrentTextureUnknownValue()] = index;
 		lastIndex++;
-		if (lastIndex > 10000) throw EXCEPTION_ARRAY_BOUNDS_EXCEEDED;
+		if (lastIndex > 255) throw EXCEPTION_ARRAY_BOUNDS_EXCEEDED;
 	}
 	else
 	{
