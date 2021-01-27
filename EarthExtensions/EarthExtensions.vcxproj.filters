@@ -5,72 +5,77 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="TerrainRenderProxy.cpp">
-      <Filter>TerrainRendering</Filter>
+      <Filter>RenderOptimization\TerrainRendering</Filter>
     </ClCompile>
     <ClCompile Include="RenderCallGroup.cpp">
-      <Filter>BaseRendering</Filter>
+      <Filter>RenderOptimization\BaseRendering</Filter>
     </ClCompile>
     <ClCompile Include="UnitShadowRenderProxy.cpp">
-      <Filter>ShadowRendering</Filter>
+      <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClCompile>
     <ClCompile Include="UnitShadowRenderCallGroup.cpp">
-      <Filter>ShadowRendering</Filter>
+      <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClCompile>
     <ClCompile Include="ShadowRenderProxyInjector.cpp">
-      <Filter>ShadowRendering</Filter>
+      <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClCompile>
     <ClCompile Include="WaterRenderCallGroup.cpp">
-      <Filter>WaterRendering</Filter>
+      <Filter>RenderOptimization\WaterRendering</Filter>
     </ClCompile>
     <ClCompile Include="WaterRenderProxy.cpp">
-      <Filter>WaterRendering</Filter>
+      <Filter>RenderOptimization\WaterRendering</Filter>
     </ClCompile>
     <ClCompile Include="WaterRenderProxyInjector.cpp">
-      <Filter>WaterRendering</Filter>
+      <Filter>RenderOptimization\WaterRendering</Filter>
     </ClCompile>
-    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="OriginalMethods.cpp" />
     <ClCompile Include="MeshRenderCallGroup.cpp">
-      <Filter>MeshRendering</Filter>
+      <Filter>RenderOptimization\MeshRendering</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderProxy.cpp">
-      <Filter>MeshRendering</Filter>
+      <Filter>RenderOptimization\MeshRendering</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderProxyInjector.cpp">
-      <Filter>MeshRendering</Filter>
+      <Filter>RenderOptimization\MeshRendering</Filter>
     </ClCompile>
     <ClCompile Include="SquareRenderCallGroup.cpp">
-      <Filter>BaseRendering</Filter>
+      <Filter>RenderOptimization\BaseRendering</Filter>
     </ClCompile>
     <ClCompile Include="TriangleRenderCallGroup.cpp">
-      <Filter>BaseRendering</Filter>
+      <Filter>RenderOptimization\BaseRendering</Filter>
     </ClCompile>
     <ClCompile Include="GroundRenderCallGroup.cpp">
-      <Filter>TerrainRendering\Ground</Filter>
+      <Filter>RenderOptimization\TerrainRendering\Ground</Filter>
     </ClCompile>
     <ClCompile Include="GreenOverlayRenderCallGroup.cpp">
-      <Filter>TerrainRendering\GreenOverlay</Filter>
+      <Filter>RenderOptimization\TerrainRendering\GreenOverlay</Filter>
     </ClCompile>
     <ClCompile Include="NavMeshRenderCallGroup.cpp">
-      <Filter>TerrainRendering\NavMesh</Filter>
+      <Filter>RenderOptimization\TerrainRendering\NavMesh</Filter>
     </ClCompile>
     <ClCompile Include="ResourceRenderCallGroup.cpp">
-      <Filter>TerrainRendering\Resources</Filter>
+      <Filter>RenderOptimization\TerrainRendering\Resources</Filter>
     </ClCompile>
     <ClCompile Include="GroundRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\Ground</Filter>
+      <Filter>RenderOptimization\TerrainRendering\Ground</Filter>
     </ClCompile>
     <ClCompile Include="GreenOverlayRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\GreenOverlay</Filter>
+      <Filter>RenderOptimization\TerrainRendering\GreenOverlay</Filter>
     </ClCompile>
     <ClCompile Include="NavMeshRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\NavMesh</Filter>
+      <Filter>RenderOptimization\TerrainRendering\NavMesh</Filter>
     </ClCompile>
     <ClCompile Include="ResourceRenderProxyInjector.cpp">
-      <Filter>TerrainRendering\Resources</Filter>
+      <Filter>RenderOptimization\TerrainRendering\Resources</Filter>
     </ClCompile>
     <ClCompile Include="TerrainRenderProxyInjector.cpp">
-      <Filter>TerrainRendering</Filter>
+      <Filter>RenderOptimization\TerrainRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>RenderOptimization</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCrashFixer.cpp">
+      <Filter>BugFixes\RenderOverflowCrash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,83 +83,97 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="TerrainRenderProxy.h">
-      <Filter>TerrainRendering</Filter>
+      <Filter>RenderOptimization\TerrainRendering</Filter>
     </ClInclude>
     <ClInclude Include="RenderCallGroup.h">
-      <Filter>BaseRendering</Filter>
+      <Filter>RenderOptimization\BaseRendering</Filter>
     </ClInclude>
     <ClInclude Include="UnitShadowRenderCallGroup.h">
-      <Filter>ShadowRendering</Filter>
+      <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClInclude>
     <ClInclude Include="UnitShadowRenderProxy.h">
-      <Filter>ShadowRendering</Filter>
+      <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClInclude>
     <ClInclude Include="ShadowRenderProxyInjector.h">
-      <Filter>ShadowRendering</Filter>
+      <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClInclude>
     <ClInclude Include="WaterRenderProxy.h">
-      <Filter>WaterRendering</Filter>
+      <Filter>RenderOptimization\WaterRendering</Filter>
     </ClInclude>
     <ClInclude Include="WaterRenderCallGroup.h">
-      <Filter>WaterRendering</Filter>
+      <Filter>RenderOptimization\WaterRendering</Filter>
     </ClInclude>
     <ClInclude Include="WaterRenderProxyInjector.h">
-      <Filter>WaterRendering</Filter>
+      <Filter>RenderOptimization\WaterRendering</Filter>
     </ClInclude>
-    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="OriginalMethods.h" />
     <ClInclude Include="MeshRenderCallGroup.h">
-      <Filter>MeshRendering</Filter>
+      <Filter>RenderOptimization\MeshRendering</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderProxy.h">
-      <Filter>MeshRendering</Filter>
+      <Filter>RenderOptimization\MeshRendering</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderProxyInjector.h">
-      <Filter>MeshRendering</Filter>
+      <Filter>RenderOptimization\MeshRendering</Filter>
     </ClInclude>
     <ClInclude Include="GroundRenderCallGroup.h">
-      <Filter>TerrainRendering\Ground</Filter>
+      <Filter>RenderOptimization\TerrainRendering\Ground</Filter>
     </ClInclude>
     <ClInclude Include="GreenOverlayRenderCallGroup.h">
-      <Filter>TerrainRendering\GreenOverlay</Filter>
+      <Filter>RenderOptimization\TerrainRendering\GreenOverlay</Filter>
     </ClInclude>
     <ClInclude Include="NavMeshRenderCallGroup.h">
-      <Filter>TerrainRendering\NavMesh</Filter>
+      <Filter>RenderOptimization\TerrainRendering\NavMesh</Filter>
     </ClInclude>
     <ClInclude Include="ResourceRenderCallGroup.h">
-      <Filter>TerrainRendering\Resources</Filter>
+      <Filter>RenderOptimization\TerrainRendering\Resources</Filter>
     </ClInclude>
     <ClInclude Include="TerrainRenderProxyInjector.h">
-      <Filter>TerrainRendering</Filter>
+      <Filter>RenderOptimization\TerrainRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>RenderOptimization</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCrashFixer.h">
+      <Filter>BugFixes\RenderOverflowCrash</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="TerrainRendering">
-      <UniqueIdentifier>{24ca177a-b85c-4727-838f-41579013e51b}</UniqueIdentifier>
+    <Filter Include="RenderOptimization">
+      <UniqueIdentifier>{4ef851d9-a5d0-459c-89b3-b75293c1b04a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShadowRendering">
-      <UniqueIdentifier>{83a72f0f-4f72-400c-92cf-a22ccfd75938}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="WaterRendering">
-      <UniqueIdentifier>{a70e2b31-eaf8-4c1b-b8a0-ee1817290244}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MeshRendering">
-      <UniqueIdentifier>{57e8752b-ffa1-4aa1-8489-2420d2f379c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="BaseRendering">
+    <Filter Include="RenderOptimization\BaseRendering">
       <UniqueIdentifier>{7947f0a5-6abc-4819-9d1a-d2a2c1a9d4e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TerrainRendering\Ground">
+    <Filter Include="RenderOptimization\MeshRendering">
+      <UniqueIdentifier>{57e8752b-ffa1-4aa1-8489-2420d2f379c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\ShadowRendering">
+      <UniqueIdentifier>{83a72f0f-4f72-400c-92cf-a22ccfd75938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\TerrainRendering">
+      <UniqueIdentifier>{24ca177a-b85c-4727-838f-41579013e51b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\TerrainRendering\Ground">
       <UniqueIdentifier>{2cd35b94-cdc0-4d27-9a66-bbc6f3fbacf4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TerrainRendering\GreenOverlay">
+    <Filter Include="RenderOptimization\TerrainRendering\GreenOverlay">
       <UniqueIdentifier>{760129c5-03c8-4efc-bcd6-0c43a9017877}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TerrainRendering\NavMesh">
+    <Filter Include="RenderOptimization\TerrainRendering\NavMesh">
       <UniqueIdentifier>{1a7133a7-52fc-4fb8-9101-134a7f75b994}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TerrainRendering\Resources">
+    <Filter Include="RenderOptimization\TerrainRendering\Resources">
       <UniqueIdentifier>{2db89ab8-4f56-4f51-a156-c1623396d79e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\WaterRendering">
+      <UniqueIdentifier>{a70e2b31-eaf8-4c1b-b8a0-ee1817290244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BugFixes">
+      <UniqueIdentifier>{72fab38e-5eb3-4778-a3dd-216899012f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BugFixes\RenderOverflowCrash">
+      <UniqueIdentifier>{c09b95e4-2aee-4d87-b3f0-004befe9da26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
