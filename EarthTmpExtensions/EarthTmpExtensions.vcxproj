@@ -22,9 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{ea259b4a-ce49-4acf-a5c2-c8dcb79fbc3b}</ProjectGuid>
-    <RootNamespace>EarthExtensions</RootNamespace>
+    <RootNamespace>EarthTmpExtensions</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>EarthExtensions</ProjectName>
+    <ProjectName>EarthTmpExtensions</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -87,7 +87,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_DEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;EARTHTMPEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -104,9 +104,9 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetDir)EarthExtensions.dll C:\EarthTmpDev\scripts\EarthExtensions.asi
-copy /Y $(TargetDir)EarthExtensions.ilk C:\EarthTmpDev\scripts\EarthExtensions.ilk
-copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.pdb</Command>
+      <Command>copy /Y $(TargetDir)EarthTmpExtensions.dll C:\EarthTmpDev\scripts\EarthTmpExtensions.asi
+copy /Y $(TargetDir)EarthTmpExtensions.ilk C:\EarthTmpDev\scripts\EarthTmpExtensions.ilk
+copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtensions.pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,7 +115,7 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;EARTHTMPEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -128,16 +128,16 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y $(TargetDir)EarthExtensions.dll C:\EarthTmpDev\scripts\EarthExtensions.asi
-copy /Y $(TargetDir)EarthExtensions.ilk C:\EarthTmpDev\scripts\EarthExtensions.ilk
-copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.pdb</Command>
+      <Command>copy /Y $(TargetDir)EarthTmpExtensions.dll C:\EarthTmpDev\scripts\EarthTmpExtensions.asi
+copy /Y $(TargetDir)EarthTmpExtensions.ilk C:\EarthTmpDev\scripts\EarthTmpExtensions.ilk
+copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtensions.pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;EARTHTMPEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -154,7 +154,7 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;EARTHEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;EARTHTMPEXTENSIONS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -180,6 +180,8 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClInclude Include="RenderCallGroup.h" />
     <ClInclude Include="RenderCrashFixer.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="ResourceRenderCallGroup.h" />
     <ClInclude Include="ShadowRenderProxyInjector.h" />
     <ClInclude Include="UnitShadowRenderProxy.h" />
@@ -225,6 +227,9 @@ copy /Y $(TargetDir)EarthExtensions.pdb C:\EarthTmpDev\scripts\EarthExtensions.p
     <ClCompile Include="WaterRenderCallGroup.cpp" />
     <ClCompile Include="WaterRenderProxy.cpp" />
     <ClCompile Include="WaterRenderProxyInjector.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EarthTmpExtensions.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -25,7 +25,7 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrappe
 	}
 	else //default render action
 	{
-		GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, 0x01C4, lpvVertices, 3, 0);
+		return GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, 0x01C4, lpvVertices, 3, 0);
 	}
 }
 void WaterRenderProxyInjector::SetWaterRenderContext(bool ctx)
