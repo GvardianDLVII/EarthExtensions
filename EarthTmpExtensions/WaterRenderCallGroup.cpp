@@ -10,7 +10,7 @@ LPVOID WaterRenderCallGroup::GetTextureAddress()
 }
 int WaterRenderCallGroup::GetMaxOffset()
 {
-	return 150;
+	return Configuration::GetWaterRenderBufferSize();
 }
 DWORD WaterRenderCallGroup::GetCurrentTextureNum()
 {

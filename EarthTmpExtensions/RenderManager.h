@@ -4,6 +4,8 @@
 #include "WaterRenderProxyInjector.h"
 #include "MeshRenderProxy.h"
 #include "MeshRenderProxyInjector.h"
+#include "TerrainRenderProxyInjector.h"
+#include "ShadowRenderProxyInjector.h"
 
 class RenderManager
 {
@@ -12,6 +14,8 @@ private:
 	static WaterRenderProxyInjector* waterRendererInjector;
 	static MeshRenderProxy* meshRenderer;
 	static MeshRenderProxyInjector* meshRendererInjector;
+	static TerrainRenderProxyInjector* TerrainInjector;
+	static ShadowRenderProxyInjector* ShadowInjector;
 	void* RenderMeshesAddress;
 	void HookRenderMeshesCall();
 	void* RenderWaterAndUnitShadowsAddress;

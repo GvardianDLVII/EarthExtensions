@@ -11,7 +11,7 @@ LPVOID MeshRenderCallGroup::GetTextureAddress()
 }
 int MeshRenderCallGroup::GetMaxOffset()
 {
-	return 150;
+	return Configuration::GetMeshRenderBufferSize();
 }
 DWORD MeshRenderCallGroup::GetCurrentTextureNum()
 {

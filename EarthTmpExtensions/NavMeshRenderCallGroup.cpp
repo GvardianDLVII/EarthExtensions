@@ -10,7 +10,7 @@ LPVOID NavMeshRenderCallGroup::GetTextureAddress()
 }
 int NavMeshRenderCallGroup::GetMaxOffset()
 {
-	return 10000;
+	return Configuration::GetNavMeshRenderBufferSize();
 }
 DWORD NavMeshRenderCallGroup::GetCurrentTextureNum()
 {

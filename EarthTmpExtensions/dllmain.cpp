@@ -1,12 +1,8 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
-#include "TerrainRenderProxyInjector.h"
-#include "ShadowRenderProxyInjector.h"
 #include "RenderManager.h"
 #include "RenderCrashFixer.h"
 
-static TerrainRenderProxyInjector* TerrainInjector;
-static ShadowRenderProxyInjector* ShadowInjector;
 static RenderManager* renderManager;
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -16,18 +12,15 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 {
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
-        TerrainInjector = new TerrainRenderProxyInjector();
-        TerrainInjector->Inject();
-        ShadowInjector = new ShadowRenderProxyInjector();
-        ShadowInjector->Inject();
+        Configuration::ReadConfig();
         renderManager = new RenderManager();
-        //HookAntiCrash();
-        ReplaceMemoryCalls();
+        if (Configuration::GetEnableRenderOverflowCrashFix())
+        {
+            ReplaceMemoryCalls();
+        }
     }
     else if (ul_reason_for_call == DLL_PROCESS_DETACH)
     {
-        delete TerrainInjector;
-        delete ShadowInjector;
         delete renderManager;
     }
 

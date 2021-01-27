@@ -77,6 +77,9 @@
     <ClCompile Include="RenderCrashFixer.cpp">
       <Filter>BugFixes\RenderOverflowCrash</Filter>
     </ClCompile>
+    <ClCompile Include="Configuration.cpp">
+      <Filter>Configuration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -137,8 +140,9 @@
     <ClInclude Include="RenderCrashFixer.h">
       <Filter>BugFixes\RenderOverflowCrash</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Configuration.h">
+      <Filter>Configuration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RenderOptimization">
@@ -180,8 +184,5 @@
     <Filter Include="Configuration">
       <UniqueIdentifier>{736f35bf-8c87-4f64-8e0a-e7de15d9ba7d}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="EarthTmpExtensions.rc" />
   </ItemGroup>
 </Project>

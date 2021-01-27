@@ -23,6 +23,7 @@
 #include <map>
 #include <list>
 #include "Utils.h"
+#include "Configuration.h"
 
 //#pragma comment(lib, "d3dim.lib")
 

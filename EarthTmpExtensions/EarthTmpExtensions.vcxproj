@@ -92,6 +92,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,6 +120,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -168,6 +170,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Configuration.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GreenOverlayRenderCallGroup.h" />
     <ClInclude Include="GroundRenderCallGroup.h" />
@@ -180,8 +183,6 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClInclude Include="RenderCallGroup.h" />
     <ClInclude Include="RenderCrashFixer.h" />
     <ClInclude Include="RenderManager.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="ResourceRenderCallGroup.h" />
     <ClInclude Include="ShadowRenderProxyInjector.h" />
     <ClInclude Include="UnitShadowRenderProxy.h" />
@@ -194,6 +195,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClInclude Include="WaterRenderProxyInjector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GreenOverlayRenderCallGroup.cpp" />
     <ClCompile Include="GreenOverlayRenderProxyInjector.cpp" />
@@ -227,9 +229,6 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClCompile Include="WaterRenderCallGroup.cpp" />
     <ClCompile Include="WaterRenderProxy.cpp" />
     <ClCompile Include="WaterRenderProxyInjector.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="EarthTmpExtensions.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

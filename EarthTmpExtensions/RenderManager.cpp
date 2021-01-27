@@ -6,21 +6,38 @@ WaterRenderProxy* RenderManager::waterRenderer = 0;
 WaterRenderProxyInjector* RenderManager::waterRendererInjector = 0;
 MeshRenderProxy* RenderManager::meshRenderer = 0;
 MeshRenderProxyInjector* RenderManager::meshRendererInjector = 0;
+TerrainRenderProxyInjector* RenderManager::TerrainInjector;
+ShadowRenderProxyInjector* RenderManager::ShadowInjector;
 
 RenderManager::RenderManager()
 {
 	meshRenderer = new MeshRenderProxy();
 	meshRendererInjector = new MeshRenderProxyInjector(meshRenderer);
-	meshRendererInjector->Inject();
+	if (Configuration::GetEnableMeshRenderingOptimization())
+	{
+		meshRendererInjector->Inject();
+		RenderMeshesAddress = (void*)RenderMeshes;
+		HookRenderMeshesCall();
+	}
 
 	waterRenderer = new WaterRenderProxy();
 	waterRendererInjector = new WaterRenderProxyInjector(waterRenderer);
-	waterRendererInjector->Inject();
-
-	RenderMeshesAddress = (void*)RenderMeshes;
-	HookRenderMeshesCall();
-	RenderWaterAndUnitShadowsAddress = (void*)RenderWaterAndUnitShadows;
-	HookRenderWaterAndUnitShadowsCall();
+	if (Configuration::GetEnableWaterRenderingOptimization())
+	{
+		waterRendererInjector->Inject();
+		RenderWaterAndUnitShadowsAddress = (void*)RenderWaterAndUnitShadows;
+		HookRenderWaterAndUnitShadowsCall();
+	}
+	TerrainInjector = new TerrainRenderProxyInjector();
+	if (Configuration::GetEnableTerrainRenderingOptimization())
+	{
+		TerrainInjector->Inject();
+	}
+	ShadowInjector = new ShadowRenderProxyInjector();
+	if (Configuration::GetEnableShadowRenderingOptimization())
+	{
+		ShadowInjector->Inject();
+	}
 }
 RenderManager::~RenderManager()
 {
@@ -28,6 +45,8 @@ RenderManager::~RenderManager()
 	delete meshRenderer;
 	delete waterRendererInjector;
 	delete waterRenderer;
+	delete TerrainInjector;
+	delete ShadowInjector;
 }
 
 void RenderManager::HookRenderWaterAndUnitShadowsCall()
@@ -100,7 +119,7 @@ void __stdcall RenderManager::RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2)
 {
 	if (arg1 == arg2)
 		CallRenderWater();
-	if(GetCameraHeight() < 50.0f)
+	if(GetCameraHeight() < Configuration::GetShadowRenderThreshold())
 		CallRenderUnitShadows();
 }
 void __stdcall RenderManager::RenderMeshes(DWORD arg1)

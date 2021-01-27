@@ -10,7 +10,7 @@ LPVOID GreenOverlayRenderCallGroup::GetTextureAddress()
 }
 int GreenOverlayRenderCallGroup::GetMaxOffset()
 {
-	return 10000;
+	return Configuration::GetGreenOverlayRenderBufferSize();
 }
 DWORD GreenOverlayRenderCallGroup::GetCurrentTextureNum()
 {

@@ -10,7 +10,7 @@ LPVOID ResourceRenderCallGroup::GetTextureAddress()
 }
 int ResourceRenderCallGroup::GetMaxOffset()
 {
-	return 10000;
+	return Configuration::GetResourcesRenderBufferSize();
 }
 DWORD ResourceRenderCallGroup::GetCurrentTextureNum()
 {
