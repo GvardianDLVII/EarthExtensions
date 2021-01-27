@@ -107,7 +107,8 @@
     <PostBuildEvent>
       <Command>copy /Y $(TargetDir)EarthTmpExtensions.dll C:\EarthTmpDev\scripts\EarthTmpExtensions.asi
 copy /Y $(TargetDir)EarthTmpExtensions.ilk C:\EarthTmpDev\scripts\EarthTmpExtensions.ilk
-copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtensions.pdb</Command>
+copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtensions.pdb
+copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtensions.ini</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +133,8 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <PostBuildEvent>
       <Command>copy /Y $(TargetDir)EarthTmpExtensions.dll C:\EarthTmpDev\scripts\EarthTmpExtensions.asi
 copy /Y $(TargetDir)EarthTmpExtensions.ilk C:\EarthTmpDev\scripts\EarthTmpExtensions.ilk
-copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtensions.pdb</Command>
+copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtensions.pdb
+copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtensions.ini</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -185,6 +187,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ResourceRenderCallGroup.h" />
     <ClInclude Include="ShadowRenderProxyInjector.h" />
+    <ClInclude Include="TitlebarFixes.h" />
     <ClInclude Include="UnitShadowRenderProxy.h" />
     <ClInclude Include="TerrainRenderProxy.h" />
     <ClInclude Include="TerrainRenderProxyInjector.h" />
@@ -193,6 +196,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClInclude Include="WaterRenderCallGroup.h" />
     <ClInclude Include="WaterRenderProxy.h" />
     <ClInclude Include="WaterRenderProxyInjector.h" />
+    <ClInclude Include="WidescreenFixes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configuration.cpp" />
@@ -220,6 +224,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClCompile Include="ResourceRenderProxyInjector.cpp" />
     <ClCompile Include="ShadowRenderProxyInjector.cpp" />
     <ClCompile Include="SquareRenderCallGroup.cpp" />
+    <ClCompile Include="TitlebarFixes.cpp" />
     <ClCompile Include="TriangleRenderCallGroup.cpp" />
     <ClCompile Include="UnitShadowRenderCallGroup.cpp" />
     <ClCompile Include="UnitShadowRenderProxy.cpp" />
@@ -229,6 +234,12 @@ copy /Y $(TargetDir)EarthTmpExtensions.pdb C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClCompile Include="WaterRenderCallGroup.cpp" />
     <ClCompile Include="WaterRenderProxy.cpp" />
     <ClCompile Include="WaterRenderProxyInjector.cpp" />
+    <ClCompile Include="WidescreenFixes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EarthTmpExtensions.ini">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

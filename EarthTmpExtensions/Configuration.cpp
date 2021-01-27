@@ -19,6 +19,13 @@ bool Configuration::EnableWaterRenderingOptimization = true;
 bool Configuration::EnableShadowRenderingOptimization = true;
 bool Configuration::EnableMeshRenderingOptimization = true;
 
+bool Configuration::EnableTitlebarFix = true;
+bool Configuration::EnableConstructorF1CrashFix = true;
+bool Configuration::OverrideSidePanelWidthFactor = true;
+bool Configuration::OverrideBottomPanelWidthFactor = true;
+int Configuration::SidePanelWidthFactor = 144;
+int Configuration::BottomPanelWidthFactor = 180;
+
 
 float Configuration::GetShadowRenderThreshold() { return ShadowRenderThreshold; }
 
@@ -35,6 +42,13 @@ bool Configuration::GetEnableTerrainRenderingOptimization() { return EnableTerra
 bool Configuration::GetEnableWaterRenderingOptimization() { return EnableWaterRenderingOptimization; }
 bool Configuration::GetEnableShadowRenderingOptimization() { return EnableShadowRenderingOptimization; }
 bool Configuration::GetEnableMeshRenderingOptimization() { return EnableMeshRenderingOptimization; }
+
+bool Configuration::GetEnableTitlebarFix() { return EnableTitlebarFix; }
+bool Configuration::GetEnableConstructorF1CrashFix() { return EnableConstructorF1CrashFix; }
+bool Configuration::GetOverrideSidePanelWidthFactor() { return OverrideSidePanelWidthFactor; }
+bool Configuration::GetOverrideBottomPanelWidthFactor() { return OverrideBottomPanelWidthFactor; }
+int Configuration::GetSidePanelWidthFactor() { return SidePanelWidthFactor; }
+int Configuration::GetBottomPanelWidthFactor() { return BottomPanelWidthFactor; }
 
 void Configuration::ReadConfig()
 {
@@ -93,6 +107,30 @@ void Configuration::ReadConfig()
 		} else if(key == "EnableMeshRenderingOptimization")
 		{
 			EnableMeshRenderingOptimization = value == "1";
+		}
+		else if (key == "EnableTitlebarFix")
+		{
+			EnableTitlebarFix = value == "1";
+		}
+		else if (key == "EnableConstructorF1CrashFix")
+		{
+			EnableConstructorF1CrashFix = value == "1";
+		}
+		else if (key == "OverrideSidePanelWidthFactor")
+		{
+			OverrideSidePanelWidthFactor = value == "1";
+		}
+		else if (key == "OverrideBottomPanelWidthFactor")
+		{
+			OverrideBottomPanelWidthFactor = value == "1";
+		}
+		else if (key == "SidePanelWidthFactor")
+		{
+			SidePanelWidthFactor = std::stoi(value);
+		}
+		else if (key == "BottomPanelWidthFactor")
+		{
+			BottomPanelWidthFactor = std::stoi(value);
 		}
 	}
 	configFile.close();

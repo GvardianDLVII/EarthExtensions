@@ -2,6 +2,8 @@
 #include "pch.h"
 #include "RenderManager.h"
 #include "RenderCrashFixer.h"
+#include "WidescreenFixes.h"
+#include "TitlebarFixes.h"
 
 static RenderManager* renderManager;
 
@@ -13,6 +15,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
         Configuration::ReadConfig();
+        WidescreenFixes::Apply();
+        TitlebarFixes::Apply();
         renderManager = new RenderManager();
         if (Configuration::GetEnableRenderOverflowCrashFix())
         {

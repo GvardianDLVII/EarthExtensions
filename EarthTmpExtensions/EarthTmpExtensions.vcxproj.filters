@@ -80,6 +80,12 @@
     <ClCompile Include="Configuration.cpp">
       <Filter>Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="WidescreenFixes.cpp">
+      <Filter>BugFixes\ResolutionFixes</Filter>
+    </ClCompile>
+    <ClCompile Include="TitlebarFixes.cpp">
+      <Filter>BugFixes\TitlebarFixes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -143,6 +149,12 @@
     <ClInclude Include="Configuration.h">
       <Filter>Configuration</Filter>
     </ClInclude>
+    <ClInclude Include="WidescreenFixes.h">
+      <Filter>BugFixes\ResolutionFixes</Filter>
+    </ClInclude>
+    <ClInclude Include="TitlebarFixes.h">
+      <Filter>BugFixes\TitlebarFixes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RenderOptimization">
@@ -184,5 +196,14 @@
     <Filter Include="Configuration">
       <UniqueIdentifier>{736f35bf-8c87-4f64-8e0a-e7de15d9ba7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BugFixes\ResolutionFixes">
+      <UniqueIdentifier>{30ebd1f3-bd1b-4b57-be59-551994e7747b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BugFixes\TitlebarFixes">
+      <UniqueIdentifier>{756b8981-50f0-497e-8008-61391a6ce9ef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EarthTmpExtensions.ini" />
   </ItemGroup>
 </Project>

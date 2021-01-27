@@ -20,6 +20,13 @@ private:
 	static bool EnableShadowRenderingOptimization;
 	static bool EnableMeshRenderingOptimization;
 
+	static bool EnableTitlebarFix;
+	static bool EnableConstructorF1CrashFix;
+	static bool OverrideSidePanelWidthFactor;
+	static bool OverrideBottomPanelWidthFactor;
+	static int SidePanelWidthFactor;
+	static int BottomPanelWidthFactor;
+
 public:
 	static void ReadConfig();
 
@@ -38,4 +45,11 @@ public:
 	static bool GetEnableWaterRenderingOptimization();
 	static bool GetEnableShadowRenderingOptimization();
 	static bool GetEnableMeshRenderingOptimization();
+
+	static bool GetEnableTitlebarFix();
+	static bool GetEnableConstructorF1CrashFix();
+	static bool GetOverrideSidePanelWidthFactor();
+	static bool GetOverrideBottomPanelWidthFactor();
+	static int GetSidePanelWidthFactor();
+	static int GetBottomPanelWidthFactor();
 };
