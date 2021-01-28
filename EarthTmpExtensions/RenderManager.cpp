@@ -108,12 +108,14 @@ void RenderManager::CallRenderWater()
 }
 void RenderManager::CallRenderUnitShadows()
 {
+	ShadowInjector->SetShadowRenderContext(true);
 	//005E2E66       E8 85DDFFFF       call 005E0BF0
 	typedef void(__stdcall* originalCall)(void);
 
 	void* originalFunctionPointer = (void*)0x005E0BF0;
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call();
+	ShadowInjector->SetShadowRenderContext(false);
 }
 void __stdcall RenderManager::RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2)
 {
