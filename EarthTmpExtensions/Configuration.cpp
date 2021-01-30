@@ -27,7 +27,7 @@ int Configuration::SidePanelWidthFactor = 144;
 int Configuration::BottomPanelWidthFactor = 180;
 
 bool Configuration::OverrideCompassSize = true;
-int Configuration::CompassSize = 48;
+int Configuration::CompassSize = 80;
 
 
 float Configuration::GetShadowRenderThreshold() { return ShadowRenderThreshold; }
