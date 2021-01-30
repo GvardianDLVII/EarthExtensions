@@ -27,6 +27,9 @@ private:
 	static int SidePanelWidthFactor;
 	static int BottomPanelWidthFactor;
 
+	static bool OverrideCompassSize;
+	static int CompassSize;
+
 public:
 	static void ReadConfig();
 
@@ -52,4 +55,7 @@ public:
 	static bool GetOverrideBottomPanelWidthFactor();
 	static int GetSidePanelWidthFactor();
 	static int GetBottomPanelWidthFactor();
+
+	static bool GetOverrideCompassSize();
+	static int GetCompassSize();
 };

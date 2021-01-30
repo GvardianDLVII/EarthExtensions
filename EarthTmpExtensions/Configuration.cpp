@@ -26,6 +26,9 @@ bool Configuration::OverrideBottomPanelWidthFactor = true;
 int Configuration::SidePanelWidthFactor = 144;
 int Configuration::BottomPanelWidthFactor = 180;
 
+bool Configuration::OverrideCompassSize = true;
+int Configuration::CompassSize = 48;
+
 
 float Configuration::GetShadowRenderThreshold() { return ShadowRenderThreshold; }
 
@@ -49,6 +52,9 @@ bool Configuration::GetOverrideSidePanelWidthFactor() { return OverrideSidePanel
 bool Configuration::GetOverrideBottomPanelWidthFactor() { return OverrideBottomPanelWidthFactor; }
 int Configuration::GetSidePanelWidthFactor() { return SidePanelWidthFactor; }
 int Configuration::GetBottomPanelWidthFactor() { return BottomPanelWidthFactor; }
+
+bool Configuration::GetOverrideCompassSize() { return OverrideCompassSize; }
+int Configuration::GetCompassSize() { return CompassSize; }
 
 void Configuration::ReadConfig()
 {
@@ -131,6 +137,14 @@ void Configuration::ReadConfig()
 		else if (key == "BottomPanelWidthFactor")
 		{
 			BottomPanelWidthFactor = std::stoi(value);
+		}
+		else if (key == "OverrideCompassSize")
+		{
+			OverrideCompassSize = value == "1";
+		}
+		else if (key == "CompassSize")
+		{
+			CompassSize = std::stoi(value);
 		}
 	}
 	configFile.close();

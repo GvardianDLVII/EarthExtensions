@@ -88,6 +88,23 @@ void WidescreenFixes::AdjustBottomPanelSize()
 
     WriteProcessMemory(GetCurrentProcess(), (PVOID)0x66346E, replacement, sizeof(replacement), NULL);
 }
+void WidescreenFixes::AdjustCompassSize()
+{
+    int compassSize = Configuration::GetCompassSize();
+    byte bytes[4];
+    ToByteArray(compassSize, bytes);
+    byte replacement[] = {
+        0xBA,
+        bytes[3],
+        bytes[2],
+        bytes[1],
+        bytes[0],
+        0x90,
+        0x90
+    };
+
+    WriteProcessMemory(GetCurrentProcess(), (PVOID)0x663EA5, replacement, sizeof(replacement), NULL);
+}
 void WidescreenFixes::Apply()
 {
     if (Configuration::GetEnableConstructorF1CrashFix())
@@ -101,5 +118,9 @@ void WidescreenFixes::Apply()
     if (Configuration::GetOverrideBottomPanelWidthFactor())
     {
         AdjustBottomPanelSize();
+    }
+    if (Configuration::GetOverrideCompassSize())
+    {
+        AdjustCompassSize();
     }
 }
