@@ -44,9 +44,9 @@ HRESULT MeshRenderProxy::RegisterMeshTriangleRendering(D3DVERTEX* lpvVertices)
 
 HRESULT MeshRenderProxy::CommitMesh()
 {
-	for (auto it = meshCalls.begin(); it != meshCalls.end(); ++it)
+	for (auto it = meshCalls.rbegin(); it != meshCalls.rend(); ++it)
 	{
-		for (auto it2 = it->second->begin(); it2 != it->second->end(); ++it2)
+		for (auto it2 = it->second->rbegin(); it2 != it->second->rend(); ++it2)
 		{
 			it2->second->Render();
 		}
