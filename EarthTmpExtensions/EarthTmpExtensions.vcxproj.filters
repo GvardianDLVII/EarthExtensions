@@ -19,9 +19,6 @@
     <ClCompile Include="ShadowRenderProxyInjector.cpp">
       <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClCompile>
-    <ClCompile Include="WaterRenderCallGroup.cpp">
-      <Filter>RenderOptimization\WaterRendering</Filter>
-    </ClCompile>
     <ClCompile Include="WaterRenderProxy.cpp">
       <Filter>RenderOptimization\WaterRendering</Filter>
     </ClCompile>
@@ -86,6 +83,12 @@
     <ClCompile Include="TitlebarFixes.cpp">
       <Filter>BugFixes\TitlebarFixes</Filter>
     </ClCompile>
+    <ClCompile Include="WaterRenderCallGroup.cpp">
+      <Filter>RenderOptimization\WaterRendering\Surface</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterGreenOverlayRenderCallGroup.cpp">
+      <Filter>RenderOptimization\WaterRendering\GreenOverlay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -107,9 +110,6 @@
       <Filter>RenderOptimization\ShadowRendering</Filter>
     </ClInclude>
     <ClInclude Include="WaterRenderProxy.h">
-      <Filter>RenderOptimization\WaterRendering</Filter>
-    </ClInclude>
-    <ClInclude Include="WaterRenderCallGroup.h">
       <Filter>RenderOptimization\WaterRendering</Filter>
     </ClInclude>
     <ClInclude Include="WaterRenderProxyInjector.h">
@@ -154,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="TitlebarFixes.h">
       <Filter>BugFixes\TitlebarFixes</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterRenderCallGroup.h">
+      <Filter>RenderOptimization\WaterRendering\Surface</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterGreenOverlayRenderCallGroup.h">
+      <Filter>RenderOptimization\WaterRendering\GreenOverlay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +207,12 @@
     </Filter>
     <Filter Include="BugFixes\TitlebarFixes">
       <UniqueIdentifier>{756b8981-50f0-497e-8008-61391a6ce9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\WaterRendering\GreenOverlay">
+      <UniqueIdentifier>{14580e2e-c676-43d0-ab82-df7da84a714b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\WaterRendering\Surface">
+      <UniqueIdentifier>{e090418d-84c5-4f49-93b6-58123e394f99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

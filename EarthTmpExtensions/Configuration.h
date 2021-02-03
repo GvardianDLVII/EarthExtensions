@@ -11,6 +11,7 @@ private:
 	static int GreenOverlayRenderBufferSize;
 	static int ResourcesRenderBufferSize;
 	static int WaterRenderBufferSize;
+	static int WaterGreenOverlayRenderBufferSize;
 	static int ShadowRenderBufferSize;
 	static int MeshRenderBufferSize;
 
@@ -40,6 +41,7 @@ public:
 	static int GetGreenOverlayRenderBufferSize();
 	static int GetResourcesRenderBufferSize();
 	static int GetWaterRenderBufferSize();
+	static int GetWaterGreenOverlayRenderBufferSize();
 	static int GetShadowRenderBufferSize();
 	static int GetMeshRenderBufferSize();
 

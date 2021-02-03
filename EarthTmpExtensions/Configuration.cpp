@@ -10,6 +10,7 @@ int Configuration::NavMeshRenderBufferSize = 10000;
 int Configuration::GreenOverlayRenderBufferSize = 10000;
 int Configuration::ResourcesRenderBufferSize = 10000;
 int Configuration::WaterRenderBufferSize = 150;
+int Configuration::WaterGreenOverlayRenderBufferSize = 10000;
 int Configuration::ShadowRenderBufferSize = 100;
 int Configuration::MeshRenderBufferSize = 150;
 
@@ -37,6 +38,7 @@ int Configuration::GetNavMeshRenderBufferSize() { return NavMeshRenderBufferSize
 int Configuration::GetGreenOverlayRenderBufferSize() { return GreenOverlayRenderBufferSize; }
 int Configuration::GetResourcesRenderBufferSize() { return ResourcesRenderBufferSize; }
 int Configuration::GetWaterRenderBufferSize() { return WaterRenderBufferSize; }
+int Configuration::GetWaterGreenOverlayRenderBufferSize() { return WaterGreenOverlayRenderBufferSize; }
 int Configuration::GetShadowRenderBufferSize() { return ShadowRenderBufferSize; }
 int Configuration::GetMeshRenderBufferSize() { return MeshRenderBufferSize; }
 
@@ -92,7 +94,12 @@ void Configuration::ReadConfig()
 		} else if(key == "WaterRenderBufferSize")
 		{
 			WaterRenderBufferSize = std::stoi(value);
-		} else if(key == "ShadowRenderBufferSize")
+		}
+		else if (key == "WaterGreenOverlayRenderBufferSize")
+		{
+			WaterGreenOverlayRenderBufferSize = std::stoi(value);
+		}
+		else if(key == "ShadowRenderBufferSize")
 		{
 			ShadowRenderBufferSize = std::stoi(value);
 		} else if(key == "MeshRenderBufferSize")

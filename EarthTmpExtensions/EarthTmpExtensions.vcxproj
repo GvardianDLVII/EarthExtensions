@@ -193,6 +193,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClInclude Include="TerrainRenderProxyInjector.h" />
     <ClInclude Include="UnitShadowRenderCallGroup.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="WaterGreenOverlayRenderCallGroup.h" />
     <ClInclude Include="WaterRenderCallGroup.h" />
     <ClInclude Include="WaterRenderProxy.h" />
     <ClInclude Include="WaterRenderProxyInjector.h" />
@@ -231,6 +232,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClCompile Include="TerrainRenderProxy.cpp" />
     <ClCompile Include="TerrainRenderProxyInjector.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WaterGreenOverlayRenderCallGroup.cpp" />
     <ClCompile Include="WaterRenderCallGroup.cpp" />
     <ClCompile Include="WaterRenderProxy.cpp" />
     <ClCompile Include="WaterRenderProxyInjector.cpp" />
