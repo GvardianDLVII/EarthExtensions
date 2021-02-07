@@ -103,14 +103,14 @@ static BYTE waterGreenOverlayProxyFunction[] =
 	0x89, 0xE5,								//mov	ebp, esp
 	0x56,									//push	esi
 	0x57,									//push	edi
+	0xFF, 0x75, 0x0C,						//push  [ebp+0Ch]
 	0xFF, 0x75, 0x08,						//push  [ebp+08h]
-	0xFF, 0x75, 0x04,						//push  [ebp+04h]
 	0x51,									//push	ecx,
 	0xFF, 0x15, 0x00, 0x00, 0x00, 0x00,		//call	[greenProxy]
 	0x5F,									//pop	edi
 	0x5E,									//pop	esi
 	0x5D,									//pop	ebp
-	0xC3									//ret
+	0xC2, 0x08, 0x00						//ret 8
 };
 
 void WaterRenderProxyInjector::HookSetWaterGreenOverlayTextureCall()
@@ -132,6 +132,26 @@ void WaterRenderProxyInjector::HookSetWaterGreenOverlayTextureCall()
 	};
 
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
+	byte txtSet1[] = {
+		0xBB, 0x40, 0x15, 0xA4, 0x00,			//mov ebx, 00A41540
+		0x90									//nop
+	};
+	WriteProcessMemory(GetCurrentProcess(), (PVOID)0x619807, txtSet1, sizeof(txtSet1), NULL);
+	byte txtSet2[] = {
+		0xB9, 0x2C, 0x15, 0xA4, 0x00,			//mov ecx, 00A4152C
+		0x90									//nop
+	};
+	WriteProcessMemory(GetCurrentProcess(), (PVOID)0x619830, txtSet2, sizeof(txtSet2), NULL);
+	byte txtSet3[] = {
+		0xB9, 0x24, 0x15, 0xA4, 0x00,			//mov ecx, 00A41524
+		0x90									//nop
+	};
+	WriteProcessMemory(GetCurrentProcess(), (PVOID)0x61984A, txtSet3, sizeof(txtSet3), NULL);
+	byte txtSet4[] = {
+		0xB9, 0x28, 0x15, 0xA4, 0x00,			//mov ecx, 00A41528
+		0x90									//nop
+	};
+	WriteProcessMemory(GetCurrentProcess(), (PVOID)0x619854, txtSet4, sizeof(txtSet4), NULL);
 
 	const ULONG_PTR injectAddress2 = 0x0061F9A2;
 	void** proxyFunctionAddress2 = &SetWaterGreenOverlayTextureAddress;
@@ -198,6 +218,9 @@ void WaterRenderProxyInjector::Inject()
 {
 	HookSetWaterTextureCall();
 	HookRegisterWaterTriangleRenderCall();
-	HookSetWaterGreenOverlayTextureCall();
-	HookRegisterWaterGreenOverlayTriangleRenderCall();
+	if (Configuration::GetEnableWaterGreenOverlayRenderingOptimization())
+	{
+		HookSetWaterGreenOverlayTextureCall();
+		HookRegisterWaterGreenOverlayTriangleRenderCall();
+	}
 }

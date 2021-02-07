@@ -17,6 +17,7 @@ int Configuration::MeshRenderBufferSize = 150;
 bool Configuration::EnableRenderOverflowCrashFix = true;
 bool Configuration::EnableTerrainRenderingOptimization = true;
 bool Configuration::EnableWaterRenderingOptimization = true;
+bool Configuration::EnableWaterGreenOverlayRenderingOptimization = true;
 bool Configuration::EnableShadowRenderingOptimization = true;
 bool Configuration::EnableMeshRenderingOptimization = true;
 
@@ -45,6 +46,7 @@ int Configuration::GetMeshRenderBufferSize() { return MeshRenderBufferSize; }
 bool Configuration::GetEnableRenderOverflowCrashFix() { return EnableRenderOverflowCrashFix; }
 bool Configuration::GetEnableTerrainRenderingOptimization() { return EnableTerrainRenderingOptimization; }
 bool Configuration::GetEnableWaterRenderingOptimization() { return EnableWaterRenderingOptimization; }
+bool Configuration::GetEnableWaterGreenOverlayRenderingOptimization() { return EnableWaterGreenOverlayRenderingOptimization; }
 bool Configuration::GetEnableShadowRenderingOptimization() { return EnableShadowRenderingOptimization; }
 bool Configuration::GetEnableMeshRenderingOptimization() { return EnableMeshRenderingOptimization; }
 
@@ -114,7 +116,12 @@ void Configuration::ReadConfig()
 		} else if(key == "EnableWaterRenderingOptimization")
 		{
 			EnableWaterRenderingOptimization = value == "1";
-		} else if(key == "EnableShadowRenderingOptimization")
+		}
+		else if (key == "EnableWaterGreenOverlayRenderingOptimization")
+		{
+			EnableWaterGreenOverlayRenderingOptimization = value == "1";
+		}
+		else if(key == "EnableShadowRenderingOptimization")
 		{
 			EnableShadowRenderingOptimization = value == "1";
 		} else if(key == "EnableMeshRenderingOptimization")

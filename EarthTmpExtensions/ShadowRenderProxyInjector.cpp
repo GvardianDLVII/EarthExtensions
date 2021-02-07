@@ -25,7 +25,7 @@ HRESULT __stdcall ShadowRenderProxyInjector::RegisterUnitShadowSquareRenderingWr
 	}
 	else
 	{
-		GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 4, lpwIndices, 6, 0);
+		return GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 4, lpwIndices, 6, 0);
 	}
 }
 HRESULT __stdcall ShadowRenderProxyInjector::CommitUnitShadowWrapper()

@@ -18,6 +18,7 @@ private:
 	static bool EnableRenderOverflowCrashFix;
 	static bool EnableTerrainRenderingOptimization;
 	static bool EnableWaterRenderingOptimization;
+	static bool EnableWaterGreenOverlayRenderingOptimization;
 	static bool EnableShadowRenderingOptimization;
 	static bool EnableMeshRenderingOptimization;
 
@@ -48,6 +49,7 @@ public:
 	static bool GetEnableRenderOverflowCrashFix();
 	static bool GetEnableTerrainRenderingOptimization();
 	static bool GetEnableWaterRenderingOptimization();
+	static bool GetEnableWaterGreenOverlayRenderingOptimization();
 	static bool GetEnableShadowRenderingOptimization();
 	static bool GetEnableMeshRenderingOptimization();
 
