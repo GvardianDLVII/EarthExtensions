@@ -3,13 +3,11 @@
 #include "OriginalMethods.h"
 #include "RenderManager.h"
 
-MeshRenderProxy* MeshRenderProxyInjector::meshRenderer = 0;
-
 HRESULT __stdcall MeshRenderProxyInjector::SetMeshTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Mesh)
 	{
-		return meshRenderer->SetMeshTexture(textureAddress, textureNum);
+		return RenderManager::GetMeshRenderer()->SetMeshTexture(textureAddress, textureNum);
 	}
 	else
 	{
@@ -21,7 +19,7 @@ HRESULT __stdcall MeshRenderProxyInjector::RegisterMeshTriangleRenderingWrapper(
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Mesh)
 	{
-		return meshRenderer->RegisterMeshTriangleRendering(lpvVertices);
+		return RenderManager::GetMeshRenderer()->RegisterMeshTriangleRendering(lpvVertices);
 	}
 	else //default render action
 	{
@@ -65,9 +63,8 @@ void MeshRenderProxyInjector::HookRegisterMeshTriangleRenderCall()
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
 }
 
-MeshRenderProxyInjector::MeshRenderProxyInjector(MeshRenderProxy* meshRenderer)
+MeshRenderProxyInjector::MeshRenderProxyInjector()
 {
-	this->meshRenderer = meshRenderer;
 	SetMeshTextureAddress = (LPVOID)((ULONG_PTR)SetMeshTextureWrapper);
 	RegisterMeshTriangleRenderingAddress = (LPVOID)((ULONG_PTR)RegisterMeshTriangleRenderingWrapper);
 }

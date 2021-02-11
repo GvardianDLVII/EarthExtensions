@@ -18,7 +18,8 @@ private:
 	static MeshRenderProxy* meshRenderer;
 	static MeshRenderProxyInjector* meshRendererInjector;
 	static TerrainRenderProxyInjector* TerrainInjector;
-	static ShadowRenderProxyInjector* ShadowInjector;
+	static UnitShadowRenderProxy* shadowRenderer;
+	static ShadowRenderProxyInjector* shadowInjector;
 	void* RenderMeshesAddress;
 	void HookRenderMeshesCall();
 	void* RenderWaterAndUnitShadowsAddress;
@@ -33,4 +34,7 @@ public:
 	static RenderingContextType GetRenderingContext();
 	static void __stdcall RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2);
 	static void __stdcall RenderMeshes(DWORD arg1);
+	static WaterRenderProxy* GetWaterRenderer();
+	static MeshRenderProxy* GetMeshRenderer();
+	static UnitShadowRenderProxy* GetUnitShadowRenderer();
 };

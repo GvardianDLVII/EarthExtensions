@@ -6,7 +6,6 @@
 class ShadowRenderProxyInjector
 {
 private:
-	static UnitShadowRenderProxy* proxy;
 	LPVOID SetUnitShadowTextureAddress;
 	LPVOID RegisterUnitShadowSquareRenderingAddress;
 	LPVOID CommitUnitShadowAddress;
@@ -19,5 +18,4 @@ private:
 public:
 	ShadowRenderProxyInjector();
 	void Inject();
-	~ShadowRenderProxyInjector();
 };

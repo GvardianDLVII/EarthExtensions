@@ -3,13 +3,11 @@
 #include "OriginalMethods.h"
 #include "RenderManager.h"
 
-UnitShadowRenderProxy* ShadowRenderProxyInjector::proxy = 0;
-
 HRESULT __stdcall ShadowRenderProxyInjector::SetUnitShadowTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::UnitShadows)
 	{
-		return proxy->SetUnitShadowTexture(textureAddress, textureNum);
+		return RenderManager::GetUnitShadowRenderer()->SetUnitShadowTexture(textureAddress, textureNum);
 	}
 	else
 	{
@@ -21,7 +19,7 @@ HRESULT __stdcall ShadowRenderProxyInjector::RegisterUnitShadowSquareRenderingWr
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::UnitShadows)
 	{
-		return proxy->RegisterUnitShadowSquareRendering(lpvVertices, lpwIndices);
+		return RenderManager::GetUnitShadowRenderer()->RegisterUnitShadowSquareRendering(lpvVertices, lpwIndices);
 	}
 	else
 	{
@@ -30,7 +28,7 @@ HRESULT __stdcall ShadowRenderProxyInjector::RegisterUnitShadowSquareRenderingWr
 }
 HRESULT __stdcall ShadowRenderProxyInjector::CommitUnitShadowWrapper()
 {
-	return proxy->CommitUnitShadow();
+	return RenderManager::GetUnitShadowRenderer()->CommitUnitShadow();
 }
 void ShadowRenderProxyInjector::HookSetUnitShadowTextureCall()
 {
@@ -104,7 +102,6 @@ void ShadowRenderProxyInjector::HookCommitUnitShadowCall()
 
 ShadowRenderProxyInjector::ShadowRenderProxyInjector()
 {
-	proxy = new UnitShadowRenderProxy();
 	SetUnitShadowTextureAddress = (LPVOID)((ULONG_PTR)SetUnitShadowTextureWrapper);
 	RegisterUnitShadowSquareRenderingAddress = (LPVOID)((ULONG_PTR)RegisterUnitShadowSquareRenderingWrapper);
 	CommitUnitShadowAddress = (LPVOID)((ULONG_PTR)CommitUnitShadowWrapper);
@@ -114,8 +111,4 @@ void ShadowRenderProxyInjector::Inject()
 	HookSetUnitShadowTextureCall();
 	HookRegisterUnitShadowSquareRenderCall();
 	HookCommitUnitShadowCall();
-}
-ShadowRenderProxyInjector::~ShadowRenderProxyInjector()
-{
-	delete proxy;
 }

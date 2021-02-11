@@ -6,7 +6,6 @@
 class WaterRenderProxyInjector
 {
 private:
-	static WaterRenderProxy* WaterRenderer;
 	LPVOID SetWaterGreenOverlayTextureAddress;
 	LPVOID RegisterWaterGreenOverlayTriangleRenderingAddress;
 	LPVOID SetWaterTextureAddress;
@@ -20,6 +19,6 @@ private:
 	void HookSetWaterTextureCall();
 	void HookRegisterWaterTriangleRenderCall();
 public:
-	WaterRenderProxyInjector(WaterRenderProxy* waterRenderer);
+	WaterRenderProxyInjector();
 	void Inject();
 };

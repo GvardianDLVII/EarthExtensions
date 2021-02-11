@@ -3,13 +3,11 @@
 #include "OriginalMethods.h"
 #include "RenderManager.h"
 
-WaterRenderProxy* WaterRenderProxyInjector::WaterRenderer = 0;
-
 HRESULT __stdcall WaterRenderProxyInjector::SetWaterTextureWrapper(LPVOID textureAddress, DWORD textureNum, DWORD textureUnknowValue)
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
-		return WaterRenderer->SetWaterTexture(textureNum, textureUnknowValue);
+		return RenderManager::GetWaterRenderer()->SetWaterTexture(textureNum, textureUnknowValue);
 	}
 	else
 	{
@@ -21,7 +19,7 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrappe
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
-		return WaterRenderer->RegisterWaterTriangleRendering(lpvVertices);
+		return RenderManager::GetWaterRenderer()->RegisterWaterTriangleRendering(lpvVertices);
 	}
 	else //default render action
 	{
@@ -32,7 +30,7 @@ HRESULT __stdcall WaterRenderProxyInjector::SetWaterGreenOverlayTextureWrapper(L
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
-		return WaterRenderer->SetWaterGreenOverlayTexture(textureAddress, textureNum, textureUnknowValue);
+		return RenderManager::GetWaterRenderer()->SetWaterGreenOverlayTexture(textureAddress, textureNum, textureUnknowValue);
 	}
 	else
 	{
@@ -44,7 +42,7 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterGreenOverlayTriangleRen
 {
 	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
-		return WaterRenderer->RegisterWaterGreenOverlayTriangleRendering(lpvVertices);
+		return RenderManager::GetWaterRenderer()->RegisterWaterGreenOverlayTriangleRendering(lpvVertices);
 	}
 	else //default render action
 	{
@@ -202,9 +200,8 @@ void WaterRenderProxyInjector::HookRegisterWaterGreenOverlayTriangleRenderCall()
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
 }
 
-WaterRenderProxyInjector::WaterRenderProxyInjector(WaterRenderProxy* waterRenderer)
+WaterRenderProxyInjector::WaterRenderProxyInjector()
 {
-	WaterRenderer = waterRenderer;
 	SetWaterTextureAddress = (LPVOID)((ULONG_PTR)SetWaterTextureWrapper);
 	RegisterWaterTriangleRenderingAddress = (LPVOID)((ULONG_PTR)RegisterWaterTriangleRenderingWrapper);
 	SetWaterGreenOverlayTextureAddress = (LPVOID)((ULONG_PTR)SetWaterGreenOverlayTextureWrapper);

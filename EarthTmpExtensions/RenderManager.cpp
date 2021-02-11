@@ -7,13 +7,14 @@ WaterRenderProxyInjector* RenderManager::waterRendererInjector = 0;
 MeshRenderProxy* RenderManager::meshRenderer = 0;
 MeshRenderProxyInjector* RenderManager::meshRendererInjector = 0;
 TerrainRenderProxyInjector* RenderManager::TerrainInjector;
-ShadowRenderProxyInjector* RenderManager::ShadowInjector;
+UnitShadowRenderProxy* RenderManager::shadowRenderer = 0;
+ShadowRenderProxyInjector* RenderManager::shadowInjector;
 RenderingContextType RenderManager::renderingContext = RenderingContextType::Other;
 
 RenderManager::RenderManager()
 {
 	meshRenderer = new MeshRenderProxy();
-	meshRendererInjector = new MeshRenderProxyInjector(meshRenderer);
+	meshRendererInjector = new MeshRenderProxyInjector();
 	if (Configuration::GetEnableMeshRenderingOptimization())
 	{
 		meshRendererInjector->Inject();
@@ -22,7 +23,7 @@ RenderManager::RenderManager()
 	}
 
 	waterRenderer = new WaterRenderProxy();
-	waterRendererInjector = new WaterRenderProxyInjector(waterRenderer);
+	waterRendererInjector = new WaterRenderProxyInjector();
 	if (Configuration::GetEnableWaterRenderingOptimization())
 	{
 		waterRendererInjector->Inject();
@@ -34,10 +35,11 @@ RenderManager::RenderManager()
 	{
 		TerrainInjector->Inject();
 	}
-	ShadowInjector = new ShadowRenderProxyInjector();
+	shadowRenderer = new UnitShadowRenderProxy();
+	shadowInjector = new ShadowRenderProxyInjector();
 	if (Configuration::GetEnableShadowRenderingOptimization())
 	{
-		ShadowInjector->Inject();
+		shadowInjector->Inject();
 	}
 }
 RenderManager::~RenderManager()
@@ -47,12 +49,28 @@ RenderManager::~RenderManager()
 	delete waterRendererInjector;
 	delete waterRenderer;
 	delete TerrainInjector;
-	delete ShadowInjector;
+	delete shadowRenderer;
+	delete shadowInjector;
 }
 
 RenderingContextType RenderManager::GetRenderingContext()
 {
 	return renderingContext;
+}
+
+WaterRenderProxy* RenderManager::GetWaterRenderer()
+{
+	return waterRenderer;
+}
+
+MeshRenderProxy* RenderManager::GetMeshRenderer()
+{
+	return meshRenderer;
+}
+
+UnitShadowRenderProxy* RenderManager::GetUnitShadowRenderer()
+{
+	return shadowRenderer;
 }
 
 void RenderManager::HookRenderWaterAndUnitShadowsCall()
