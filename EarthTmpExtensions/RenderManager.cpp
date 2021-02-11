@@ -6,6 +6,8 @@ WaterRenderProxy* RenderManager::waterRenderer = 0;
 WaterRenderProxyInjector* RenderManager::waterRendererInjector = 0;
 MeshRenderProxy* RenderManager::meshRenderer = 0;
 MeshRenderProxyInjector* RenderManager::meshRendererInjector = 0;
+EffectsRenderProxy* RenderManager::effectsRenderer = 0;
+EffectsRenderProxyInjector* RenderManager::effectsRendererInjector = 0;
 TerrainRenderProxyInjector* RenderManager::TerrainInjector;
 UnitShadowRenderProxy* RenderManager::shadowRenderer = 0;
 ShadowRenderProxyInjector* RenderManager::shadowInjector;
@@ -15,9 +17,12 @@ RenderManager::RenderManager()
 {
 	meshRenderer = new MeshRenderProxy();
 	meshRendererInjector = new MeshRenderProxyInjector();
+	effectsRenderer = new EffectsRenderProxy();
+	effectsRendererInjector = new EffectsRenderProxyInjector();
 	if (Configuration::GetEnableMeshRenderingOptimization())
 	{
 		meshRendererInjector->Inject();
+		effectsRendererInjector->Inject();
 		RenderMeshesAddress = (void*)RenderMeshes;
 		HookRenderMeshesCall();
 	}
@@ -46,6 +51,8 @@ RenderManager::~RenderManager()
 {
 	delete meshRendererInjector;
 	delete meshRenderer;
+	delete effectsRendererInjector;
+	delete effectsRenderer;
 	delete waterRendererInjector;
 	delete waterRenderer;
 	delete TerrainInjector;
@@ -66,6 +73,11 @@ WaterRenderProxy* RenderManager::GetWaterRenderer()
 MeshRenderProxy* RenderManager::GetMeshRenderer()
 {
 	return meshRenderer;
+}
+
+EffectsRenderProxy* RenderManager::GetEffectsRenderer()
+{
+	return effectsRenderer;
 }
 
 UnitShadowRenderProxy* RenderManager::GetUnitShadowRenderer()
@@ -108,7 +120,7 @@ void RenderManager::HookRenderMeshesCall()
 
 void RenderManager::CallRenderMeshes(DWORD arg1)
 {
-	renderingContext = RenderingContextType::Mesh;
+	renderingContext = RenderingContextType::MeshesAndEffects;
 	//005E2E32       E8 E9C5FFFF       call 005DF420
 	typedef void(__stdcall* originalCall)(DWORD);
 
@@ -117,7 +129,8 @@ void RenderManager::CallRenderMeshes(DWORD arg1)
 	call(arg1);
 	renderingContext = RenderingContextType::Other;
 	meshRenderer->CommitMesh();
-}//TODO: after meshes get rendered, there are sprites, and can be overwritten with commit mesh. sprites make call to a method that already has a proxy... WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrapper
+	effectsRenderer->CommitEffects();
+}
 void RenderManager::CallRenderWater()
 {
 	renderingContext = RenderingContextType::Water;

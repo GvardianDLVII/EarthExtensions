@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "RenderCallGroup.h"
 
-class MeshRenderCallGroup : public TriangleRenderCallGroup
+class EffectsRenderCallGroup : public TriangleRenderCallGroup
 {
 private:
 	LPVOID TextureAddress;
@@ -13,7 +13,6 @@ protected:
 	virtual DWORD GetCurrentTextureNum();
 	virtual DWORD GetCurrentTextureUnknownValue();
 public:
-	MeshRenderCallGroup(DWORD textureNum, LPVOID textureAddress);
-	static LPVOID CurrentMeshTextureAddress;
-	static DWORD CurrentMeshTextureNum;
+	EffectsRenderCallGroup(LPVOID textureAddress);
+	static LPVOID CurrentEffectTextureAddress;
 };

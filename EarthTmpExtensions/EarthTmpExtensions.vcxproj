@@ -173,6 +173,9 @@ copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtens
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Configuration.h" />
+    <ClInclude Include="EffectsRenderCallGroup.h" />
+    <ClInclude Include="EffectsRenderProxy.h" />
+    <ClInclude Include="EffectsRenderProxyInjector.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GreenOverlayRenderCallGroup.h" />
     <ClInclude Include="GroundRenderCallGroup.h" />
@@ -202,6 +205,9 @@ copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtens
   <ItemGroup>
     <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="EffectsRenderCallGroup.cpp" />
+    <ClCompile Include="EffectsRenderProxy.cpp" />
+    <ClCompile Include="EffectsRenderProxyInjector.cpp" />
     <ClCompile Include="GreenOverlayRenderCallGroup.cpp" />
     <ClCompile Include="GreenOverlayRenderProxyInjector.cpp" />
     <ClCompile Include="GroundRenderCallGroup.cpp" />

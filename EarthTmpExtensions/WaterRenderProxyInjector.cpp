@@ -21,6 +21,10 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrappe
 	{
 		return RenderManager::GetWaterRenderer()->RegisterWaterTriangleRendering(lpvVertices);
 	}
+	else if (RenderManager::GetRenderingContext() == RenderingContextType::MeshesAndEffects)
+	{
+		return RenderManager::GetEffectsRenderer()->RegisterEffectsTriangleRendering(lpvVertices);
+	}
 	else //default render action
 	{
 		return GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 3, 0);

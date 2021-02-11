@@ -89,6 +89,15 @@
     <ClCompile Include="WaterGreenOverlayRenderCallGroup.cpp">
       <Filter>RenderOptimization\WaterRendering\GreenOverlay</Filter>
     </ClCompile>
+    <ClCompile Include="EffectsRenderCallGroup.cpp">
+      <Filter>RenderOptimization\EffectsRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectsRenderProxy.cpp">
+      <Filter>RenderOptimization\EffectsRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectsRenderProxyInjector.cpp">
+      <Filter>RenderOptimization\EffectsRendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -161,6 +170,15 @@
     <ClInclude Include="WaterGreenOverlayRenderCallGroup.h">
       <Filter>RenderOptimization\WaterRendering\GreenOverlay</Filter>
     </ClInclude>
+    <ClInclude Include="EffectsRenderCallGroup.h">
+      <Filter>RenderOptimization\EffectsRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectsRenderProxy.h">
+      <Filter>RenderOptimization\EffectsRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectsRenderProxyInjector.h">
+      <Filter>RenderOptimization\EffectsRendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RenderOptimization">
@@ -213,6 +231,9 @@
     </Filter>
     <Filter Include="RenderOptimization\WaterRendering\Surface">
       <UniqueIdentifier>{e090418d-84c5-4f49-93b6-58123e394f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderOptimization\EffectsRendering">
+      <UniqueIdentifier>{d647adca-bb92-4c1d-94dc-020f5ac6ffa9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

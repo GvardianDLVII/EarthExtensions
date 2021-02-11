@@ -5,7 +5,7 @@
 
 HRESULT __stdcall MeshRenderProxyInjector::SetMeshTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
-	if (RenderManager::GetRenderingContext() == RenderingContextType::Mesh)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::MeshesAndEffects)
 	{
 		return RenderManager::GetMeshRenderer()->SetMeshTexture(textureAddress, textureNum);
 	}
@@ -17,7 +17,7 @@ HRESULT __stdcall MeshRenderProxyInjector::SetMeshTextureWrapper(LPVOID textureA
 }
 HRESULT __stdcall MeshRenderProxyInjector::RegisterMeshTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _indCount, DWORD _flags)
 {
-	if (RenderManager::GetRenderingContext() == RenderingContextType::Mesh)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::MeshesAndEffects)
 	{
 		return RenderManager::GetMeshRenderer()->RegisterMeshTriangleRendering(lpvVertices);
 	}
