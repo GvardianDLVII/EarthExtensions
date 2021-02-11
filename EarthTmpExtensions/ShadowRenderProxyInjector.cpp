@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "ShadowRenderProxyInjector.h"
 #include "OriginalMethods.h"
+#include "RenderManager.h"
 
 UnitShadowRenderProxy* ShadowRenderProxyInjector::proxy = 0;
-bool ShadowRenderProxyInjector::ShadowRenderContext = false;
 
 HRESULT __stdcall ShadowRenderProxyInjector::SetUnitShadowTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
-	if (ShadowRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::UnitShadows)
 	{
 		return proxy->SetUnitShadowTexture(textureAddress, textureNum);
 	}
@@ -19,7 +19,7 @@ HRESULT __stdcall ShadowRenderProxyInjector::SetUnitShadowTextureWrapper(LPVOID 
 }
 HRESULT __stdcall ShadowRenderProxyInjector::RegisterUnitShadowSquareRenderingWrapper(D3DVERTEX* lpvVertices, LPWORD lpwIndices, DWORD _indCount, DWORD _flags)
 {
-	if (ShadowRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::UnitShadows)
 	{
 		return proxy->RegisterUnitShadowSquareRendering(lpvVertices, lpwIndices);
 	}
@@ -100,11 +100,6 @@ void ShadowRenderProxyInjector::HookCommitUnitShadowCall()
 	};
 
 	WriteProcessMemory(GetCurrentProcess(), (PVOID)injectAddress, proxyCall, sizeof(proxyCall), NULL);
-}
-
-void ShadowRenderProxyInjector::SetShadowRenderContext(bool ctx)
-{
-	ShadowRenderContext = ctx;
 }
 
 ShadowRenderProxyInjector::ShadowRenderProxyInjector()

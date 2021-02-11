@@ -8,6 +8,7 @@ MeshRenderProxy* RenderManager::meshRenderer = 0;
 MeshRenderProxyInjector* RenderManager::meshRendererInjector = 0;
 TerrainRenderProxyInjector* RenderManager::TerrainInjector;
 ShadowRenderProxyInjector* RenderManager::ShadowInjector;
+RenderingContextType RenderManager::renderingContext = RenderingContextType::Other;
 
 RenderManager::RenderManager()
 {
@@ -49,6 +50,11 @@ RenderManager::~RenderManager()
 	delete ShadowInjector;
 }
 
+RenderingContextType RenderManager::GetRenderingContext()
+{
+	return renderingContext;
+}
+
 void RenderManager::HookRenderWaterAndUnitShadowsCall()
 {
 	const ULONG_PTR injectAddress = 0x005E2E58;
@@ -84,38 +90,38 @@ void RenderManager::HookRenderMeshesCall()
 
 void RenderManager::CallRenderMeshes(DWORD arg1)
 {
-	meshRendererInjector->SetMeshRenderContext(true);
+	renderingContext = RenderingContextType::Mesh;
 	//005E2E32       E8 E9C5FFFF       call 005DF420
 	typedef void(__stdcall* originalCall)(DWORD);
 
 	void* originalFunctionPointer = (void*)0x005DF420;
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call(arg1);
-	meshRendererInjector->SetMeshRenderContext(false);
+	renderingContext = RenderingContextType::Other;
 	meshRenderer->CommitMesh();
-}
+}//TODO: after meshes get rendered, there are sprites, and can be overwritten with commit mesh. sprites make call to a method that already has a proxy... WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrapper
 void RenderManager::CallRenderWater()
 {
-	waterRendererInjector->SetWaterRenderContext(true);
+	renderingContext = RenderingContextType::Water;
 	//0005E2E61      E8 3AAC0300       call 0061DAA0
 	typedef void(__stdcall* originalCall)(void);
 
 	void* originalFunctionPointer = (void*)0x0061DAA0;
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call();
-	waterRendererInjector->SetWaterRenderContext(false);
+	renderingContext = RenderingContextType::Other;
 	waterRenderer->CommitWater();
 }
 void RenderManager::CallRenderUnitShadows()
 {
-	ShadowInjector->SetShadowRenderContext(true);
+	renderingContext = RenderingContextType::UnitShadows;
 	//005E2E66       E8 85DDFFFF       call 005E0BF0
 	typedef void(__stdcall* originalCall)(void);
 
 	void* originalFunctionPointer = (void*)0x005E0BF0;
 	originalCall call = (originalCall)(originalFunctionPointer);
 	call();
-	ShadowInjector->SetShadowRenderContext(false);
+	renderingContext = RenderingContextType::Other;
 }
 void __stdcall RenderManager::RenderWaterAndUnitShadows(DWORD arg1, DWORD arg2)
 {

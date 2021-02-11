@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "WaterRenderProxyInjector.h"
 #include "OriginalMethods.h"
+#include "RenderManager.h"
 
 WaterRenderProxy* WaterRenderProxyInjector::WaterRenderer = 0;
-bool WaterRenderProxyInjector::WaterRenderContext = false;
 
 HRESULT __stdcall WaterRenderProxyInjector::SetWaterTextureWrapper(LPVOID textureAddress, DWORD textureNum, DWORD textureUnknowValue)
 {
-	if (WaterRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
 		return WaterRenderer->SetWaterTexture(textureNum, textureUnknowValue);
 	}
@@ -19,7 +19,7 @@ HRESULT __stdcall WaterRenderProxyInjector::SetWaterTextureWrapper(LPVOID textur
 }
 HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _flags)
 {
-	if (WaterRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
 		return WaterRenderer->RegisterWaterTriangleRendering(lpvVertices);
 	}
@@ -30,7 +30,7 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterTriangleRenderingWrappe
 }
 HRESULT __stdcall WaterRenderProxyInjector::SetWaterGreenOverlayTextureWrapper(LPVOID textureAddress, DWORD textureNum, DWORD textureUnknowValue)
 {
-	if (WaterRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
 		return WaterRenderer->SetWaterGreenOverlayTexture(textureAddress, textureNum, textureUnknowValue);
 	}
@@ -42,7 +42,7 @@ HRESULT __stdcall WaterRenderProxyInjector::SetWaterGreenOverlayTextureWrapper(L
 }
 HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterGreenOverlayTriangleRenderingWrapper(D3DVERTEX* lpvVertices)
 {
-	if (WaterRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::Water)
 	{
 		return WaterRenderer->RegisterWaterGreenOverlayTriangleRendering(lpvVertices);
 	}
@@ -50,10 +50,6 @@ HRESULT __stdcall WaterRenderProxyInjector::RegisterWaterGreenOverlayTriangleRen
 	{
 		return GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 3, 0);
 	}
-}
-void WaterRenderProxyInjector::SetWaterRenderContext(bool ctx)
-{
-	WaterRenderContext = ctx;
 }
 void WaterRenderProxyInjector::HookSetWaterTextureCall()
 {

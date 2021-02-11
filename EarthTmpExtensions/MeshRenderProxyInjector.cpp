@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "MeshRenderProxyInjector.h"
 #include "OriginalMethods.h"
+#include "RenderManager.h"
 
 MeshRenderProxy* MeshRenderProxyInjector::meshRenderer = 0;
-bool MeshRenderProxyInjector::meshRenderContext = false;
 
 HRESULT __stdcall MeshRenderProxyInjector::SetMeshTextureWrapper(LPVOID textureAddress, DWORD textureNum)
 {
-	if (meshRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::Mesh)
 	{
 		return meshRenderer->SetMeshTexture(textureAddress, textureNum);
 	}
@@ -19,7 +19,7 @@ HRESULT __stdcall MeshRenderProxyInjector::SetMeshTextureWrapper(LPVOID textureA
 }
 HRESULT __stdcall MeshRenderProxyInjector::RegisterMeshTriangleRenderingWrapper(D3DVERTEX* lpvVertices, DWORD _indCount, DWORD _flags)
 {
-	if (meshRenderContext)
+	if (RenderManager::GetRenderingContext() == RenderingContextType::Mesh)
 	{
 		return meshRenderer->RegisterMeshTriangleRendering(lpvVertices);
 	}
@@ -27,10 +27,6 @@ HRESULT __stdcall MeshRenderProxyInjector::RegisterMeshTriangleRenderingWrapper(
 	{
 		return GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, lpvVertices, 3, 0);
 	}
-}
-void MeshRenderProxyInjector::SetMeshRenderContext(bool ctx)
-{
-	meshRenderContext = ctx;
 }
 void MeshRenderProxyInjector::HookSetMeshTextureCall()
 {

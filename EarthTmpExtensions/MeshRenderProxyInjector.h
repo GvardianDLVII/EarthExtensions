@@ -6,7 +6,6 @@
 class MeshRenderProxyInjector
 {
 private:
-	static bool meshRenderContext;
 	static MeshRenderProxy* meshRenderer;
 	LPVOID SetMeshTextureAddress;
 	LPVOID RegisterMeshTriangleRenderingAddress;
@@ -15,7 +14,6 @@ private:
 	void HookSetMeshTextureCall();
 	void HookRegisterMeshTriangleRenderCall();
 public:
-	void SetMeshRenderContext(bool ctx);
 	MeshRenderProxyInjector(MeshRenderProxy* meshRenderer);
 	void Inject();
 };
