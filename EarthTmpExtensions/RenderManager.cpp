@@ -23,18 +23,18 @@ RenderManager::RenderManager()
 	{
 		meshRendererInjector->Inject();
 		effectsRendererInjector->Inject();
-		RenderMeshesAddress = (void*)RenderMeshes;
-		HookRenderMeshesCall();
 	}
+	RenderMeshesAddress = (void*)RenderMeshes;
+	HookRenderMeshesCall();
 
 	waterRenderer = new WaterRenderProxy();
 	waterRendererInjector = new WaterRenderProxyInjector();
 	if (Configuration::GetEnableWaterRenderingOptimization())
 	{
 		waterRendererInjector->Inject();
-		RenderWaterAndUnitShadowsAddress = (void*)RenderWaterAndUnitShadows;
-		HookRenderWaterAndUnitShadowsCall();
 	}
+	RenderWaterAndUnitShadowsAddress = (void*)RenderWaterAndUnitShadows;
+	HookRenderWaterAndUnitShadowsCall();
 	TerrainInjector = new TerrainRenderProxyInjector();
 	if (Configuration::GetEnableTerrainRenderingOptimization())
 	{
