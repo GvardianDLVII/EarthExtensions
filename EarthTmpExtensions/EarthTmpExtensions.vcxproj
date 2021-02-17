@@ -201,6 +201,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClInclude Include="WaterRenderProxy.h" />
     <ClInclude Include="WaterRenderProxyInjector.h" />
     <ClInclude Include="WidescreenFixes.h" />
+    <ClInclude Include="ZoomManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configuration.cpp" />
@@ -243,6 +244,7 @@ copy /Y $(TargetDir)EarthTmpExtensions.ini C:\EarthTmpDev\scripts\EarthTmpExtens
     <ClCompile Include="WaterRenderProxy.cpp" />
     <ClCompile Include="WaterRenderProxyInjector.cpp" />
     <ClCompile Include="WidescreenFixes.cpp" />
+    <ClCompile Include="ZoomManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EarthTmpExtensions.ini">

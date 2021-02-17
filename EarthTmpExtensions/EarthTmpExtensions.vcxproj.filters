@@ -98,6 +98,9 @@
     <ClCompile Include="EffectsRenderProxyInjector.cpp">
       <Filter>RenderOptimization\EffectsRendering</Filter>
     </ClCompile>
+    <ClCompile Include="ZoomManager.cpp">
+      <Filter>BugFixes\SmoothZomming</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -179,6 +182,9 @@
     <ClInclude Include="EffectsRenderProxyInjector.h">
       <Filter>RenderOptimization\EffectsRendering</Filter>
     </ClInclude>
+    <ClInclude Include="ZoomManager.h">
+      <Filter>BugFixes\SmoothZomming</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RenderOptimization">
@@ -234,6 +240,9 @@
     </Filter>
     <Filter Include="RenderOptimization\EffectsRendering">
       <UniqueIdentifier>{d647adca-bb92-4c1d-94dc-020f5ac6ffa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BugFixes\SmoothZomming">
+      <UniqueIdentifier>{243b6c7a-2f83-42f8-bf7d-1d1f821a5115}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

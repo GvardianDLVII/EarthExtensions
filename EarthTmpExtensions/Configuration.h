@@ -32,6 +32,9 @@ private:
 	static bool OverrideCompassSize;
 	static int CompassSize;
 
+	static bool EnableSmoothZooming;
+	static int ZoomTime;
+
 public:
 	static void ReadConfig();
 
@@ -62,4 +65,7 @@ public:
 
 	static bool GetOverrideCompassSize();
 	static int GetCompassSize();
+
+	static bool GetEnableSmoothZooming();
+	static int GetZoomTime();
 };

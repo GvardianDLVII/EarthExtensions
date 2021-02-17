@@ -31,6 +31,9 @@ int Configuration::BottomPanelWidthFactor = 180;
 bool Configuration::OverrideCompassSize = true;
 int Configuration::CompassSize = 80;
 
+bool Configuration::EnableSmoothZooming = true;
+int Configuration::ZoomTime = 300;
+
 
 float Configuration::GetShadowRenderThreshold() { return ShadowRenderThreshold; }
 
@@ -59,6 +62,9 @@ int Configuration::GetBottomPanelWidthFactor() { return BottomPanelWidthFactor; 
 
 bool Configuration::GetOverrideCompassSize() { return OverrideCompassSize; }
 int Configuration::GetCompassSize() { return CompassSize; }
+
+bool Configuration::GetEnableSmoothZooming() { return EnableSmoothZooming; }
+int Configuration::GetZoomTime() { return ZoomTime; }
 
 void Configuration::ReadConfig()
 {
@@ -159,6 +165,14 @@ void Configuration::ReadConfig()
 		else if (key == "CompassSize")
 		{
 			CompassSize = std::stoi(value);
+		}
+		else if (key == "EnableSmoothZooming")
+		{
+			EnableSmoothZooming = value == "1";
+		}
+		else if (key == "ZoomTime")
+		{
+			ZoomTime = std::stoi(value);
 		}
 	}
 	configFile.close();

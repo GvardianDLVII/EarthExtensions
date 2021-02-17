@@ -4,6 +4,7 @@
 #include "RenderCrashFixer.h"
 #include "WidescreenFixes.h"
 #include "TitlebarFixes.h"
+#include "ZoomManager.h"
 
 static RenderManager* renderManager;
 
@@ -21,6 +22,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         if (Configuration::GetEnableRenderOverflowCrashFix())
         {
             ReplaceMemoryCalls();
+        }
+        if (Configuration::GetEnableSmoothZooming())
+        {
+            ZoomManager::Initialize();
         }
     }
     else if (ul_reason_for_call == DLL_PROCESS_DETACH)
