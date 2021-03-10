@@ -17,6 +17,11 @@ void* ZoomManager::TickAddress = 0;
 
 bool Enabled = false;
 
+long ZoomManager::ToCameraIndex(long viewIndex)
+{
+	return *((long*)(*((long*)0x009FDF48) + viewIndex * 72 + 0x30));
+}
+
 void __stdcall ZoomManager::ChangeZoom(long viewIndex, float deltaZoom)
 {
 	if ((*(DWORD*)0x009FDF40) == 0) //I don't know what it is
@@ -29,27 +34,29 @@ void __stdcall ZoomManager::ChangeZoom(long viewIndex, float deltaZoom)
 		Enable();
 	}
 
-	desiredZoom[viewIndex] += deltaZoom;
-	if (desiredZoom[viewIndex] < GetMinZoom())
+	auto cameraIndex = ToCameraIndex(viewIndex);
+
+	desiredZoom[cameraIndex] += deltaZoom;
+	if (desiredZoom[cameraIndex] < GetMinZoom())
 	{
-		desiredZoom[viewIndex] = GetMinZoom();
+		desiredZoom[cameraIndex] = GetMinZoom();
 	}
-	if (desiredZoom[viewIndex] > GetMaxZoom())
+	if (desiredZoom[cameraIndex] > GetMaxZoom())
 	{
-		desiredZoom[viewIndex] = GetMaxZoom();
+		desiredZoom[cameraIndex] = GetMaxZoom();
 	}
-	timeLeftMs[viewIndex] = Configuration::GetZoomTime();
+	timeLeftMs[cameraIndex] = Configuration::GetZoomTime();
 }
 
-float ZoomManager::GetViewportZoom(long viewIndex)
+float ZoomManager::GetCameraZoom(long cameraIndex)
 {
-	return *((float*)((*((long*)(0x009FD9C4))) + 0x33 * 4 * viewIndex + 0x1C));
+	return *((float*)((*((long*)(0x009FD9C4))) + 0x33 * 4 * cameraIndex + 0x1C));
 }
 
-void ZoomManager::SetViewportZoom(long viewIndex, float newZoom)
+void ZoomManager::SetCameraZoom(long cameraIndex, float newZoom)
 {
-	*((float*)((*((long*)(0x009FD9C4))) + 0x33 * 4 * viewIndex + 0x1C)) = newZoom;
-	savedZoom[viewIndex] = newZoom;
+	*((float*)((*((long*)(0x009FD9C4))) + 0x33 * 4 * cameraIndex + 0x1C)) = newZoom;
+	savedZoom[cameraIndex] = newZoom;
 }
 
 float ZoomManager::GetMinZoom()
@@ -69,7 +76,7 @@ void ZoomManager::UpdateZoom()
 	lastUpdateTime = now;
 	for (int i = 0; i < 3; i++)
 	{
-		float currentZoom = GetViewportZoom(i);
+		float currentZoom = GetCameraZoom(i);
 		if (currentZoom != savedZoom[i])
 		{
 			//something else modified the zoom, let's not interfere.
@@ -84,12 +91,12 @@ void ZoomManager::UpdateZoom()
 			if (timeLeftMs[i] < 0)
 			{
 				timeLeftMs[i] = 0;
-				SetViewportZoom(i, desiredZoom[i]);
+				SetCameraZoom(i, desiredZoom[i]);
 				continue;
 			}
 			float zoomFactor = (static_cast<float>(Configuration::GetZoomTime() - timeLeftMs[i])) / Configuration::GetZoomTime();
 			float deltaZoom = (desiredZoom[i] - currentZoom) * zoomFactor;
-			SetViewportZoom(i, currentZoom + deltaZoom);
+			SetCameraZoom(i, currentZoom + deltaZoom);
 		}
 	}
 }
@@ -139,7 +146,7 @@ void ZoomManager::Enable()
 	{
 		timeLeftMs[i] = 0;
 		savedZoom[i] = 0;
-		desiredZoom[i] = GetViewportZoom(i);
+		desiredZoom[i] = GetCameraZoom(i);
 	}
 }
 
